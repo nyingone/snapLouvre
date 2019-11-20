@@ -66,7 +66,7 @@ class Visitor
     private $discounted;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $cost;
 

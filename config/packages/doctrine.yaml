@@ -6,6 +6,9 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         #driver: 'mysql'
         #server_version: '5.7'
+        # IN/20191120
+        driver: 'pdo_mysql'
+        server_version: '5.7'
 
         # Only needed for MySQL (ignored otherwise)
         charset: utf8mb4

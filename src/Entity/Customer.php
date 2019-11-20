@@ -15,14 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Customer
 {
-    public $bookingOrderCount = 0;
+    use EntityIdTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    public $bookingOrderCount = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -51,11 +46,6 @@ class Customer
     public function __construct()
     {
         $this->bookingOrders = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getFirstName(): ?string

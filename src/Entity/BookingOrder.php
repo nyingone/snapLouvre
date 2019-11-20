@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Validator\Constraints as CustomAssert;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -56,7 +57,7 @@ class BookingOrder
     private $partTimeCode;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $totalAmount;
 
@@ -171,12 +172,12 @@ class BookingOrder
         return $this;
     }
 
-    public function getTotalAmount(): ?float
+    public function getTotalAmount(): ?Integer
     {
         return $this->totalAmount;
     }
 
-    public function setTotalAmount(float $totalAmount): self
+    public function setTotalAmount(integer $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
 

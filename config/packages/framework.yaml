@@ -14,3 +14,7 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    # IN/20191120 enables use of annotations to configure validation,
+    validation:
+        enable_annotations: true

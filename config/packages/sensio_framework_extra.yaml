@@ -1,3 +1,4 @@
 sensio_framework_extra:
     router:
-        annotations: false
+    # IN/20191120_del annotations: false
+        annotations: true
