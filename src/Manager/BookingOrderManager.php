@@ -4,106 +4,118 @@ namespace App\Manager;
 
 use App\Entity\BookingOrder;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class BookingOrderManager extends BookingDefaultManager
+class BookingOrderManager
 {
+    /** @var SessionManager */
+    private  $sessionManager;
+
     /** @var BookingOrderRepositoryInterface  */
     private $bookingOrderRepository;
 
     /** @var BookingOrder */
     private $bookingOrder;
 
-    /** @var VisitorManagerInterface  */
+    /** @var VisitorManager  */
     protected $visitorManager;
+
+    /** @var ValidatorInterface */
+    protected $validator;
 
     protected $bookingRef;
     protected $bookingOrderStartDate;
 
+    /** @var int */
+    protected $amount;
 
-    public function __construct(BookingOrderRepositoryInterface $bookingOrderRepository, VisitorManager $visitorManager)
+    /**
+     * @param SessionManager $sessionManager
+     * @param BookingOrderRepositoryInterface $bookingOrderRepository
+     * @param VisitorManager $visitorManager
+     * @param ValidatorInterface $validator
+     * @throws \Exception
+     */
+    public function __construct(SessionManager $sessionManager, BookingOrderRepositoryInterface $bookingOrderRepository, VisitorManager $visitorManager, ValidatorInterface $validator)
     {
-        parent:: __construct;
-
+        $this->sessionManager = $sessionManager;
         $this->bookingOrderRepository = $bookingOrderRepository;
         $this->visitorManager = $visitorManager;
+        $this->validator = $validator;
+
         $this->bookingOrderStartDate = new \DateTime('now');
+        $this->bookingRef = 'testTempRef' . $this->sessionManager->getProvisionalRef();
+
     }
 
     /** @param void
      * @return BookingOrder
      */
-    public function inzBookingOrder(): object
+    public function inzBookingOrder(): BookingOrder
     {
         $this->bookingOrder= new BookingOrder();
         $this->bookingOrder->setOrderDate( $this->bookingOrderStartDate);
+        $this->bookingOrder->setBookingRef($this->bookingRef);
 
         return $this->bookingOrder;
     }
 
-
-    public function refreshBookingOrder($bookingOrder)
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return BookingOrder
+     */
+    public function refreshBookingOrder(BookingOrder $bookingOrder) : BookingOrder
     {
-        $this->error_list = [];
-        if ($this->bookingRef == null)
-        {
-            $this->bookingRef = $this->session->get('_csrf/customer');
-        }
-
-        $bookingOrder->setBookingRef($this->bookingRef);
+        $this->bookingOrder = $bookingOrder;
         $amount = 0;
 
-        $visitors = $bookingOrder->getVisitors();
+        $visitors = $this->bookingOrder->getVisitors();
 
         if (count($visitors) == 0)
         {
-            for ($i = 1;  $i <= $bookingOrder->getWishes(); ++$i)
+            for ($i = 1;  $i <= $this->bookingOrder->getWishes(); ++$i)
             {
-                $this->addVisitor($bookingOrder);
+                $this->addVisitor();
             }
 
         } else {
 
             foreach($visitors as $visitor){
-                $this->visitor = $this->visitorAuxiliary->refreshVisitor($visitor);
-                $amount += $this->visitor->getCost();
+                $visitor = $this->visitorManager->refreshVisitor($visitor);
+                $amount += $visitor->getCost();
             }
 
         }
 
-        $bookingOrder->setTotalAmount($amount);
+        $this->bookingOrder->setTotalAmount($amount);
+        $this->bookingOrderControl();
 
-        $this->bookingOrderRepository->save($bookingOrder);
-        $this->bookingOrderControl($bookingOrder);
-        $this->session->set('bookingOrder_error', $this->error_list);
+        $this->bookingOrderRepository->save($this->bookingOrder);
 
-        return $bookingOrder;
+        return $this->bookingOrder;
     }
 
-    public function addVisitor($bookingOrder)
+    private function addVisitor()
     {
-        $visitor = $this->visitorAuxiliary->inzVisitor();
-        $bookingOrder->addVisitor($visitor);
+        $visitor = $this->visitorManager->inzVisitor();
+        $this->bookingOrder->addVisitor($visitor);
     }
 
-    public function bookingOrderControl($bookingOrder)
+    public function bookingOrderControl()
     {
-        $errors = $this->validator->validate($bookingOrder);
+        $errors = $this->validator->validate($this->bookingOrder, null, ['registration']);
+
         if (count($errors) > 0)
         {
-            $this->error_list[] = (string) $errors;
+            $error_list[] = (string) $errors;
+            $this->sessionManager->sessionSset('bookingOrder_error', $error_list);
         }
     }
 
-    public function findOrders()
-    {
-        return  count($bookingOrders = $this->bookingOrderRepository->findAll());
-    }
 
-    public function findGlobalVisitorCount(BookingOrder $bookingOrder): array
+    public function findGlobalVisitorCount(BookingOrder $bookingOrder)
     {
-
         return $this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate());
-
     }
 
 

@@ -3,52 +3,53 @@
 namespace App\Manager;
 
 use App\Entity\Visitor;
+use App\Services\Interfaces\PricingServiceInterface;
 use App\Services\PricingService;
 use App\Repository\Interfaces\VisitorRepositoryInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class VisitorManager extends BookingDefaultManager
+class VisitorManager
 {
+    /** @var SessionManager */
+    private  $sessionManager;
     /** @var VisitorRepositoryInterface  */
     private $visitorRepository;
-/** @var PricingService  */
+    /** @var PricingService  */
     private $pricingService;
+    /** @var ValidatorInterface */
+    protected $validator;
 
-
-    public function __construct(VisitorRepositoryInterface $visitorRepository, PricingService $pricingService)
+    /**
+     * @param SessionManager $sessionManager
+     * @param VisitorRepositoryInterface $visitorRepository
+     * @param PricingServiceInterface $pricingService
+     * @param ValidatorInterface $validator
+     */
+    public function __construct(SessionManager $sessionManager, VisitorRepositoryInterface $visitorRepository, PricingServiceInterface $pricingService, ValidatorInterface $validator)
     {
+        $this->sessionManager = $sessionManager;
         $this->visitorRepository = $visitorRepository;
         $this->pricingService = $pricingService;
         $this->validator = $validator;
-        $this->session = $session;
     }
 
-
-    public function sessionSet()
-    {
-        if (is_array($this->error_list) && !empty($this->error_list) )
-        {
-            $error_list0 = $this->session->get('customer_error');
-            if ( !is_array($error_list0) || empty($error_list0) ):
-                $error_list = $this->error_list;
-            else:
-                $error_list = array_merge($error_list0 , $this->error_list);
-            endif;
-
-            $this->session->set('booking_error', $error_list);
-        }
-    }
-
+/**
+ * @return Visitor
+ */
     public function inzVisitor(): object
     {
-        $this->visitor = new Visitor;
-        $this->visitor->setCountry('XX');
+        $visitor = new Visitor;
+        $visitor->setCountry('XX');
 
-        $this->visitorControl($this->visitor);
-        return $this->visitor;
+        $this->visitorControl($visitor);
+        return $visitor;
 
     }
 
-    public function refreshVisitor($visitor): object
+    /** @param Visitor
+     * @return Visitor
+     */
+    public function refreshVisitor(Visitor $visitor): object
     {
 
         $visitor->setCreatedAt($visitor->getBookingOrder()->getOrderDate());
@@ -78,17 +79,17 @@ class VisitorManager extends BookingDefaultManager
 
         if (count($errors) > 0)
         {
-            $this->error_list[] = (string) $errors;
-            $this->session->set('visitor_error', $this->error_list);
+           $error_list[] = (string) $errors;
+           $this->sessionManager->sessionSet('visitor_error' . $visitor->getName(), $error_list);
         }
 
     }
 
 
-    public function controlKnownVisitor($visitor)
+    /* public function controlKnownVisitor($visitor)
     {
         return ($this->visitorRepository->findGroupBy($visitor));
-    }
+    } */
 
 
 }

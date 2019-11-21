@@ -4,27 +4,26 @@ namespace App\Validator\Constraints;
 
 use App\Entity\Visitor;
 
+use App\Manager\VisitorManager;
 use Symfony\Component\Validator\Constraint;
-use App\Services\Auxiliary\VisitorAuxiliary;
 use App\Validator\Constraints\VisitorIsRegistered;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class VisitorIsRegisteredValidator
 {
+    /** @var VisitorManager  */
+    private $visitorManager;
 
-    private $visitorAuxiliary;
-
-    public function __construct(VisitorAuxiliary $visitorAuxiliary, DateValidator $dateValidator,  CountryValidator $countryValidator)
+    public function __construct(VisitorManager $visitorManager, DateValidator $dateValidator,  CountryValidator $countryValidator)
     {
-        $this->visitorAuxiliary = $visitorAuxiliary;
+        $this->visitorManager = $visitorManager;
     }
 
 
     public function validate(Visitor $visitor, Constraint $constraint)
     {
        
-
         if (!$constraint instanceof VisitorIsRegistered)
         {
             throw new UnexpectedTypeException($constraint,  VisitorIsRegistered::class);
@@ -48,6 +47,6 @@ class VisitorIsRegisteredValidator
 
     public function controlKnownVisitor($visitor)
     {
-        $this->knownVisitors = $this->visitorAuxiliary->controlKnownVisitor($visitor);  
+        $this->knownVisitors = $this->visitorManager->controlKnownVisitor($visitor);
     }
 }

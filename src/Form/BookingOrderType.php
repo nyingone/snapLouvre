@@ -1,8 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace App\Form\Type;
+namespace App\Form;
 
+use App\Entity\BookingOrder;
 use App\Form\Type\PartTimeCodeType;
+use App\Form\Type\VisitorType;
+use App\Validator\Constraints\BookingDateIsOpen;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -57,7 +60,8 @@ class BookingOrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => BookingOrder::class
+            'data_class' => BookingOrder::class,
+            'validation_groups' => ['registration'],
         ]);
     }
 }

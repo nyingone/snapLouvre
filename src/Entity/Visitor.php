@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -98,7 +99,6 @@ class Visitor
      */
     private $bookingOrder;
 
-
     private $ageYearsOld;
 
 
@@ -169,12 +169,12 @@ class Visitor
         return $this;
     }
 
-    public function getCost(): ?float
+    public function getCost(): ?integer
     {
         return $this->cost;
     }
 
-    public function setCost(?float $cost): self
+    public function setCost(?integer $cost): self
     {
         $this->cost = $cost;
 
@@ -241,21 +241,25 @@ class Visitor
         return $this;
     }
 
-
     /**
-     * @param date $birthdate
      * @return integer $ageYearsOld
+     * @throws \Exception
      */
     public function setAgeYearsOld()
     
     {
         $this->ageYearsOld = $this->birthDate->diff(new \DateTime('today'));
         
-        // return $yearsOld->format('%Y');
+        return $this->yearsOld->format('%Y');
     }
 
     public function getAgeYearsOld()
     {
      return $this->ageYearsOld->format('%Y');
+    }
+
+    public function getName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 }

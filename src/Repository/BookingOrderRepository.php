@@ -67,7 +67,7 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
      * @return mixed
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function findDaysEntriesFromTo(\DateTime $start, \DateTime $end): mixed
+    public function findDaysEntriesFromTo(\DateTime $start, \DateTime $end)
     {   
         $fromDate =  $start->format('Y-m-d');
         $toDate  =  $end->format('Y-m-d');

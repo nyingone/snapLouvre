@@ -1,51 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}bookingOrderDTOForm!{% endblock %}
+{% block title %}bookingOrderForm!{% endblock %}
 
 {% block body %}
 
     <script>     </script>
     <div class = "row">
-        <div class= "col-md-12">
+        <div class= "col-md-12" id= "cart">
             <div class = "row"  >
 
-                <div class= "col-md-6" id= "cart">
-                    {{ form_start(form) }}
+                {{ form_start(form) }}
 
-                    {# { form_errors(form) } #}
+                {# { form_errors(form) } #}
 
-                    {# Render the bookingOrderDTO fields #}
-                    <h3>{% trans %} Your orders {% endtrans %} </h3>
+                {# Render the bookingOrder fields #}
+                <h3>{% trans %} Your orders {% endtrans %} </h3>
 
-                    <li class="bookingOrderDTO">
-                        {{ form_row(bookingOrderDTO.expectedDate)}}
-                        {{ form_errors(bookingOrderDTO.expectedDate) }}
-                        {{ form_row(bookingOrderDTO.partTimeCode)}}
-                        {{ form_errors(bookingOrderDTO.partTimeCode) }}
-                        {{ form_row(bookingOrderDTO.wishes)}}
-                        {{ form_errors(bookingOrderDTO.wishes) }}
-                        {% if visitorDTOs is defined %}
-                            <ul class="visitorDTOs" data-prototype="{{ form_widget(visitorDTOs.vars.prototype)|e('html_attr') }}">
-                                <h3>{% trans %} Your guests {% endtrans %} </h3>
-                                {# iterate over each existing Visitor and render fields to enter #}
-                                {% for visitorDTO in visitorDTOs %}
-                                    <li class = "visitor">
-                                        {% include('inc/_visitor.html.twig') %}
-                                        <p> xxxxxx </p>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                    </li>
+                <li class="bookingOrderDTO">
+                    {{ form_widget(form) }}
 
+                    {% if visitorDTOs is defined %}
+                        <ul class="visitors" data-prototype="{{ form_widget(visitors.vars.prototype)|e('html_attr') }}">
+                            <h3>{% trans %} Your guests {% endtrans %} </h3>
+                            {# iterate over each existing Visitor and render fields to enter #}
+                            {% for visitor in visitors %}
+                                <li class = "visitor">
+                                    {% include('inc/_visitor.html.twig') %}
+                                    <p> xxxxxx </p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
 
-                </div>
-
-
-                <div  class= "col-md-6">
-                    <h3>{% trans %} Your references and tickets order{% endtrans %} </h3>
-                    {% include('inc/_customer.html.twig') %}
-                </div>
             </div>
 
             {{ form_rest(form) }}

@@ -23,6 +23,8 @@ class BookingDisponibilityValidator extends ConstraintValidator
     private $bookingOrderManager;
     /** @var DatComparator  */
     private $datComparator ;
+    /** @var BookingOrder */
+    private $bookingOrder;
 
     /** @var int */
     private $maxVisitors ;
@@ -68,7 +70,7 @@ class BookingDisponibilityValidator extends ConstraintValidator
             $x = 0;
         endif;
 
-        if ( $x == 0)
+        if ( $x == 0 && $bookingOrder->getWishes() <= 0)
         {
             $this->context->buildViolation($constraint->msgBookingAddVisitors)
             ->setParameter('{{ enter your list of visitor }}',  "")
@@ -114,7 +116,7 @@ class BookingDisponibilityValidator extends ConstraintValidator
 
         }
 
-        $bookedVisitors = $this->bookingOrderAuxiliary->findGlobalVisitorCount($bookingOrder);
+        $bookedVisitors = $this->bookingOrderManager->findGlobalVisitorCount($bookingOrder);
         if( !is_integer($bookedVisitors)) : 
             $bookedVisitors = 0;
         endif;

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    <h2>{% trans %} Please confirm your order {% endtrans %} </h2>
+    <h2>{% trans %}Enter Email to receive your tickets {% endtrans %} </h2>
+
+
+{% endblock %}
+
+
+{% block body %}
+    {{ form_start(form) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block aside %} {% endblock %}
+

@@ -38,6 +38,7 @@ class VisitorType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Visitor::class,
+            'validation_groups' => ['registration'],
         ]);
     }
     

@@ -18,3 +18,4 @@ framework:
     # IN/20191120 enables use of annotations to configure validation,
     validation:
         enable_annotations: true
+

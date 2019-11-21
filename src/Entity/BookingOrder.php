@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Validator\Constraints as CustomAssert;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @CustomAssert\BookingDisponibility
+ * @CustomAssert\BookingDisponibility(groups={"registration"})
  */
 class BookingOrder
 {
@@ -27,7 +26,7 @@ class BookingOrder
 
      /**
     * @Assert\NotBlank()
-    * @Assert\Positive
+    * @Assert\Positive(groups={"registration"})
     * Column(type="integer")
     */
     public $wishes = 1;
@@ -47,7 +46,7 @@ class BookingOrder
      * @ORM\Column(type="date")
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
-     * @CustomAssert\BookingDateIsOpen
+     * @CustomAssert\BookingDateIsOpen(groups={"registration"})
      */
     private $expectedDate;
 
@@ -57,7 +56,7 @@ class BookingOrder
     private $partTimeCode;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $totalAmount;
 
@@ -177,7 +176,7 @@ class BookingOrder
         return $this->totalAmount;
     }
 
-    public function setTotalAmount(integer $totalAmount): self
+    public function setTotalAmount(int $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
 

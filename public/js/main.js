@@ -17,6 +17,7 @@ window.onerror = function (msg, url, noLigne, noColonne, erreur) {
 
     return false;
 };
+let array = ["2019-10-01","2019-10-02","2019-10-03"];
 
 jQuery(document).ready(function (){
     $("[id$= 'expectedDate']").datepicker();

@@ -47,12 +47,12 @@ class Pricing
     private $ageMax;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $price;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $ttcAmount;
 
@@ -138,24 +138,24 @@ class Pricing
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): ?integer
     {
         return $this->price;
     }
 
-    public function setPrice(float $price): self
+    public function setPrice(integer $price): self
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getTtcAmount(): ?float
+    public function getTtcAmount(): ?integer
     {
         return $this->ttcAmount;
     }
 
-    public function setTtcAmount(float $ttcAmount): self
+    public function setTtcAmount(integer $ttcAmount): self
     {
         $this->ttcAmount = $ttcAmount;
 
