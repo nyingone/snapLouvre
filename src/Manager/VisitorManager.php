@@ -41,7 +41,7 @@ class VisitorManager
         $visitor = new Visitor;
         $visitor->setCountry('XX');
 
-        $this->visitorControl($visitor);
+       // $this->visitorControl($visitor);
         return $visitor;
 
     }
@@ -51,7 +51,6 @@ class VisitorManager
      */
     public function refreshVisitor(Visitor $visitor): object
     {
-
         $visitor->setCreatedAt($visitor->getBookingOrder()->getOrderDate());
         $visitor->setCost($this->pricingService->findVisitorTarif(
             $visitor->getBookingOrder()->getOrderDate(),
@@ -59,7 +58,7 @@ class VisitorManager
             $visitor->getDiscounted(),
             $visitor->getAgeYearsOld())) ;
 
-        $this->visitorControl($visitor);
+       // $this->visitorControl($visitor);
 
         return $visitor;
     }

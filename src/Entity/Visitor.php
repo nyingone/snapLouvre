@@ -99,7 +99,7 @@ class Visitor
      */
     private $bookingOrder;
 
-    private $ageYearsOld;
+    private $ageYearsOld ;
 
 
     public function getId(): ?int
@@ -255,7 +255,13 @@ class Visitor
 
     public function getAgeYearsOld()
     {
-     return $this->ageYearsOld->format('%Y');
+        if(isset($this->birthDate))
+        {
+            return $this->ageYearsOld->format('%Y');
+        } else {
+            return $this->ageYearsOld;
+        }
+
     }
 
     public function getName()

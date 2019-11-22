@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @CustomAssert\BookingDisponibility(groups={"registration"})
+ * @CustomAssert\BookingDisponibility(groups={"pre_booking"})
  */
 class BookingOrder
 {
@@ -26,7 +26,7 @@ class BookingOrder
 
      /**
     * @Assert\NotBlank()
-    * @Assert\Positive(groups={"registration"})
+    * @Assert\Positive(groups={"pre_booking"})
     * Column(type="integer")
     */
     public $wishes = 1;
@@ -46,7 +46,7 @@ class BookingOrder
      * @ORM\Column(type="date")
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
-     * @CustomAssert\BookingDateIsOpen(groups={"registration"})
+     * @CustomAssert\BookingDateIsOpen(groups={"pre_booking"})
      */
     private $expectedDate;
 

@@ -41,19 +41,6 @@ class BookingOrderType extends AbstractType
                 'attr' => [ 'type' => 'number', 'step' => 1, 'mapped' => false],
             ])
             ;
-          $builder->get('expectedDate')->addEventListener(
-                FormEvents::POST_SUBMIT,
-                function (FormEvent $event) {
-                    $form = $event->getForm();
-                    $form->getParent()->add('visitors', CollectionType::class, [
-                        'entry_type' =>VisitorType::class,
-                        'entry_options' => ['label' => false],
-                        'by_reference' => false,
-                        'allow_add' => true,
-                        'allow_delete' => true
-                    ]);
-                }
-            );
            
     }
 
@@ -61,7 +48,7 @@ class BookingOrderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BookingOrder::class,
-            'validation_groups' => ['registration'],
+            'validation_groups' => ['pre_booking'],
         ]);
     }
 }

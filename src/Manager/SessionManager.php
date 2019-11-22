@@ -36,4 +36,9 @@ class SessionManager
         return $this->provisionalRef;
     }
 
+    public function getBookingOrder()
+    {
+        return $this->session->get('bookingOrder');
+    }
+
 }

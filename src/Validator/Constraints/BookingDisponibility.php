@@ -16,10 +16,6 @@ class BookingDisponibility extends Constraint
     public $msgBookingAddPayingVisitors = 'booking_demand_without_paying_visitor';  
 
 
-    public function validateBy()
-    {
-        return 'validator.booking_disponibility';
-    }
 
     public function getTargets()
     {

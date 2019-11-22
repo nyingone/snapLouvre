@@ -1,20 +1,21 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}bookingOrderForm!{% endblock %}
-
 {% block body %}
 
     <script>     </script>
     <div class = "row">
         <div class= "col-md-12" id= "cart">
 
-                {{ form_start(form) }}
+            {{ form_start(form) }}
 
 
-                <h3>{% trans %} Your orders {% endtrans %} </h3>
+            <h3>{% trans %} Your orders {% endtrans %} </h3>
 
 
+            {% for visitor in bookingOrder.visitors %}
+                <li> class= "visitors"
+                    {% include('inc/_visitor.html.twig') %}
+                </li>
 
+            {% endfor %}
             {{ form_row(form) }}
 
             {{ form_rest(form) }}
@@ -27,4 +28,3 @@
     <script>
     </script>
 {% endblock %}
-

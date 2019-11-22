@@ -1,26 +1,20 @@
 <?php
 
+
 namespace App\Controller;
 
 
-use App\Entity\Visitor;
-use App\Form\BookingOrderType;
+use App\Form\BookingVisitorsType;
 use App\Manager\BookingOrderManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class DetailController extends AbstractController
 {
     /**
-     * @var BookingOrderManager
-     */
-    private $bookingOrderManager;
-
-
-    /**
-     * @Route("/", name="home")
+     * @Route("/detail", name="detail")
      *
      * @param Request $request
      * @param BookingOrderManager $bookingOrderManager
@@ -28,19 +22,18 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, BookingOrderManager $bookingOrderManager): Response
     {
-        $bookingOrder = $bookingOrderManager->inzBookingOrder();
-
-        $form = $this->createForm(BookingOrderType::class, $bookingOrder);
+        $bookingOrder = $bookingOrderManager->getBookingOrder();
+        $form = $this->createForm(BookingVisitorsType::class, $bookingOrder);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()  && $form->isValid()){
-                $this->bookingOrderManager->refreshBookingOrder($bookingOrder);
-                return $this->redirectToRoute('detail');
+            $bookingOrderManager->refreshBookingOrder($bookingOrder);
+            return $this->redirectToRoute('recap');
         }
 
-        return $this->render('home/index.html.twig', ['bookingOrder' => $bookingOrder,
+
+        return $this->render('detail/index.html.twig', ['bookingOrder' => $bookingOrder,
             'form' => $form->createView(),
         ]);
     }
 }
-

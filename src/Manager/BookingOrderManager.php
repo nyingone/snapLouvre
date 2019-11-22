@@ -36,7 +36,11 @@ class BookingOrderManager
      * @param ValidatorInterface $validator
      * @throws \Exception
      */
-    public function __construct(SessionManager $sessionManager, BookingOrderRepositoryInterface $bookingOrderRepository, VisitorManager $visitorManager, ValidatorInterface $validator)
+    public function __construct(
+        SessionManager $sessionManager,
+        BookingOrderRepositoryInterface $bookingOrderRepository,
+        VisitorManager $visitorManager,
+        ValidatorInterface $validator)
     {
         $this->sessionManager = $sessionManager;
         $this->bookingOrderRepository = $bookingOrderRepository;
@@ -70,25 +74,20 @@ class BookingOrderManager
         $amount = 0;
 
         $visitors = $this->bookingOrder->getVisitors();
-
-        if (count($visitors) == 0)
+        for ($i = count($visitors);  $i <= $this->bookingOrder->getWishes(); ++$i)
         {
-            for ($i = 1;  $i <= $this->bookingOrder->getWishes(); ++$i)
-            {
-                $this->addVisitor();
-            }
-
-        } else {
-
-            foreach($visitors as $visitor){
-                $visitor = $this->visitorManager->refreshVisitor($visitor);
-                $amount += $visitor->getCost();
-            }
-
+            $this->addVisitor();
         }
 
+        foreach($visitors as $visitor){
+            $visitor = $this->visitorManager->refreshVisitor($visitor);
+            $amount += $visitor->getCost();
+        }
+
+
+
         $this->bookingOrder->setTotalAmount($amount);
-        $this->bookingOrderControl();
+      //  $this->bookingOrderControl();
 
         $this->bookingOrderRepository->save($this->bookingOrder);
 
@@ -103,7 +102,7 @@ class BookingOrderManager
 
     public function bookingOrderControl()
     {
-        $errors = $this->validator->validate($this->bookingOrder, null, ['registration']);
+        $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
 
         if (count($errors) > 0)
         {
@@ -116,6 +115,11 @@ class BookingOrderManager
     public function findGlobalVisitorCount(BookingOrder $bookingOrder)
     {
         return $this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate());
+    }
+
+    public function getBookingOrder()
+    {
+        return $this->sessionManager->getBookingOrder();
     }
 
 

@@ -26,8 +26,10 @@ class BookingDisponibilityValidator extends ConstraintValidator
     /** @var BookingOrder */
     private $bookingOrder;
 
-    /** @var int */
+    /** @var array */
     private $maxVisitors ;
+    /** @var int */
+    private $maxVisitor ;
     /** @var int */
     private $availableVisitorNumber;
 
@@ -70,7 +72,8 @@ class BookingDisponibilityValidator extends ConstraintValidator
             $x = 0;
         endif;
 
-        if ( $x == 0 && $bookingOrder->getWishes() <= 0)
+        if ( $x == 0 )
+            // if ( $x == 0 && $bookingOrder->getWishes() <= 0)
         {
             $this->context->buildViolation($constraint->msgBookingAddVisitors)
             ->setParameter('{{ enter your list of visitor }}',  "")
@@ -89,6 +92,12 @@ class BookingDisponibilityValidator extends ConstraintValidator
         
     }
 
+    /**
+     * Available visitors on expected Date =
+     *  Max visitors set in Param (by year/Month/date) - already Booked
+     *
+     * @param $bookingOrder
+     */
     public function findAvailableVisitorNumber($bookingOrder)
     {
     
