@@ -2,65 +2,68 @@
 
 namespace App\Services;
 
-use App\Services\Interfaces\ScheduleServiceInterface;
+use App\Entity\Schedule;
 use App\Repository\Interfaces\ScheduleRepositoryInterface;
+use App\Services\Interfaces\ScheduleServiceInterface;
+use App\Services\Tools\DatComparator;
+use DateTimeInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class ScheduleService implements ScheduleServiceInterface
 {
-  private $scheduleRepository;
-  private $closedDaysOfWeek = [];
-  private $allPartTimeVisitingHours = [];
-  private $partTimeVisitingHours = [];
-  private $todayVisitingHours = [];
-  private $schedules;
+    /** @var ScheduleRepositoryInterface */
+    private $scheduleRepository;
+    private $closedDaysOfWeek = [];
 
-  /** @inherit */
-  public function __construct(ScheduleRepositoryInterface $scheduleRepository)
-  {
-    $this->scheduleRepository = $scheduleRepository;
-    $this->schedules = $this->scheduleRepository->findAll();
+    private $allPartTimeVisitingHours = [];
 
+    /** @var Schedule */
+    private $schedule;
     
+    private $schedules= [];
+    
+    /** @var DatComparator */
+    protected $datComparator;
 
-    foreach($this->schedules as $schedule)
+
+    /** @inherit */
+    public function __construct(ScheduleRepositoryInterface $scheduleRepository, DatComparator $datComparator)
     {
-      if($schedule->getOpeningTime() == null):
-        $this->closedDaysOfWeek[] = $schedule;
-      else:
-        $this->allPartTimeVisitingHours[] = $schedule;
-      endif;
-    }
-  
+        $this->scheduleRepository = $scheduleRepository;
+        $this->schedules = $this->scheduleRepository->findAll();
+        $this->datComparator = $datComparator;
     
-  }
+        foreach ($this->schedules as $schedule) {
+            if ($schedule->getOpeningTime() == null && $schedule->getLastEntrytime() == null)
+            {
+                   $this->closedDaysOfWeek[] = $schedule;
+            } else {
+                  $this->allPartTimeVisitingHours[] = $schedule;
+            }
+        }
+    }
 
-
-  public function findClosedDays():array
-  {
-    return $this->closedDaysOfWeek;
-  }
-
-
-  public function findVisitingHours():array
-  {  
-    return $this->allPartTimeVisitingHours;
-  }
-
-
-  public function findTodayVisitingHours():array
-  {
-    $current_time = date("H:i:s");
-    // dd($current_time);
-
-    foreach ($this->allPartTimeVisitingHours as $schedule)
+    /** @inheritDoc */
+    public function isWeeklyBookingClosedDays(DateTimeInterface $expectedDate): Boolean
     {
-      $lastEntryTime = date("H:i:s", time($schedule->getLastEntryTime()));
-        // dd($current_time,$schedule->getLastEntryTime(),  $lastEntryTime);
-        if ($current_time < $schedule->getLastEntryTime()):
-          $this->todayVisitingHours[] = $schedule;
-        endif;
+        foreach ($this->closedDaysOfWeek as $closedDay) {
+            if ($closedDay->getDayOfWeek() == $this->datComparator->dayOfWeek($expectedDate)):
+                return true;
+            endif;
+        }
     }
-    return $this->todayVisitingHours;
-  }
-    
+
+    /** @inheritDoc */
+    public function isPartTimeBookingClosedForToday(DateTimeInterface $expectedDate, int $partTimeCode = 0): Boolean
+    {
+         foreach ($this->allPartTimeVisitingHours as $schedule) {
+            $current_time = date("H:i:s");
+            $lastEntryTime = date("H:i:s", time($schedule->getLastEntryTime()));
+            dd($lastEntryTime) ;
+
+            if ($schedule->getPartTimeCode() == $partTimeCode && $lastEntryTime <= $current_time) {
+                return true;
+            }
+        }
+    }
 }

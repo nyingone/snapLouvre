@@ -85,10 +85,12 @@ class VisitorManager
     }
 
 
-    /* public function controlKnownVisitor($visitor)
+
+    public function isMultiRegisteredVisitor(Visitor $visitor)
     {
-        return ($this->visitorRepository->findGroupBy($visitor));
-    } */
+        $visitors = $visitor->getBookingOrder()->getVisitors();
+
+    }
 
 
 }

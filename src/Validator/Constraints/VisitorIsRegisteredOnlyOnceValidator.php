@@ -10,12 +10,13 @@ use App\Validator\Constraints\VisitorIsRegistered;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class VisitorIsRegisteredValidator
+class VisitorIsRegisteredOnlyOnceValidator
 {
     /** @var VisitorManager  */
     private $visitorManager;
 
-    public function __construct(VisitorManager $visitorManager, DateValidator $dateValidator,  CountryValidator $countryValidator)
+    /** @param VisitorManager */
+    public function __construct(VisitorManager $visitorManager)
     {
         $this->visitorManager = $visitorManager;
     }
@@ -24,9 +25,9 @@ class VisitorIsRegisteredValidator
     public function validate(Visitor $visitor, Constraint $constraint)
     {
        
-        if (!$constraint instanceof VisitorIsRegistered)
+        if (!$constraint instanceof VisitorIsRegisteredOnlyOnce)
         {
-            throw new UnexpectedTypeException($constraint,  VisitorIsRegistered::class);
+            throw new UnexpectedTypeException($constraint,  VisitorIsRegisteredOnlyOnce::class);
 
         }
         if (!is_object( $visitor)) {
@@ -34,19 +35,12 @@ class VisitorIsRegisteredValidator
             throw new UnexpectedValueException($visitor, 'objet');
         }
     
-        $this->controlKnownVisitor($visitor); 
-
-        if(count($this->knownVisitors) > 1):
+        if($this->visitorManager->isMultiRegisteredVisitor($visitor)) {
             $this->context->buildViolation($constraint->msgVisitorIsAlreadyRegistered)
             ->setParameter('{{ available }}', $this->availableVisitorNumber)
             ->addViolation();
-        endif;
-
+        }
     }
 
 
-    public function controlKnownVisitor($visitor)
-    {
-        $this->knownVisitors = $this->visitorManager->controlKnownVisitor($visitor);
-    }
 }

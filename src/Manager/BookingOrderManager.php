@@ -9,15 +9,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class BookingOrderManager
 {
     /** @var SessionManager */
-    private  $sessionManager;
+    private $sessionManager;
 
-    /** @var BookingOrderRepositoryInterface  */
+    /** @var BookingOrderRepositoryInterface */
     private $bookingOrderRepository;
 
     /** @var BookingOrder */
     private $bookingOrder;
 
-    /** @var VisitorManager  */
+    /** @var VisitorManager */
     protected $visitorManager;
 
     /** @var ValidatorInterface */
@@ -57,8 +57,8 @@ class BookingOrderManager
      */
     public function inzBookingOrder(): BookingOrder
     {
-        $this->bookingOrder= new BookingOrder();
-        $this->bookingOrder->setOrderDate( $this->bookingOrderStartDate);
+        $this->bookingOrder = new BookingOrder();
+        $this->bookingOrder->setOrderDate($this->bookingOrderStartDate);
         $this->bookingOrder->setBookingRef($this->bookingRef);
 
         return $this->bookingOrder;
@@ -68,28 +68,26 @@ class BookingOrderManager
      * @param BookingOrder $bookingOrder
      * @return BookingOrder
      */
-    public function refreshBookingOrder(BookingOrder $bookingOrder) : BookingOrder
+    public function refreshBookingOrder(BookingOrder $bookingOrder): BookingOrder
     {
         $this->bookingOrder = $bookingOrder;
         $amount = 0;
 
         $visitors = $this->bookingOrder->getVisitors();
-        for ($i = count($visitors);  $i <= $this->bookingOrder->getWishes(); ++$i)
-        {
+        for ($i = count($visitors); $i <= $this->bookingOrder->getWishes(); ++$i) {
             $this->addVisitor();
         }
 
-        foreach($visitors as $visitor){
+        foreach ($visitors as $visitor) {
             $visitor = $this->visitorManager->refreshVisitor($visitor);
             $amount += $visitor->getCost();
         }
 
 
-
         $this->bookingOrder->setTotalAmount($amount);
-      //  $this->bookingOrderControl();
+        //  $this->bookingOrderControl();
 
-        $this->bookingOrderRepository->save($this->bookingOrder);
+        //  $this->bookingOrderRepository->save($this->bookingOrder);
 
         return $this->bookingOrder;
     }
@@ -104,11 +102,6 @@ class BookingOrderManager
     {
         $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
 
-        if (count($errors) > 0)
-        {
-            $error_list[] = (string) $errors;
-            $this->sessionManager->sessionSset('bookingOrder_error', $error_list);
-        }
     }
 
 
@@ -120,6 +113,13 @@ class BookingOrderManager
     public function getBookingOrder()
     {
         return $this->sessionManager->getBookingOrder();
+    }
+
+    public function hasNoPayingVisitor($bookingOrder) : bool
+    {
+        if ($bookingOrder->getTotalAmount() == 0 && count($bookingOrder->getVisitors() > 0)) {
+            return true;
+        }
     }
 
 

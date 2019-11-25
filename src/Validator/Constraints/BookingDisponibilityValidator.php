@@ -65,29 +65,8 @@ class BookingDisponibilityValidator extends ConstraintValidator
             ->addViolation(); 
         endif;        
         
-        $visitors = $bookingOrder->getVisitors();
-        if(is_countable($visitors) ):
-            $x = count($visitors);
-        else:
-            $x = 0;
-        endif;
 
-        if ( $x == 0 )
-            // if ( $x == 0 && $bookingOrder->getWishes() <= 0)
-        {
-            $this->context->buildViolation($constraint->msgBookingAddVisitors)
-            ->setParameter('{{ enter your list of visitor }}',  "")
-            ->addViolation(); 
-        } 
-               /*
-        else{
-         if ( $x == 1 && $bookingOrder->getTotalAmount() == 0):
-                $this->context->buildViolation($constraint->msgBookingAddPayingVisitors)
-            ->setParameter('{{ add a paid entry to free visit for underage kid  }}',  "")
-            ->addViolation();
-            endif;
 
-        }*/
         
         
     }
