@@ -10,13 +10,17 @@ use phpDocumentor\Reflection\Types\Boolean;
 interface ScheduleServiceInterface 
 {
     /**
-     * ScheduleServiceInterface constructor.
-     * @param ScheduleRepositoryInterface $ScheduleRepository
-     * @param DatComparator $datComparator
+     * @param DateTimeInterface $expectedDate
+     * @return bool
      */
-    public function __construct(ScheduleRepositoryInterface $ScheduleRepository, DatComparator $datComparator );
-    public function isWeeklyBookingClosedDays(DateTimeInterface $expectedDate): Boolean;
-    public function isPartTimeBookingClosedForToday(DateTimeInterface $expectedDate , int $partTimeCode = 0) : Boolean;
+    public function isUnsupportedBookingDay(DateTimeInterface $expectedDate): bool;
+
+    /**
+     * @param DateTimeInterface $expectedDate
+     * @param int $partTimeCode
+     * @return bool
+     */
+    public function isPartTimeBookingTooLateForToday(DateTimeInterface $getExpectedDate, int $getPartTimeCode): bool;
 
 
 }

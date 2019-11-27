@@ -7,10 +7,11 @@ use App\Entity\Visitor;
 use App\Manager\VisitorManager;
 use Symfony\Component\Validator\Constraint;
 use App\Validator\Constraints\VisitorIsRegistered;
+use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class VisitorIsRegisteredOnlyOnceValidator
+class NotMultiRegisteredValidator extends ConstraintValidator
 {
     /** @var VisitorManager  */
     private $visitorManager;
@@ -22,22 +23,21 @@ class VisitorIsRegisteredOnlyOnceValidator
     }
 
 
-    public function validate(Visitor $visitor, Constraint $constraint)
+    public function validate($visitor, Constraint $constraint)
     {
        
-        if (!$constraint instanceof VisitorIsRegisteredOnlyOnce)
+        if (!$constraint instanceof NotMultiRegistered)
         {
-            throw new UnexpectedTypeException($constraint,  VisitorIsRegisteredOnlyOnce::class);
+            throw new UnexpectedTypeException($constraint,  NotMultiRegistered::class);
 
         }
-        if (!is_object( $visitor)) {
+        if (!$visitor instanceof Visitor) {
             // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
-            throw new UnexpectedValueException($visitor, 'objet');
+            throw new UnexpectedValueException($visitor, Visitor::class);
         }
     
         if($this->visitorManager->isMultiRegisteredVisitor($visitor)) {
-            $this->context->buildViolation($constraint->msgVisitorIsAlreadyRegistered)
-            ->setParameter('{{ available }}', $this->availableVisitorNumber)
+            $this->context->buildViolation($constraint->message)
             ->addViolation();
         }
     }

@@ -18,9 +18,9 @@ class HomeController extends AbstractController
      */
     private $bookingOrderManager;
 
-
     /**
      * @Route("/", name="home")
+     *
      *
      * @param Request $request
      * @param BookingOrderManager $bookingOrderManager
@@ -33,9 +33,13 @@ class HomeController extends AbstractController
         $form = $this->createForm(BookingOrderType::class, $bookingOrder);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()  && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            $bookingOrder = $form->getData();
+            if( $bookingOrder !== null) {
                 $this->bookingOrderManager->refreshBookingOrder($bookingOrder);
-                return $this->redirectToRoute('detail');
+            }
+
+            return $this->redirectToRoute('detail');
         }
 
         return $this->render('home/index.html.twig', ['bookingOrder' => $bookingOrder,

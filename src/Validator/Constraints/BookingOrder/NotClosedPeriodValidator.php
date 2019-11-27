@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Validator\Constraints;
+
+namespace App\Validator\Constraints\BookingOrder;
+
 
 use App\Services\Interfaces\ClosingPeriodServiceInterface;
-use App\Services\ParamService;
-use App\Services\Tools\DatComparator;
-use App\Services\ScheduleService;
-use App\Services\ClosingPeriodService;
 use Symfony\Component\Validator\Constraint;
-use App\Validator\Constraints\BookingDateIsOpen;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class BookingDateIsOpenValidator extends ConstraintValidator
+class NotClosedPeriodValidator extends ConstraintValidator
 {
     /** @var ClosingPeriodServiceInterface  */
     protected $closingPeriodService;
 
     private $closedPeriods = [];
-    private $bookingStart;
-    private $endOfBooking;
+
+    // private $bookingStart;
+    // private $endOfBooking;
 
     private $message;
 
-    // public $msgBookingClosedOn = 'booking_closed_booking_period_or_day';
-    // public $msgBookingOutOfRange = 'booking_out_of_booking_range';
 
     public function __construct(ClosingPeriodServiceInterface $closingPeriodService)
     {
@@ -44,14 +40,11 @@ class BookingDateIsOpenValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'date');
         }
 
-        // RETURN TRUE IF chosen Date exceptionnally closed
-        if($this->closingPeriodService->isExceptionallyClosed($value))
+
+        if($this->closingPeriodService->isClosedPeriod($value))
         {
-        $strValue = '???';
-        $this->context->buildViolation($constraint->msgBookingClosedOn)
-            ->setParameter('{{ string }}', $strValue)
-            ->setCode(BookingDateIsOpen::BOOKING_CLOSED_ON)
-            ->addViolation();
-         }
+            $this->context->buildViolation($constraint->message)
+                ->addViolation();
+        }
     }
 }

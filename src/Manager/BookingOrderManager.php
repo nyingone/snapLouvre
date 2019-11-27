@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\BookingOrder;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
+use App\Services\Interfaces\ParamServiceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BookingOrderManager
@@ -13,6 +14,9 @@ class BookingOrderManager
 
     /** @var BookingOrderRepositoryInterface */
     private $bookingOrderRepository;
+
+    /** @var ParamServiceInterface */
+    private $paramService;
 
     /** @var BookingOrder */
     private $bookingOrder;
@@ -33,6 +37,7 @@ class BookingOrderManager
      * @param SessionManager $sessionManager
      * @param BookingOrderRepositoryInterface $bookingOrderRepository
      * @param VisitorManager $visitorManager
+     * @param ParamServiceInterface $paramService
      * @param ValidatorInterface $validator
      * @throws \Exception
      */
@@ -40,11 +45,13 @@ class BookingOrderManager
         SessionManager $sessionManager,
         BookingOrderRepositoryInterface $bookingOrderRepository,
         VisitorManager $visitorManager,
+        ParamServiceInterface $paramService,
         ValidatorInterface $validator)
     {
         $this->sessionManager = $sessionManager;
         $this->bookingOrderRepository = $bookingOrderRepository;
         $this->visitorManager = $visitorManager;
+        $this->paramService = $$paramService;
         $this->validator = $validator;
 
         $this->bookingOrderStartDate = new \DateTime('now');
@@ -105,8 +112,9 @@ class BookingOrderManager
     }
 
 
-    public function findGlobalVisitorCount(BookingOrder $bookingOrder)
+    public function findDayVisitorCount(BookingOrder $bookingOrder)
     {
+        //TODO Validate normalized param type
         return $this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate());
     }
 
@@ -115,12 +123,22 @@ class BookingOrderManager
         return $this->sessionManager->getBookingOrder();
     }
 
-    public function hasNoPayingVisitor($bookingOrder) : bool
+
+    public function hasOnlyFreeVisitors(BookingOrder $bookingOrder)
     {
-        if ($bookingOrder->getTotalAmount() == 0 && count($bookingOrder->getVisitors() > 0)) {
+        If (count($bookingOrder->getVisitors()) > 1 && $bookingOrder->getTotalAmount() == 0 ) {
             return true;
         }
     }
 
+    public function cannotProvideEnoughTickets(BookingOrder $bookingOrder) : bool
+    {
+        $maxEntries = $this->paramService->findMaxDayEntries($bookingOrder->getExpectedDate());
+        $alreadyBooked = $this->findDayVisitorCount($bookingOrder);
+        if($bookingOrder->getWishes() > ($maxEntries  - $alreadyBooked) ) {
+            return true;
+        }
+
+    }
 
 }

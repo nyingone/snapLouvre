@@ -241,28 +241,38 @@ class Visitor
         return $this;
     }
 
-    /**
-     * @return integer $ageYearsOld
-     * @throws \Exception
-     */
+    /**      */
     public function setAgeYearsOld()
-    
+
     {
         $this->ageYearsOld = $this->birthDate->diff(new \DateTime('today'));
-        
-        return $this->yearsOld->format('%Y');
+
+       // return $this->yearsOld->format('%Y');
     }
 
+    /**
+     * @return integer $ageYearsOld
+     */
     public function getAgeYearsOld()
     {
         if(isset($this->birthDate))
         {
-            return $this->ageYearsOld->format('%Y');
+          //  return $this->ageYearsOld->format('%Y');
+            return $this->ageYearsOld->format('%y');
         } else {
             return $this->ageYearsOld;
         }
 
+
     }
+
+    /* function age($date) {
+        $age = date('Y') - $date;
+        if (date('md') < date('md', strtotime($date))) {
+            return $age - 1;
+        }
+        return $age;
+    }*/
 
     public function getName()
     {

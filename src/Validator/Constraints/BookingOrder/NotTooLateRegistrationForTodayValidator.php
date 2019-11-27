@@ -1,21 +1,26 @@
 <?php
 
 
-namespace App\Validator\Constraints;
+namespace App\Validator\Constraints\BookingOrder;
 
 
 use App\Entity\BookingOrder;
 use App\Services\Interfaces\ScheduleServiceInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class PartTimeBookingIsOpenValidator
+class NotTooLateRegistrationForTodayValidator extends ConstraintValidator
 {
 
     /** @var ScheduleServiceInterface   */
     private $scheduleService;
 
+    /**
+     * NotTooLateRegistrationValidator constructor.
+     * @param ScheduleServiceInterface $scheduleService
+     */
     public function __construct(ScheduleServiceInterface $scheduleService)
     {
         $this->scheduleService = $scheduleService;
@@ -23,8 +28,8 @@ class PartTimeBookingIsOpenValidator
 
     public function validate($bookingOrder, Constraint $constraint)
     {
-         if(!$constraint instanceof PartTimeBookingIsOpen) {
-             throw new UnexpectedTypeException($constraint , PartTimeBookingIsOpen::class);
+         if(!$constraint instanceof NotTooLateRegistrationForToday) {
+             throw new UnexpectedTypeException($constraint , NotTooLateRegistrationForToday::class);
          }
 
          if(!$bookingOrder instanceof BookingOrder) {
@@ -33,11 +38,11 @@ class PartTimeBookingIsOpenValidator
 
 
         // RETURN TRUE IF Last Entry Time is passed
-        if($this->scheduleService->isPartTimeBookingClosedForToday($bookingOrder->getExpectedDate(), $bookingOrder->getPartTimeCode()))
+
+        if($this->scheduleService->isPartTimeBookingTooLateForToday($bookingOrder->getExpectedDate(), $bookingOrder->getPartTimeCode()))
         {
             $error = ' test';
-            $this->context->buildViolation($constraint->msgPartTimeBookingClosedForToday)
-                ->setParameter('{{ string }}', $error)
+            $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }
     }

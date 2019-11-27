@@ -7,5 +7,10 @@ use App\Repository\Interfaces\PricingRepositoryInterface;
 
 interface PricingServiceInterface 
 {
+    /**
+     * PricingServiceInterface constructor.
+     * @param PricingRepositoryInterface $pricingRepository
+     * @param \App\Services\Interfaces\ParamServiceInterface $paramService
+     */
     public function __construct(PricingRepositoryInterface $pricingRepository, ParamServiceInterface $paramService);
 }

@@ -4,104 +4,106 @@ namespace App\Services;
 
 
 use App\Entity\Param;
+use App\Services\Tools\DatComparator;
 use DateTime;
 use App\Services\Interfaces\ParamServiceInterface;
 use App\Repository\Interfaces\ParamRepositoryInterface;
 
 class ParamService implements ParamServiceInterface
 {
-    /** @var ParamRepositoryInterface  */
+    /** @var ParamRepositoryInterface */
     private $paramRepository;
-    /** @var Param */
-    private $param;
+    /**  */
+    protected $params = [];
 
     private $partTimeCodes = [];
     private $partTimeArray = [];
-    private $maxVisitors = [];
-    private $imperativeEndOfBooking ;
-    private $endOfBooking ;
-    private $startOfBooking ;
+    private $maxEntries = [];
+    private $imperativeEndOfBooking;
+    private $endOfBooking;
+    private $startOfBooking;
     private $maxBookingVisitors;
-    
-    private const KBON = "BookingOrderNumber";
 
-    /** @inherit */
-    public function __construct(ParamRepositoryInterface $paramRepository)
+    private const KBON = "BookingOrderNumber";
+    /**
+     * @var DatComparator
+     */
+    private $datComparator;
+
+    /**
+     * @param ParamRepositoryInterface $paramRepository
+     * @param DatComparator $datComparator
+     * @throws \Exception
+     */
+    public function __construct(
+        ParamRepositoryInterface $paramRepository,
+        DatComparator $datComparator)
     {
-       $this->paramRepository = $paramRepository;
-       $params = $this->paramRepository
-       ->findAll();
-       
-        foreach($params as $param)
-        {
-            if($param->getRefCode() == "MaxVisitors")
-            {
-                $this->maxVisitors[] = $param;
+        $this->paramRepository = $paramRepository;
+        $this->datComparator = $datComparator;
+
+        $this->params = $this->paramRepository
+            ->findAll();
+
+        $this->formatParam();
+    }
+
+    function formatParam()
+    {
+        foreach ($this->params as $param) {
+            if ($param->getRefCode() == "MaxEntries") {
+                $this->maxEntries[] = $param;
             }
 
-            if($param->getRefCode() == "MaxBookingOrderDly")
-            {
+            if ($param->getRefCode() == "MaxBookingOrderDly") {
                 $nbMonths = $param->getNumber();
-                $this->endOfBooking = new \DateTime('+'. $nbMonths . 'month');
+                $this->endOfBooking = new \DateTime('+' . $nbMonths . 'month');
 
-                if($param->getDayNum() !== ''):
-                    $this->endOfBooking  = new \DateTime($this->endOfBooking ->format('Y-m-t'));
+                if ($param->getDayNum() !== ''):
+                    $this->endOfBooking = new \DateTime($this->endOfBooking->format('Y-m-t'));
                 endif;
-            } 
+            }
 
-            if($param->getRefCode() == "ImperativeBookingEnd")
-            {
-                $date = $param->getExeNum() . "-" .  $param->getMonthNum() . "-" .  $param->getDayNum() ;
+            if ($param->getRefCode() == "ImperativeEndOfBooking") {
+                $date = $param->getExeNum() . "-" . $param->getMonthNum() . "-" . $param->getDayNum();
                 $this->imperativeEndOfBooking = new \Datetime($date);
-                
-            } 
+            }
 
-            if($param->getRefCode() == "PartTimeCodes")
-            {
+            if ($param->getRefCode() == "StartOfBooking") {
+                $date = $param->getExeNum() . "-" . $param->getMonthNum() . "-" . $param->getDayNum();
+                $this->startOfBooking = new \Datetime($date);
+            }
+
+            if ($param->getRefCode() == "PartTimeCodes") {
                 $list = $param->getList();
                 array_push($this->partTimeCodes, $list);
-            } 
-
-            if($param->getRefCode() == "PartTimeCode")
-            {
-                $this->partTimeArray[$param->getLabel() ] =  $param->getNumber();
             }
 
-            if($param->getRefCode() == "MaxBookingVisitors")
-            {
-                $this->maxBookingVisitors =  $param->getNumber();
-            } 
-        
+            if ($param->getRefCode() == "PartTimeCode") {
+                $this->partTimeArray[$param->getLabel()] = $param->getNumber();
+            }
+
+            if ($param->getRefCode() == "MaxBookingVisitors") {
+                $this->maxBookingVisitors = $param->getNumber();
+            }
+
         }
-    
-    }
-   
-    /**
-     * Undocumented function
-     *
-     * @return string
-     */
-    public function allocateBookingNumber():string
-    {
-        return $this->paramRepository->saveNumber(KBON);
     }
 
     /**
-     * Undocumented function
-     *
      * @return string
      */
-    public function findPartTimeCodes():array
+    public function allocateBookingNumber(): string
     {
-        return $this->partTimeCodes;
+        return $this->paramRepository->saveNumber(self::KBON);
     }
 
-       /**
+    /**
      * Undocumented function
      *
      * @return array
      */
-    public function findPartTimeArray():array
+    public function findPartTimeArray(): array
     {
         return $this->partTimeArray;
     }
@@ -111,24 +113,18 @@ class ParamService implements ParamServiceInterface
      *
      * @return datetime
      */
-    public function findEndOfBooking():datetime
+    public function findEndOfBooking(): datetime
     {
-        if($this->endOfBooking <= $this->imperativeEndOfBooking):
-            return  $this->endOfBooking;
+        if ($this->endOfBooking <= $this->imperativeEndOfBooking):
+            return $this->endOfBooking;
         else:
             return $this->imperativeEndOfBooking;
         endif;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return datetime
-     */
-    public function findStartOfBooking():datetime
+    public function findStartOfBooking(): datetime
     {
-        $this->startOfBooking = new \datetime();
-        return  $this->startOfBooking;
+        return $this->startOfBooking;
     }
 
     /**
@@ -136,29 +132,81 @@ class ParamService implements ParamServiceInterface
      *
      * @return DateTime
      */
-    public function findImperativeEndOfBooking():DateTime
+    public function findImperativeEndOfBooking(): DateTime
     {
         return $this->imperativeEndOfBooking;
     }
-    /**
-     * Find "MaxVisitors" per day explicited by Year, ou yearMonth, or day
-     *
-     * @return 
-     */
-    public function findMaxVisitors():array
-    {
-        return $this->maxVisitors;
-    }
 
     /**
-     * Undocumented function
-     *
-     * @return integer
+     * @inheritDoc
      */
-    public function findMaxBookingVisitors():int
+    public function isValidPartTimeCode(int $value): bool
+    {
+        $key = array_search($value, $this->partTimeCodes);
+        if (isset($key)) {
+            return true;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function findMaxAllowedGuests(): int
     {
         return $this->maxBookingVisitors;
     }
-    
-    
+
+    /**
+     * @inheritDoc
+     */
+    public function isNotAllowedNumberOfGuest(int $wishes): bool
+    {
+        if ($wishes > $this->maxBookingVisitors) {
+            return true;
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findMaxDayEntries(\DateTimeInterface $expectedDate): int
+    {
+        $tstDate = $this->datComparator->convert($expectedDate);
+        $tstMonth = substr($tstDate, 0, 6);
+        $tstExe = substr($tstMonth, 0, 4);
+
+        $dayMax = 0;
+        $monthDayMax = 0;
+        $yearDayMax = 0;
+
+        foreach ($this->maxEntries as $param) {
+            $refDat = rtrim($param->getExenum() . $param->getMonthNum() . $param->getDayNum());
+
+            if ($tstDate == $refDat) :
+                $dayMax = $param->getNumber();
+            endif;
+            if ($tstMonth == $refDat):
+                $monthDayMax = $param->getNumber();
+            endif;
+            if ($tstExe == $refDat):
+                $yearDayMax = $param->getNumber();
+            endif;
+        }
+
+        if ($dayMax > 0) : return $dayMax; endif;
+        if ($monthDayMax > 0) : return $dayMax; endif;
+        if ($yearDayMax > 0) : return $dayMax; endif;
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isOutOfRangeBooking(\DateTimeInterface $expectedDate): bool
+    {
+        if ($this->datComparator->isLower($expectedDate, $this->startOfBooking) || $this->datComparator->isHigher($expectedDate, $this->finEndOfBooking()) ){
+            return true;
+        }
+    }
 }

@@ -32,4 +32,9 @@ class ParamRepository implements ParamRepositoryInterface
     {
         return $this->objectRepository->findAll();
     }
+
+    public function saveNumber($keyBookingOrderNumber): string
+    {
+        // TODO: Implement saveNumber() method.
+    }
 }

@@ -52,7 +52,7 @@ class VisitorManager
     public function refreshVisitor(Visitor $visitor): object
     {
         $visitor->setCreatedAt($visitor->getBookingOrder()->getOrderDate());
-        $visitor->setCost($this->pricingService->findVisitorTarif(
+        $visitor->setCost($this->pricingService->findVisitorTariff(
             $visitor->getBookingOrder()->getOrderDate(),
             $visitor->getBookingOrder()->getPartTimeCode(),
             $visitor->getDiscounted(),
@@ -72,24 +72,36 @@ class VisitorManager
 
     public function visitorControl($visitor)
     {
-        $this->visitorRepository->save($visitor);
+        // $this->visitorRepository->save($visitor);
 
-        $errors = $this->validator->validate($visitor);
-
-        if (count($errors) > 0)
-        {
-           $error_list[] = (string) $errors;
-           $this->sessionManager->sessionSet('visitor_error' . $visitor->getName(), $error_list);
-        }
+       //  $errors = $this->validator->validate($visitor);
 
     }
 
 
-
-    public function isMultiRegisteredVisitor(Visitor $visitor)
+    /**
+     * @param Visitor $visitorToControl
+     * @return bool
+     */
+    public function isMultiRegisteredVisitor(Visitor $visitorToControl)
     {
-        $visitors = $visitor->getBookingOrder()->getVisitors();
+        $i = 0;
+        $visitors = $visitorToControl->getBookingOrder()->getVisitors();
+        foreach ($visitors as $visitor) {
+            if($visitor == $visitorToControl){
+                $i++;
+                if ($i > 1): return true;
+                endif;
+            }
+        }
 
+    }
+
+    public function isUnaccompaniedUnderage(Visitor $visitor): bool
+    {
+        if (count($visitor->getBookingOrder()->getVisitors()) == 1) {
+            return true;
+        }
     }
 
 

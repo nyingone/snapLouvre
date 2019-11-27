@@ -38,6 +38,11 @@ class ClosingPeriod
      */
     private $dayOfWeek;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $info;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class ClosingPeriod
     public function setDayOfWeek(?int $dayOfWeek): self
     {
         $this->dayOfWeek = $dayOfWeek;
+
+        return $this;
+    }
+
+    public function getInfo(): ?string
+    {
+        return $this->info;
+    }
+
+    public function setInfo(string $info): self
+    {
+        $this->info = $info;
 
         return $this;
     }

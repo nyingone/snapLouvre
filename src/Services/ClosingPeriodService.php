@@ -18,7 +18,10 @@ class ClosingPeriodService implements ClosingPeriodServiceInterface
     /** @var DatComparator */
     protected $datComparator;
 
-    /** @inheritDoc  */
+    /**
+     * @param ClosingPeriodRepositoryInterface $closingPeriodRepository
+     * @param DatComparator $datComparator
+     */
     public function __construct(ClosingPeriodRepositoryInterface $closingPeriodRepository, DatComparator $datComparator)
         {
             $this->closingPeriodRepository = $closingPeriodRepository;
@@ -26,7 +29,10 @@ class ClosingPeriodService implements ClosingPeriodServiceInterface
             $this->findClosedPeriods();
         }
 
-    /** @return array */
+    /**
+     * RETURN [ClosePeriod]
+     * @inheritDoc
+     */
     public function findClosedPeriods() : array
     {
         $this->closingPeriods = $this->closingPeriodRepository
@@ -35,7 +41,11 @@ class ClosingPeriodService implements ClosingPeriodServiceInterface
         return $this->closingPeriods;
     }
 
-    public function isExceptionallyClosed(\DateTimeInterface $value)
+    /**
+     * RETURN TRUE IF chosen Date is closed
+     * @inheritDoc
+     */
+    public function isClosedPeriod(\DateTimeInterface $value) : bool
     {
         // $strValue = $this->datComparator->convert($value);
         foreach ($this->closingPeriods as $closedPeriod):
