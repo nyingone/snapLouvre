@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Visitor;
 use App\Form\BookingOrderType;
 use App\Manager\BookingOrderManager;
+use App\Manager\Interfaces\BookingOrderManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,20 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @var BookingOrderManager
-     */
+    /** @var  BookingOrderManagerInterface */
     private $bookingOrderManager;
 
     /**
      * @Route("/", name="home")
      *
-     *
      * @param Request $request
-     * @param BookingOrderManager $bookingOrderManager
+     * @param BookingOrderManagerInterface $bookingOrderManager
      * @return Response
      */
-    public function index(Request $request, BookingOrderManager $bookingOrderManager): Response
+    public function index(Request $request, BookingOrderManagerInterface $bookingOrderManager): Response
     {
         $bookingOrder = $bookingOrderManager->inzBookingOrder();
 
@@ -35,9 +33,8 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bookingOrder = $form->getData();
-            if( $bookingOrder !== null) {
-                $this->bookingOrderManager->refreshBookingOrder($bookingOrder);
-            }
+
+            $bookingOrderManager->refreshBookingOrder($bookingOrder);
 
             return $this->redirectToRoute('detail');
         }

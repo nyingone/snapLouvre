@@ -8,10 +8,7 @@ interface ClosingPeriodServiceInterface
 {
 
     /**
-     * @return array
-     */
-    public function findClosedPeriods() : array;
-    /**
+     *   * RETURN TRUE IF chosen Date is closed
      * @param \DateTimeInterface $value
      * @return bool
      */

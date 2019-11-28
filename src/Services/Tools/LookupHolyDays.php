@@ -2,7 +2,7 @@
 
 namespace App\Services\Tools;
 
-class LookupHolyDays
+class LookUpHolyDays
 {
 
 /*---------------------------------------------------------------*/

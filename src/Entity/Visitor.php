@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints\Visitors as CustomAssert;
 
 
 /**
  * @ORM\Entity
+ * @CustomAssert\NotUnaccompaniedFreeUnderage(groups={"pre_booking"})
+ * @CustomAssert\NotMultiRegistered(groups={"pre_booking"})
  */
 class Visitor 
 {
@@ -18,11 +21,7 @@ class Visitor
     * @ORM\Column(type="integer")
     */
     private $id;
-    /**
-    * @Assert\NotBlank(message="Booking is impossible, no tarif found.")
-    * Column(type="string", length=2)
-    */
-    public $tarifCode = 1;
+
     /**
     * @ORM\Column(type="string", length=255)
     * @Assert\NotBlank(message="Enter first Name please.")
@@ -67,6 +66,12 @@ class Visitor
     private $discounted;
 
     /**
+     * @Assert\NotBlank(message="Booking is impossible, no tarif found.")
+     * Column(type="string", length=2)
+     */
+    public $tariffCode;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $cost;
@@ -99,7 +104,7 @@ class Visitor
      */
     private $bookingOrder;
 
-    private $ageYearsOld ;
+    private $ageYearsOld = 0;
 
 
     public function getId(): ?int
@@ -169,12 +174,22 @@ class Visitor
         return $this;
     }
 
-    public function getCost(): ?integer
+    public function getTariffCode(): ?string
+    {
+        return $this->tariffCode;
+    }
+
+    public function setTariffCode($tariffCode)
+    {
+        $this->tariffCode = $tariffCode;
+    }
+
+    public function getCost(): ?int
     {
         return $this->cost;
     }
 
-    public function setCost(?integer $cost): self
+    public function setCost(?int $cost): self
     {
         $this->cost = $cost;
 
@@ -241,41 +256,20 @@ class Visitor
         return $this;
     }
 
-    /**      */
-    public function setAgeYearsOld()
-
+    /**  */
+    public function getAgeYearsOld(): ?int
     {
-        $this->ageYearsOld = $this->birthDate->diff(new \DateTime('today'));
-
-       // return $this->yearsOld->format('%Y');
+       return $this->ageYearsOld;
     }
 
-    /**
-     * @return integer $ageYearsOld
-     */
-    public function getAgeYearsOld()
-    {
-        if(isset($this->birthDate))
-        {
-          //  return $this->ageYearsOld->format('%Y');
-            return $this->ageYearsOld->format('%y');
-        } else {
-            return $this->ageYearsOld;
-        }
-
-
-    }
-
-    /* function age($date) {
-        $age = date('Y') - $date;
-        if (date('md') < date('md', strtotime($date))) {
-            return $age - 1;
-        }
-        return $age;
-    }*/
 
     public function getName()
     {
         return $this->firstName . ' ' . $this->lastName;
+    }
+
+    private function setAgeYearsOld()
+    {
+        $this->ageYearsOld = $this->birthDate->diff(new DateTime())->y;
     }
 }

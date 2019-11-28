@@ -31,7 +31,7 @@ class ClosingPeriodService implements ClosingPeriodServiceInterface
 
     /**
      * RETURN [ClosePeriod]
-     * @inheritDoc
+     * @return array
      */
     public function findClosedPeriods() : array
     {
@@ -54,6 +54,7 @@ class ClosingPeriodService implements ClosingPeriodServiceInterface
             endif;
         endforeach;
 
+        return false;
     }
 
 }

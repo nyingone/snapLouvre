@@ -4,13 +4,16 @@ namespace App\Services\Interfaces;
 
 use App\Services\Interfaces\ParamServiceInterface;
 use App\Repository\Interfaces\PricingRepositoryInterface;
+use phpDocumentor\Reflection\Types\Integer;
 
 interface PricingServiceInterface 
 {
     /**
-     * PricingServiceInterface constructor.
-     * @param PricingRepositoryInterface $pricingRepository
-     * @param \App\Services\Interfaces\ParamServiceInterface $paramService
+     * @param \DateTimeInterface $date
+     * @param integer $partTimeCode
+     * @param boolean $discounted
+     * @param $birthDate
+     * @return int
      */
-    public function __construct(PricingRepositoryInterface $pricingRepository, ParamServiceInterface $paramService);
+    public function findVisitorTariff(\DateTimeInterface $date , $partTimeCode, $discounted,\DateTimeInterface $birthDate) : int ;
 }

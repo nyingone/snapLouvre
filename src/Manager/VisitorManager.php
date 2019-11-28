@@ -3,12 +3,13 @@
 namespace App\Manager;
 
 use App\Entity\Visitor;
+use App\Manager\Interfaces\VisitorManagerInterface;
 use App\Services\Interfaces\PricingServiceInterface;
 use App\Services\PricingService;
 use App\Repository\Interfaces\VisitorRepositoryInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class VisitorManager
+class VisitorManager implements VisitorManagerInterface
 {
     /** @var SessionManager */
     private  $sessionManager;
@@ -46,17 +47,23 @@ class VisitorManager
 
     }
 
-    /** @param Visitor
-     * @return Visitor
+    /**
+     * @param Visitor $visitor
+     * @return object
+     * @throws \Exception
      */
     public function refreshVisitor(Visitor $visitor): object
     {
         $visitor->setCreatedAt($visitor->getBookingOrder()->getOrderDate());
-        $visitor->setCost($this->pricingService->findVisitorTariff(
-            $visitor->getBookingOrder()->getOrderDate(),
-            $visitor->getBookingOrder()->getPartTimeCode(),
-            $visitor->getDiscounted(),
-            $visitor->getAgeYearsOld())) ;
+        $birthDate = $visitor->getBirthDate();
+        if(isset($birthDate)) {
+            $visitor->setCost($this->pricingService->findVisitorTariff(
+                $visitor->getBookingOrder()->getOrderDate(),
+                $visitor->getBookingOrder()->getPartTimeCode(),
+                $visitor->getDiscounted(),
+                $visitor->getBirthDate()
+            ));
+        }
 
        // $this->visitorControl($visitor);
 
@@ -80,10 +87,9 @@ class VisitorManager
 
 
     /**
-     * @param Visitor $visitorToControl
-     * @return bool
+     * @inheritDoc
      */
-    public function isMultiRegisteredVisitor(Visitor $visitorToControl)
+    public function isMultiRegisteredVisitor(Visitor $visitorToControl) : bool
     {
         $i = 0;
         $visitors = $visitorToControl->getBookingOrder()->getVisitors();
@@ -95,6 +101,7 @@ class VisitorManager
             }
         }
 
+        return false;
     }
 
     public function isUnaccompaniedUnderage(Visitor $visitor): bool
@@ -102,6 +109,8 @@ class VisitorManager
         if (count($visitor->getBookingOrder()->getVisitors()) == 1) {
             return true;
         }
+
+        return false;
     }
 
 

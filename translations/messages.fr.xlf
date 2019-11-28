@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="Hello">
+                <source>Hello</source>
+                <target>Bonjour</target>
+            </trans-unit>
+            <trans-unit id="Day">
+                <source>Day</source>
+                <target>Jour</target>
+            </trans-unit>
+            <trans-unit id="Month">
+                <source>Month</source>
+                <target>Mois</target>
+            </trans-unit>
+             <trans-unit id="Year">
+                <source>Year</source>
+                <target>Année</target>
+            </trans-unit>
+            <trans-unit id="Email">
+                <source>Email</source>
+                <target>Courriel</target>
+            </trans-unit>
+            <trans-unit id="Expected_date">
+                <source>Expected date</source>
+                <target>Visite prévue le</target>
+            </trans-unit>
+            <trans-unit id="Visitors">
+                <source>Visitors</source>
+                <target>Visiteurs</target>
+            </trans-unit>
+            <trans-unit id="Customer">
+                <source>Customer</source>
+                <target>Client</target>
+            </trans-unit>
+            <trans-unit id="First_name">
+                <source>First name</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="Last_tname">
+                <source>Last name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="Country">
+                <source>Country</source>
+                <target>Pays</target>
+            </trans-unit>
+            <trans-unit id="Birth_date">
+                <source>Birth date</source>
+                <target>Date de naissance</target>
+            </trans-unit>
+            <trans-unit id="Elligible_to_discount?">
+                <source>Elligible to discount?</source>
+                <target>Tarif réduit</target>
+            </trans-unit>
+            <trans-unit id="Cost">
+                <source>Cost</source>
+                <target>Tarif</target>
+            </trans-unit>
+             <trans-unit id="Visitor_count">
+                <source>Visitor count</source>
+                <target>Nombre de visiteurs</target>
+            </trans-unit>
+            <trans-unit id="Full_day_and_Full_tarif">
+                <source>Fullday     -Full tarif</source>
+                <target>Journée     -Plein Tarif</target>
+            </trans-unit>
+            <trans-unit id="Half_day_and_Full_tarif">
+                <source>Halfday     -Full tarif</source>
+                <target>DemiJournée  -Plein Tarif</target>
+            </trans-unit>
+             <trans-unit id="Half_day_and_half_tarif">
+                <source>Halfday     -Half tarif</source>
+                <target>DemiJournée  -Demi Tarif</target>
+            </trans-unit>
+            <trans-unit id="Part_time_code">
+                <source>Part time code</source>
+                <target>Créneau tarifaire</target>
+            </trans-unit>
+             <trans-unit id="Go_ahead">
+                <source>Go ahead</source>
+                <target>Etape suivante</target>
+            </trans-unit>
+            <trans-unit id="Your_visitors">
+                <source>Your visitors</source>
+                <target>Vos visiteurs</target>
+            </trans-unit>
+            <trans-unit id="Your_guests">
+                <source>Your guests</source>
+                <target>Vos invités</target>
+            </trans-unit>
+             <trans-unit id="Your_references_and_tickets_order">
+                <source>Your references and tickets order</source>
+                <target>Vos références et billets commandés</target>
+            </trans-unit>
+            <trans-unit id="Your_orders">
+                <source>Your orders</source>
+                <target>Vos commandes</target>
+            </trans-unit>
+            <trans-unit id="booking_orders">
+                <source>Booking orders</source>
+                <target>Demandes de réservation</target>
+            </trans-unit>
+            <trans-unit id="symfony_is_great">
+                <source>Symfony is great</source>
+                <target>J'aime Symfony</target>
+            </trans-unit>
+            <trans-unit id="booking_closed_booking_period_or_day" resname="Closed booking period or day">
+                <source>Closed booking period or day</source>
+                <target>Réservations fermées à cette date</target>
+            </trans-unit>
+            <trans-unit id="booking_closed_on_following_days_of_week">
+                <source>Booking closed on Tuesdays and Sundays</source>
+                <target>Réservations fermées les Mardi et Dimanche</target>
+            </trans-unit>
+            <trans-unit id="booking_ended_for_today">
+                <source>Booking closed for today</source>
+                <target>Réservations closes pour aujourd'hui</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

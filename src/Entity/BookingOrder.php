@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Validator\Constraints as CustomAssert;
+use App\Validator\Constraints\BookingOrders as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @CustomAssert\BookingDisponibility(groups={"pre_booking"})
+ * @CustomAssert\NotOutsideDayBookingQuotas(groups={"pre_booking"})
+ * @CustomAssert\NotTooLateRegistrationForToday(groups={"pre_booking"})
+ * @CustomAssert\NotOnlyFreeVisitors(groups={"pre_booking"})
  */
 class BookingOrder
 {
@@ -24,11 +26,12 @@ class BookingOrder
      */
     private $id;
 
-     /**
-    * @Assert\NotBlank()
-    * @Assert\Positive(groups={"pre_booking"})
-    * Column(type="integer")
-    */
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Positive(groups={"pre_booking"})
+     * @CustomAssert\IsAllowedGuestNumber(groups={"pre_booking"})
+     * Column(type="integer")
+     */
     public $wishes = 1;
 
     /**
@@ -46,22 +49,28 @@ class BookingOrder
      * @ORM\Column(type="date")
      * @Assert\Date
      * @var string A "Y-m-d" formatted value
-     * @CustomAssert\BookingDateIsOpen(groups={"pre_booking"})
+     * @CustomAssert\NotClosedPeriod(groups={"pre_booking"})
+     * @CustomAssert\NotHolyDay(groups={"pre_booking"})
+     * @CustomAssert\NotOutOfBookingRange(groups={"pre_booking"})
+     * @CustomAssert\NotUnsupportedReservationDay(groups={"pre_booking"})
      */
     private $expectedDate;
 
     /**
      * @ORM\Column(type="smallint")
+     * @CustomAssert\IsValidPartTimeCode(groups={"pre_booking"})
      */
     private $partTimeCode;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotNull()
      */
-    private $totalAmount;
+    private $totalAmount = 0;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $bookingRef;
 
@@ -90,7 +99,7 @@ class BookingOrder
      */
     private $paymentExtRef;
 
-    
+
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -171,7 +180,7 @@ class BookingOrder
         return $this;
     }
 
-    public function getTotalAmount(): ?Integer
+    public function getTotalAmount(): ?int
     {
         return $this->totalAmount;
     }
@@ -255,7 +264,7 @@ class BookingOrder
         return $this;
     }
 
-    
+
     public function getCancelledAt(): ?\DateTimeInterface
     {
         return $this->cancelledAt;

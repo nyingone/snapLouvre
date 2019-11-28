@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\Constraints\BookingOrder;
+namespace App\Validator\Constraints\BookingOrders;
 
 use Symfony\Component\Validator\Constraint;
 
@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class NotAllowedGuestNumber extends Constraint
+class IsAllowedGuestNumber extends Constraint
 {
     public $message = 'exceeds_maximum_guest_allowed_for_booking';
 

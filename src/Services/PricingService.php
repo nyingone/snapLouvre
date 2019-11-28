@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
-use App\Entity\Pricing;
 use App\Services\Interfaces\ParamServiceInterface;
 use App\Services\Interfaces\PricingServiceInterface;
 use App\Repository\Interfaces\PricingRepositoryInterface;
+use DateTime;
 
 class PricingService implements PricingServiceInterface
 {
@@ -19,43 +19,45 @@ class PricingService implements PricingServiceInterface
     private $tariffDate;
     private $cost = null;
 
- 
-    /** @inheritDoc */
+
+    /**
+     * @param PricingRepositoryInterface $pricingRepository
+     * @param ParamServiceInterface $paramService
+     */
     public function __construct(PricingRepositoryInterface $pricingRepository, ParamServiceInterface $paramService)
     {
         $this->pricingRepository = $pricingRepository;
         $this->paramService= $paramService;
     }
 
-
-    public function findLastTariffDate($date = null)
+    /**
+     * @param \DateTimeInterface $date
+     * @throws \Exception
+     */
+   public function findLastTariffDate(\DateTimeInterface $date)
     {
-        if($date == null):
-            $date = new \datetime();
-        endif;
-
         $tariffDates = $this->pricingRepository->findLastTariffDate($date);
         $tariffDate  = $tariffDates[0];
 
-        foreach($tariffDate as $item => $date):
+        foreach($tariffDate as $item => $date){
             $this->tariffDate = new \Datetime($date);
-        endforeach;
+            return;
+        }
+
     }
-/**
- * get one or a group of terms for a tarif
- *
- * @param [date] $date
- * @param [int] $partTimeCode
- * @param [boolean] $discounted
- * @param [int] $age
- * @return [mixed] $cost
- */
-    public function findVisitorTariff($date , $partTimeCode, $discounted, $age)
+
+    /**
+     * get one or a group of terms for a tarif
+     *
+     * @inheritDoc
+     * @throws \Exception
+     */
+    public function findVisitorTariff(\DateTimeInterface $date , $partTimeCode, $discounted, \DateTimeInterface $birthDate) : int
     {
         $this->findLastTariffDate($date);
 
     //    fetch pricing partTimeCode is null or = 
-        
+        $age = $birthDate->diff(new DateTime())->y;
         $this->pricings = $this->pricingRepository->findLastPricing($this->tariffDate, $partTimeCode, $discounted, $age);
      
         foreach ($this->pricings as $pricing)

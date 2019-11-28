@@ -6,6 +6,12 @@ namespace App\Services\Interfaces;
 
 interface ParamServiceInterface 
 {
+
+    /**
+     * @return string
+     */
+    public function allocateBookingNumber(): string;
+
     /**
      * @param int $value
      * @return bool
@@ -21,7 +27,7 @@ interface ParamServiceInterface
      * @param int $value
      * @return bool
      */
-    public function isNotAllowedNumberOfGuest(int $value): bool;
+    public function isAllowedNumberOfGuest(int $value): bool;
 
 
     /**

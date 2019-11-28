@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\BookingOrder;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SessionManager
@@ -36,9 +37,5 @@ class SessionManager
         return $this->provisionalRef;
     }
 
-    public function getBookingOrder()
-    {
-        return $this->session->get('bookingOrder');
-    }
 
 }

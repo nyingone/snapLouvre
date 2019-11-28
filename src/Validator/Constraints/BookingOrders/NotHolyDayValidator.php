@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Validator\Constraints\BookingOrder;
+namespace App\Validator\Constraints\BookingOrders;
 
-use App\Services\Tools\LookupHolyDays;
+use App\Services\Tools\LookUpHolyDays;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -15,15 +15,15 @@ class NotHolyDayValidator extends ConstraintValidator
     private $message;
 
     /** @var  LookupHolyDays */
-    private $lookupHolyDays;
+    private $lookUpHolyDays;
 
     /**
      * NotHolidayValidator constructor.
-     * @param LookupHolyDays $lookupHolyDays
+     * @param LookUpHolyDays $lookUpHolyDays
      */
-    public function __construct(LookupHolyDays $lookupHolyDays)
+    public function __construct(LookUpHolyDays $lookUpHolyDays)
     {
-        $this->$lookupHolyDays = $lookupHolyDays;
+        $this->lookUpHolyDays = $lookUpHolyDays;
     }
 
     public function validate($value, Constraint $constraint)
@@ -35,7 +35,7 @@ class NotHolyDayValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, \DateTime::class);
         }
 
-        if ($this->lookupHolyDays->isDateHoliday($value->getTimestamp())) {
+        if ($this->lookUpHolyDays->isDateHoliday($value->getTimestamp())) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

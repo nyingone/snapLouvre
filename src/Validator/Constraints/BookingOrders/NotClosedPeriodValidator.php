@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Validator\Constraints\BookingOrder;
+namespace App\Validator\Constraints\BookingOrders;
 
 
 use App\Services\Interfaces\ClosingPeriodServiceInterface;
@@ -31,8 +31,8 @@ class NotClosedPeriodValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
 
-        if (!$constraint instanceof BookingDateIsOpen) {
-            throw new UnexpectedTypeException($constraint, BookingDateIsOpen::class);
+        if (!($constraint instanceof NotClosedPeriod)) {
+            throw new UnexpectedTypeException($constraint, NotClosedPeriod::class);
         }
 
         if (!is_object($value)) {

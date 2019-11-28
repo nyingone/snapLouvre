@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\Constraints\BookingOrder;
+namespace App\Validator\Constraints\BookingOrders;
 
 use App\Services\Interfaces\ParamServiceInterface;
 use Symfony\Component\Validator\Constraint;

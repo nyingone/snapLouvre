@@ -1,3 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}bookingOrderDetail!{% endblock %}
+
 {% block body %}
 
     <script>     </script>
@@ -9,16 +13,17 @@
 
             <h3>{% trans %} Your orders {% endtrans %} </h3>
 
-
-            {% for visitor in bookingOrder.visitors %}
+            {#  {{ form_row(form) }} #}
+            {% for visitor in form.visitors %}
                 <li> class= "visitors"
                     {% include('inc/_visitor.html.twig') %}
                 </li>
 
             {% endfor %}
-            {{ form_row(form) }}
 
-            {{ form_rest(form) }}
+
+          {{ form_rest(form) }}
+
             <input type="submit" class="btn btn-primary" value= "{% trans %} Go ahead {% endtrans %} " />
 
             {{ form_end(form) }}

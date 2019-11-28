@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\Constraints\BookingOrder;
+namespace App\Validator\Constraints\BookingOrders;
 
 use App\Services\Interfaces\ParamServiceInterface;
 use Symfony\Component\Validator\Constraint;
@@ -8,7 +8,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class NotAllowedGuestNumberValidator extends ConstraintValidator
+class IsAllowedGuestNumberValidator extends ConstraintValidator
 {
     /** @var ParamServiceInterface  */
     private $paramService;
@@ -28,8 +28,8 @@ class NotAllowedGuestNumberValidator extends ConstraintValidator
     {
         // $this->bookingOrder = $value;
         
-        if (!$constraint instanceof  NotAllowedGuestNumber) {
-            throw new UnexpectedTypeException($constraint,  NotAllowedGuestNumber::class);
+        if (!$constraint instanceof  IsAllowedGuestNumber) {
+            throw new UnexpectedTypeException($constraint,  IsAllowedGuestNumber::class);
         }
 
         if (!is_integer( $value)) {
@@ -37,7 +37,7 @@ class NotAllowedGuestNumberValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'integer');
         }
 
-        if ($this->paramService->isNotAllowedNumberOfGuest($value) !== true)
+        if ($this->paramService->isAllowedNumberOfGuest($value) !== true)
         {
             $this->context->buildViolation($constraint->message)
                // ->setParameter('{{ integer }}', $this->maxBookingVisitors)

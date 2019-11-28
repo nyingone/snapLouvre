@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Validator\Constraints\BookingOrder;
+namespace App\Validator\Constraints\BookingOrders;
 
 
 use App\Services\Interfaces\ParamServiceInterface;
@@ -37,7 +37,7 @@ class NotOutOfBookingRangeValidator extends ConstraintValidator
         }
 
 
-        if($this->paramService->isOutOfRangeBooking())
+        if($this->paramService->isOutOfRangeBooking($value) )
         {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();

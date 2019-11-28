@@ -19,8 +19,11 @@ class BookingVisitorsType extends AbstractType
             'entry_options' => ['label' => false],
             'by_reference' => false,
             'allow_add' => true,
-            'allow_delete' => true
+            'allow_delete' => true,
+            // 'prototype' => true,
+            // 'prototype_name' => 'visitors'
         ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

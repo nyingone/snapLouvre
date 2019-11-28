@@ -60,6 +60,7 @@ class ScheduleService implements ScheduleServiceInterface
                 }
             }
         }
+        return false;
     }
 
         /** @inheritDoc */
@@ -71,6 +72,7 @@ class ScheduleService implements ScheduleServiceInterface
                     return true;
                 endif;
             }
+            return false;
         }
 
     }

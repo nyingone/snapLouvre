@@ -48,13 +48,14 @@ class ParamService implements ParamServiceInterface
         $this->formatParam();
     }
 
+    /**  */
     function formatParam()
     {
         foreach ($this->params as $param) {
-            if ($param->getRefCode() == "MaxEntries") {
+            if ($param->getRefCode() == "MaxDayEntries") {
                 $this->maxEntries[] = $param;
             }
-
+            //  End of booking = today + Dly in month /end of month
             if ($param->getRefCode() == "MaxBookingOrderDly") {
                 $nbMonths = $param->getNumber();
                 $this->endOfBooking = new \DateTime('+' . $nbMonths . 'month');
@@ -69,6 +70,7 @@ class ParamService implements ParamServiceInterface
                 $this->imperativeEndOfBooking = new \Datetime($date);
             }
 
+            //  official start of booking service
             if ($param->getRefCode() == "StartOfBooking") {
                 $date = $param->getExeNum() . "-" . $param->getMonthNum() . "-" . $param->getDayNum();
                 $this->startOfBooking = new \Datetime($date);
@@ -91,7 +93,7 @@ class ParamService implements ParamServiceInterface
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function allocateBookingNumber(): string
     {
@@ -99,8 +101,6 @@ class ParamService implements ParamServiceInterface
     }
 
     /**
-     * Undocumented function
-     *
      * @return array
      */
     public function findPartTimeArray(): array
@@ -109,33 +109,31 @@ class ParamService implements ParamServiceInterface
     }
 
     /**
-     * Undocumented function
-     *
      * @return datetime
      */
     public function findEndOfBooking(): datetime
     {
-        if ($this->endOfBooking <= $this->imperativeEndOfBooking):
+        if ($this->endOfBooking <= $this->imperativeEndOfBooking){
             return $this->endOfBooking;
-        else:
-            return $this->imperativeEndOfBooking;
-        endif;
-    }
+        }
 
-    public function findStartOfBooking(): datetime
-    {
-        return $this->startOfBooking;
+        return $this->imperativeEndOfBooking;
+
     }
 
     /**
-     * Undocumented function
-     *
-     * @return DateTime
+     * @return datetime
+     * @throws \Exception
      */
-    public function findImperativeEndOfBooking(): DateTime
+    public function findStartOfBooking(): datetime
     {
-        return $this->imperativeEndOfBooking;
+        if ($this->startOfBooking > new DateTime() ) {
+            return $this->startOfBooking;
+        }
+
+        return new DateTime();
     }
+
 
     /**
      * @inheritDoc
@@ -146,6 +144,7 @@ class ParamService implements ParamServiceInterface
         if (isset($key)) {
             return true;
         }
+        return false;
     }
 
 
@@ -160,11 +159,12 @@ class ParamService implements ParamServiceInterface
     /**
      * @inheritDoc
      */
-    public function isNotAllowedNumberOfGuest(int $wishes): bool
+    public function isAllowedNumberOfGuest(int $wishes): bool
     {
-        if ($wishes > $this->maxBookingVisitors) {
+        if ($wishes < $this->maxBookingVisitors) {
             return true;
         }
+        return false;
     }
 
     /**
@@ -182,7 +182,6 @@ class ParamService implements ParamServiceInterface
 
         foreach ($this->maxEntries as $param) {
             $refDat = rtrim($param->getExenum() . $param->getMonthNum() . $param->getDayNum());
-
             if ($tstDate == $refDat) :
                 $dayMax = $param->getNumber();
             endif;
@@ -195,8 +194,9 @@ class ParamService implements ParamServiceInterface
         }
 
         if ($dayMax > 0) : return $dayMax; endif;
-        if ($monthDayMax > 0) : return $dayMax; endif;
-        if ($yearDayMax > 0) : return $dayMax; endif;
+        if ($monthDayMax > 0) : return $monthDayMax; endif;
+        if ($yearDayMax > 0) : return $yearDayMax; endif;
+        return $dayMax;
 
     }
 
@@ -205,8 +205,10 @@ class ParamService implements ParamServiceInterface
      */
     public function isOutOfRangeBooking(\DateTimeInterface $expectedDate): bool
     {
-        if ($this->datComparator->isLower($expectedDate, $this->startOfBooking) || $this->datComparator->isHigher($expectedDate, $this->finEndOfBooking()) ){
+       // TODO CLEAN   dd($expectedDate, $this->findStartOfBooking(), $this->findEndOfBooking() );
+        if ($this->datComparator->isLower($expectedDate, $this->findStartOfBooking()) || $this->datComparator->isHigher($expectedDate, $this->findEndOfBooking()) ){
             return true;
         }
+        return false;
     }
 }

@@ -3,11 +3,12 @@
 namespace App\Manager;
 
 use App\Entity\BookingOrder;
+use App\Manager\Interfaces\BookingOrderManagerInterface;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
 use App\Services\Interfaces\ParamServiceInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class BookingOrderManager
+class BookingOrderManager implements BookingOrderManagerInterface
 {
     /** @var SessionManager */
     private $sessionManager;
@@ -28,6 +29,7 @@ class BookingOrderManager
     protected $validator;
 
     protected $bookingRef;
+    protected $orderDate;
     protected $bookingOrderStartDate;
 
     /** @var int */
@@ -51,7 +53,7 @@ class BookingOrderManager
         $this->sessionManager = $sessionManager;
         $this->bookingOrderRepository = $bookingOrderRepository;
         $this->visitorManager = $visitorManager;
-        $this->paramService = $$paramService;
+        $this->paramService = $paramService;
         $this->validator = $validator;
 
         $this->bookingOrderStartDate = new \DateTime('now');
@@ -59,29 +61,42 @@ class BookingOrderManager
 
     }
 
-    /** @param void
-     * @return BookingOrder
+    /**
+     * @inheritDoc
      */
-    public function inzBookingOrder(): BookingOrder
+    public function inzBookingOrder(\DateTimeInterface $orderDate = null, string $bookingRef = null): BookingOrder
     {
+        if (isset($bookingRef)) {
+            $this->bookingRef = $bookingRef;
+        }
+
         $this->bookingOrder = new BookingOrder();
-        $this->bookingOrder->setOrderDate($this->bookingOrderStartDate);
+
+        if (isset($orderDate)) {
+            $this->bookingOrder->setOrderDate($orderDate);
+        } else {
+            $this->bookingOrder->setOrderDate($this->bookingOrderStartDate);
+        }
+
         $this->bookingOrder->setBookingRef($this->bookingRef);
+
+        $this->setBookingOrder($this->bookingOrder);
 
         return $this->bookingOrder;
     }
 
     /**
      * @param BookingOrder $bookingOrder
-     * @return BookingOrder
+     * @return void
+     * @throws \Exception
      */
-    public function refreshBookingOrder(BookingOrder $bookingOrder): BookingOrder
+    public function refreshBookingOrder(BookingOrder $bookingOrder): void
     {
         $this->bookingOrder = $bookingOrder;
         $amount = 0;
 
         $visitors = $this->bookingOrder->getVisitors();
-        for ($i = count($visitors); $i <= $this->bookingOrder->getWishes(); ++$i) {
+        for ($i = count($visitors); $i < $this->bookingOrder->getWishes(); ++$i) {
             $this->addVisitor();
         }
 
@@ -96,7 +111,7 @@ class BookingOrderManager
 
         //  $this->bookingOrderRepository->save($this->bookingOrder);
 
-        return $this->bookingOrder;
+        $this->setBookingOrder($this->bookingOrder);
     }
 
     private function addVisitor()
@@ -107,37 +122,54 @@ class BookingOrderManager
 
     public function bookingOrderControl()
     {
-        $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
-
+        //    $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
     }
 
 
-    public function findDayVisitorCount(BookingOrder $bookingOrder)
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return int
+     */
+    public function findDayVisitorCount(BookingOrder $bookingOrder): int
     {
-        //TODO Validate normalized param type
-        return $this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate());
+        return count($this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate()));
     }
 
     public function getBookingOrder()
     {
-        return $this->sessionManager->getBookingOrder();
+        return $this->sessionManager->sessionGet('bookingOrder');
     }
 
-
-    public function hasOnlyFreeVisitors(BookingOrder $bookingOrder)
+    public function setBookingOrder($bookingOrder)
     {
-        If (count($bookingOrder->getVisitors()) > 1 && $bookingOrder->getTotalAmount() == 0 ) {
+        $this->sessionManager->sessionSet('bookingOrder', $bookingOrder);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasOnlyFreeVisitors(BookingOrder $bookingOrder): bool
+    {
+        If (count($bookingOrder->getVisitors()) > 1 && $bookingOrder->getTotalAmount() == 0) {
             return true;
         }
+        return false;
     }
 
-    public function cannotProvideEnoughTickets(BookingOrder $bookingOrder) : bool
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return bool
+     */
+    public function cannotProvideEnoughTickets(BookingOrder $bookingOrder): bool
     {
         $maxEntries = $this->paramService->findMaxDayEntries($bookingOrder->getExpectedDate());
         $alreadyBooked = $this->findDayVisitorCount($bookingOrder);
-        if($bookingOrder->getWishes() > ($maxEntries  - $alreadyBooked) ) {
+
+        if ($bookingOrder->getWishes() > ($maxEntries - $alreadyBooked)) {
             return true;
         }
+
+        return false;
 
     }
 
