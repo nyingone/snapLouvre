@@ -12,15 +12,15 @@ class ParamRepository implements ParamRepositoryInterface
 
     private const ENTITY = Param::class;
 
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     private $entityManager;
-   /** @var \Doctrine\Common\Persistence\ObjectRepository  */
+    /** @var \Doctrine\Common\Persistence\ObjectRepository */
     private $objectRepository;
 
     /** @param EntityManagerInterface */
     public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;  
+        $this->entityManager = $entityManager;
         $this->objectRepository = $this->entityManager->getRepository(self::ENTITY);
     }
 
@@ -33,8 +33,6 @@ class ParamRepository implements ParamRepositoryInterface
         return $this->objectRepository->findAll();
     }
 
-    public function saveNumber($keyBookingOrderNumber): string
-    {
-        // TODO: Implement saveNumber() method.
-    }
 }
+
+

@@ -11,7 +11,7 @@ use App\Validator\Constraints\Visitors as CustomAssert;
 /**
  * @ORM\Entity
  * @CustomAssert\NotUnaccompaniedFreeUnderage(groups={"pre_booking"})
- * @CustomAssert\NotMultiRegistered(groups={"pre_booking"})
+ * @CustomAssert\NotMultiRegistered(groups={"registration"})
  */
 class Visitor 
 {
@@ -99,8 +99,6 @@ class Visitor
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BookingOrder", inversedBy="visitors")
      * @ORM\JoinColumn(nullable=false)
-     * -----------------------@Assert\Type(type="App\Entity\BookingOrder")
-     * -------------------------@Assert\Valid
      */
     private $bookingOrder;
 

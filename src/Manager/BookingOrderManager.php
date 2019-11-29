@@ -64,12 +64,8 @@ class BookingOrderManager implements BookingOrderManagerInterface
     /**
      * @inheritDoc
      */
-    public function inzBookingOrder(\DateTimeInterface $orderDate = null, string $bookingRef = null): BookingOrder
+    public function inzBookingOrder(): BookingOrder
     {
-        if (isset($bookingRef)) {
-            $this->bookingRef = $bookingRef;
-        }
-
         $this->bookingOrder = new BookingOrder();
 
         if (isset($orderDate)) {

@@ -3,7 +3,7 @@
 
 namespace App\Validator\Constraints\Visitors;
 
-
+use App\Entity\Visitor;
 use App\Manager\VisitorManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

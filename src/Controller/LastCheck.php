@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ValidationController extends AbstractController
+class LastCheck extends AbstractController
 {
     /**
      * @var BookingOrderManager
@@ -20,11 +20,12 @@ class ValidationController extends AbstractController
 
 
     /**
-     * @Route("/validation", name="validation")
+     * @Route("/lastcheck", name="lastCheck")
      *
      * @param Request $request
      * @param BookingOrderManager $bookingOrderManager
      * @return Response
+     * @throws \Exception
      */
     public function index(Request $request, BookingOrderManager $bookingOrderManager): Response
     {
@@ -35,7 +36,7 @@ class ValidationController extends AbstractController
 
         if ($form->isSubmitted()  && $form->isValid()){
             $this->bookingOrderManager->refreshBookingOrder($bookingOrder);
-            return $this->redirectToRoute('confirmation');
+            return $this->redirectToRoute('payment');
         }
 
         return $this->render('recap/index.html.twig', ['bookingOrder' => $bookingOrder,

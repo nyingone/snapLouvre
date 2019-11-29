@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DetailController extends AbstractController
+class GuestList extends AbstractController
 {
     /**
-     * @Route("/detail", name="detail")
+     * @Route("/guest", name="guest")
      *
      * @param Request $request
      * @param BookingOrderManager $bookingOrderManager
@@ -34,11 +34,11 @@ class DetailController extends AbstractController
 
         if ($form->isSubmitted()  && $form->isValid()){
             $bookingOrderManager->refreshBookingOrder($bookingOrder);
-            return $this->redirectToRoute('recap');
+            return $this->redirectToRoute('lastCheck');
         }
 
 
-        return $this->render('detail/index.html.twig', ['bookingOrder' => $bookingOrder->getVisitors(),
+        return $this->render('guestlList.html.twig', ['bookingOrder' => $bookingOrder->getVisitors(),
             'form' => $form->createView(),
         ]);
     }

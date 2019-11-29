@@ -24,7 +24,6 @@ class ParamService implements ParamServiceInterface
     private $startOfBooking;
     private $maxBookingVisitors;
 
-    private const KBON = "BookingOrderNumber";
     /**
      * @var DatComparator
      */

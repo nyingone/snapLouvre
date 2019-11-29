@@ -31,7 +31,12 @@ class ClosingPeriod
     /**
      * @ORM\Column(type="boolean")
      */
-    private $holiday;
+    private $holyDay;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $closingDay;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
@@ -39,7 +44,7 @@ class ClosingPeriod
     private $dayOfWeek;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $info;
 
@@ -72,14 +77,26 @@ class ClosingPeriod
         return $this;
     }
 
-    public function getHoliday(): ?bool
+    public function getHolyDay(): ?bool
     {
-        return $this->holiday;
+        return $this->holyDay;
     }
 
-    public function setHoliday(bool $holiday): self
+    public function setHolyDay(bool $holyDay): self
     {
-        $this->holiday = $holiday;
+        $this->holyDay = $holyDay;
+
+        return $this;
+    }
+
+    public function getClosingDay(): ?bool
+    {
+        return $this->holyDay;
+    }
+
+    public function setClosingDay(bool $holyDay): self
+    {
+        $this->holyDay = $holyDay;
 
         return $this;
     }

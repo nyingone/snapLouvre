@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ConfirmationController extends AbstractController
+class Confirmation extends AbstractController
 {
    /** @var Customer */
     private $customer;

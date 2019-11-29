@@ -35,11 +35,6 @@ class BookingOrder
     public $wishes = 1;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $orderNumber;
-
-    /**
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
      */
@@ -80,25 +75,9 @@ class BookingOrder
     private $validatedAt;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $invoiceNumber;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $paymentMethod;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $paymentNumber;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $paymentExtRef;
-
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -106,7 +85,7 @@ class BookingOrder
     private $cancelledAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bookingOrders")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bookingOrders", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Type(type="App\Entity\Customer")
      * @Assert\Valid
@@ -131,18 +110,6 @@ class BookingOrder
         return $this->id;
     }
 
-
-    public function getOrderNumber(): ?int
-    {
-        return $this->orderNumber;
-    }
-
-    public function setOrderNumber(int $orderNumber): self
-    {
-        $this->orderNumber = $orderNumber;
-
-        return $this;
-    }
 
     public function getOrderDate(): ?\DateTimeInterface
     {
@@ -216,42 +183,6 @@ class BookingOrder
         return $this;
     }
 
-    public function getInvoiceNumber(): ?int
-    {
-        return $this->invoiceNumber;
-    }
-
-    public function setInvoiceNumber(?int $invoiceNumber): self
-    {
-        $this->invoiceNumber = $invoiceNumber;
-
-        return $this;
-    }
-
-    public function getPaymentMethod(): ?string
-    {
-        return $this->paymentMethod;
-    }
-
-    public function setPaymentMethod(?string $paymentMethod): self
-    {
-        $this->paymentMethod = $paymentMethod;
-
-        return $this;
-    }
-
-    public function getPaymentNumber(): ?int
-    {
-        return $this->paymentNumber;
-    }
-
-    public function setPaymentNumber(int $paymentNumber): self
-    {
-        $this->paymentNumber = $paymentNumber;
-
-        return $this;
-    }
-
     public function getPaymentExtRef(): ?string
     {
         return $this->paymentExtRef;
@@ -260,19 +191,6 @@ class BookingOrder
     public function setPaymentExtRef(string $paymentExtRef): self
     {
         $this->paymentExtRef = $paymentExtRef;
-
-        return $this;
-    }
-
-
-    public function getCancelledAt(): ?\DateTimeInterface
-    {
-        return $this->cancelledAt;
-    }
-
-    public function setCancelledAt(?\DateTimeInterface $cancelledAt): self
-    {
-        $this->cancelledAt = $cancelledAt;
 
         return $this;
     }

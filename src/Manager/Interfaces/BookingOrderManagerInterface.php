@@ -8,13 +8,6 @@ interface BookingOrderManagerInterface
 {
 
     /**
-     * @param \DateTimeInterface|null $orderDate
-     * @param string|null $bookingRef
-     * @return BookingOrder
-     */
-    public function inzBookingOrder(\DateTimeInterface $orderDate = null, string $bookingRef = null): BookingOrder;
-
-    /**
      * @param BookingOrder $bookingOrder
      * @return bool
      */

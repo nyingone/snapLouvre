@@ -38,7 +38,7 @@
                 <source>First name</source>
                 <target>Prénom</target>
             </trans-unit>
-            <trans-unit id="Last_tname">
+            <trans-unit id="Last_name">
                 <source>Last name</source>
                 <target>Nom</target>
             </trans-unit>
@@ -50,8 +50,8 @@
                 <source>Birth date</source>
                 <target>Date de naissance</target>
             </trans-unit>
-            <trans-unit id="Elligible_to_discount?">
-                <source>Elligible to discount?</source>
+            <trans-unit id="Eligible_to_discount?">
+                <source>Eligible to discount?</source>
                 <target>Tarif réduit</target>
             </trans-unit>
             <trans-unit id="Cost">
@@ -82,6 +82,14 @@
                 <source>Go ahead</source>
                 <target>Etape suivante</target>
             </trans-unit>
+            <trans-unit id="visitors">
+                 <source>visitors</source>
+                 <target>visiteurs</target>
+            </trans-unit>
+            <trans-unit id="Your_order">
+                <source>Your order</source>
+                <target>Votre réservation</target>
+            </trans-unit>
             <trans-unit id="Your_visitors">
                 <source>Your visitors</source>
                 <target>Vos visiteurs</target>
@@ -98,15 +106,23 @@
                 <source>Your orders</source>
                 <target>Vos commandes</target>
             </trans-unit>
+            <trans-unit id="Booking">
+                <source>Booking</source>
+                <target>Réservation</target>
+            </trans-unit>
             <trans-unit id="booking_orders">
                 <source>Booking orders</source>
                 <target>Demandes de réservation</target>
+            </trans-unit>
+            <trans-unit id="Booking_visitors">
+                 <source>Booking visitors</source>
+                 <target>Visiteurs</target>
             </trans-unit>
             <trans-unit id="symfony_is_great">
                 <source>Symfony is great</source>
                 <target>J'aime Symfony</target>
             </trans-unit>
-            <trans-unit id="booking_closed_booking_period_or_day" resname="Closed booking period or day">
+            <trans-unit id="booking_closed_booking_period_or_day">
                 <source>Closed booking period or day</source>
                 <target>Réservations fermées à cette date</target>
             </trans-unit>
@@ -118,6 +134,27 @@
                 <source>Booking closed for today</source>
                 <target>Réservations closes pour aujourd'hui</target>
             </trans-unit>
+            <trans-unit id="booking_order">
+               <source>Booking order</source>
+               <target>Réservation</target>
+            </trans-unit>
+            <trans-unit id="select_a_date">
+                <source>select a date</source>
+                <target>choisir une date</target>
+            </trans-unit>
+            <trans-unit id="Wishes">
+                <source>Wishes</source>
+                <target>Nombre de billets</target>
+            </trans-unit>
+            <trans-unit id="booking_closed_on_holy_day">
+                <source>booking closed on holy days</source>
+                <target>réservations fermées les jours feriés</target>
+            </trans-unit>
+            <trans-unit id= "museum_closed_on_chosen_date_or_period">
+                <source>museum closed on chosen date or period</source>
+                <target>museum fermé le jour ou pour la période choisie</target>
+             </trans-unit>
+
         </body>
     </file>
 </xliff>

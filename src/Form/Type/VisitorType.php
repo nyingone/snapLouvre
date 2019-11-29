@@ -28,7 +28,7 @@ class VisitorType extends AbstractType
             'preferred_choices' => array('FR'),
             ))
             ->add('discounted', CheckboxType::class, [
-                'label'    => 'Elligible to discount?',
+                'label'    => 'Eligible to discount?',
                 'required' => false,
             ])
         ;
@@ -38,7 +38,7 @@ class VisitorType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Visitor::class,
-            'validation_groups' => ['registration'],
+            'validation_groups' => ['default'],
         ]);
     }
     

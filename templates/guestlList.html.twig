@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}bookingOrderDetail!{% endblock %}
+{% block title %}visitors{% endblock %}
 
 {% block body %}
 
@@ -11,15 +11,17 @@
             {{ form_start(form) }}
 
 
-            <h3>{% trans %} Your orders {% endtrans %} </h3>
+            <h3>{% trans %} Your order {% endtrans %} </h3>
 
-            {#  {{ form_row(form) }} #}
+            {{ form_row(form) }}
+
+            {#
             {% for visitor in form.visitors %}
                 <li> class= "visitors"
                     {% include('inc/_visitor.html.twig') %}
                 </li>
 
-            {% endfor %}
+            {% endfor %}  #}
 
 
           {{ form_rest(form) }}

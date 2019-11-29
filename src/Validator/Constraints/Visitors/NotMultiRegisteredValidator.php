@@ -19,9 +19,7 @@ class NotMultiRegisteredValidator extends ConstraintValidator
     {
         $this->visitorManager = $visitorManager;
 
-
     }
-
 
     public function validate($visitor, Constraint $constraint)
     {

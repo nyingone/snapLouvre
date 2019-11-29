@@ -19,7 +19,7 @@ class LookUpHolyDays
 */
 /*---------------------------------------------------------------*/
 
-function isDateHoliday($timestamp)
+function isDateHolyDay($timestamp)
 {
     $jour = date("d", $timestamp);
     $mois = date("m", $timestamp);
@@ -60,13 +60,15 @@ function isDateHoliday($timestamp)
     $mp = date("m", $lp);
     if($jp == $jour && $mp == $mois) {$EstFerie = 1;}// lundi Pentecôte
 // Samedis et dimanches
-    $jour_sem = jddayofweek(unixtojd($timestamp), 0);
-    if($jour_sem == 0 || $jour_sem == 6) $EstFerie = 1;
+ //   $jour_sem = jddayofweek(unixtojd($timestamp), 0);
+ //   if($jour_sem == 0 || $jour_sem == 6) $EstFerie = 1;
 // ces deux lignes au dessus sont à retirer si vous ne désirez pas faire
 // apparaitre les
 // samedis et dimanches comme fériés.
     return $EstFerie;
 }
+
+
 
 
 }

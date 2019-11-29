@@ -18,7 +18,7 @@ class NotHolyDayValidator extends ConstraintValidator
     private $lookUpHolyDays;
 
     /**
-     * NotHolidayValidator constructor.
+     * NotHolyDayValidator constructor.
      * @param LookUpHolyDays $lookUpHolyDays
      */
     public function __construct(LookUpHolyDays $lookUpHolyDays)
@@ -35,7 +35,7 @@ class NotHolyDayValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, \DateTime::class);
         }
 
-        if ($this->lookUpHolyDays->isDateHoliday($value->getTimestamp())) {
+        if ($this->lookUpHolyDays->isDateHolyDay($value->getTimestamp())) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

@@ -15,7 +15,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Customer
 {
-    use EntityIdTrait;
+    /**
+     * The unique auto incremented primary key.
+     *
+     * @var int|null
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer", options={"unsigned": true})
+     * @ORM\GeneratedValue
+     */
+    protected $id;
 
     public $bookingOrderCount = 0;
 
@@ -39,7 +48,7 @@ class Customer
     private $email;
 
      /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BookingOrder", mappedBy="customer", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\BookingOrder", mappedBy="customer" )
      */
     private $bookingOrders;
 

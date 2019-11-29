@@ -3,16 +3,14 @@
 namespace App\Controller;
 
 
-use App\Entity\Visitor;
 use App\Form\BookingOrderType;
-use App\Manager\BookingOrderManager;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class KickOff extends AbstractController
 {
     /** @var  BookingOrderManagerInterface */
     private $bookingOrderManager;
@@ -36,10 +34,10 @@ class HomeController extends AbstractController
 
             $bookingOrderManager->refreshBookingOrder($bookingOrder);
 
-            return $this->redirectToRoute('detail');
+            return $this->redirectToRoute('guest');
         }
 
-        return $this->render('home/index.html.twig', ['bookingOrder' => $bookingOrder,
+        return $this->render('kickOff.html.twig', ['bookingOrder' => $bookingOrder,
             'form' => $form->createView(),
         ]);
     }
