@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}synthesis{% endblock %}
+
+{% block body %}
+
+<script></script>
+<div class="row">
+    <div class="col-md-12" id="cart">
+        <h3>{% trans %}Mail adress required to receive ticket(s) following payment{% endtrans %} </h3>
+
+        {{ form_start(form) }}
+
+        {{ form_row(form) }}
+
+        <h3>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </h3>
+
+
+        {% if bookingOrder.visitors is defined%}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{% trans %}Firstname{% endtrans %}</th>
+                    <th>{% trans %}Lastname{% endtrans %}</th>
+                    <th>{% trans %}Birthdate{% endtrans %}</th>
+                    <th>{% trans %}discounted{% endtrans %}</th>
+                    <th>{% trans %}cost{% endtrans %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for visitor in bookingOrder.visitors %}
+                    <tr>
+                        <td>{{ visitor.firstName | title }}</td>
+                        <td>{{ visitor.lastName | upper }}</td>
+                        <td>{{ visitor.birthDate| date("d/m/Y") }}</td>
+                        <td>{{ visitor.discounted }}</td>
+                        <td>{{ visitor.cost }}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>{% trans %}no visitor found{% endtrans %}</p>
+        {% endif %}
+
+
+        {{ form_rest(form) }}
+
+        {% if bookingOrder.id is defined%}
+            {% include('inc/payment.html.twig') %}
+        {% else %}
+            <input type="submit" class="btn btn-primary" value="{% trans %} Payment {% endtrans %} "/>
+        {% endif %}
+        {{ form_end(form) }}
+
+    </div>
+
+
+</div>
+<script>
+</script>
+{% endblock %}
+

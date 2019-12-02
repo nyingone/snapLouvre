@@ -38,26 +38,29 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
     public function find(BookingOrder $bookingOrder): ?BookingOrder
     {
         $bookingOrder = $this->objectRepository->find($bookingOrder);
+
         return $bookingOrder;
     }
     /**
      * @param BookingOrder
      * @return void
      */
-    public function save(BookingOrder $bookingOrder): void
+    public function save(BookingOrder $bookingOrder) : BookingOrder
     {
+        var_dump("inside repository before persist " . $bookingOrder->getId());
         $this->entityManager->persist($bookingOrder);
-        // $this->entityManager->flush
+        $this->entityManager->flush();
+       return($this->find($bookingOrder));
     }
 
     /**
      * @param BookingOrder
      * @return void
      */
-    public function remove(BookingOrder $bookingOrder): void
+    public function remove(BookingOrder $bookingOrder)
     {
         $this->entityManager->remove($bookingOrder);
-        // $this->entityManager->flush
+        return $this->entityManager->flush();
     }
 
     /**

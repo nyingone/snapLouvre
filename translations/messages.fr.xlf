@@ -34,9 +34,17 @@
                 <source>Customer</source>
                 <target>Client</target>
             </trans-unit>
+            <trans-unit id="Firstname">
+                <source>Firstname</source>
+                <target>Prénom</target>
+            </trans-unit>
             <trans-unit id="First_name">
                 <source>First name</source>
                 <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="Lastname">
+                <source>Lastname</source>
+                <target>Nom</target>
             </trans-unit>
             <trans-unit id="Last_name">
                 <source>Last name</source>
@@ -47,16 +55,24 @@
                 <target>Pays</target>
             </trans-unit>
             <trans-unit id="Birth_date">
-                <source>Birth date</source>
+                <source>Birthdate</source>
                 <target>Date de naissance</target>
             </trans-unit>
             <trans-unit id="Eligible_to_discount?">
                 <source>Eligible to discount?</source>
                 <target>Tarif réduit</target>
             </trans-unit>
+            <trans-unit id="discounted">
+                <source>discounted</source>
+                <target>Tarif réduit</target>
+            </trans-unit>
             <trans-unit id="Cost">
                 <source>Cost</source>
                 <target>Tarif</target>
+            </trans-unit>
+            <trans-unit id="cost">
+                <source>cost</source>
+                <target>tarif</target>
             </trans-unit>
              <trans-unit id="Visitor_count">
                 <source>Visitor count</source>
@@ -154,7 +170,26 @@
                 <source>museum closed on chosen date or period</source>
                 <target>museum fermé le jour ou pour la période choisie</target>
              </trans-unit>
-
+             <trans-unit id= "unaccompanied_underage_visitor_not_allowed">
+                <source>unaccompagnied underage are not allowed</source>
+                <target>mineurs non accompagnés non autorisés</target>
+             </trans-unit>
+             <trans-unit id= "Enter_mail_to_receive_your_ticket(s)_following_payment">
+             <source>Mail adress required to receive ticket(s) following payment</source>
+             <target>Indiquer obligatoirement un contact mail pour envoi de vos billets après règlement</target>
+             </trans-unit>
+             <trans-unit id = "visitor(s)_expected_on">
+                <source>visitor(s) expected on</source>
+                <target>visiteur(s) attendu(s) le</target>
+             </trans-unit>
+             <trans-unit id="Payment">
+                 <source>Payment</source>
+                 <target>Paiement</target>
+             </trans-unit>
+             <trans-unit id = "Debit_Card_for_total_due:">
+                 <source>Debit Card for total due:</source>
+                 <target>Debiter la carte pour un total de:</target>
+             </trans-unit>
         </body>
     </file>
 </xliff>

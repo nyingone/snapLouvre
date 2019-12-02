@@ -3,10 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Customer;
+use App\Repository\Interfaces\CustomerRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class CustomerRepository
+class CustomerRepository implements CustomerRepositoryInterface
 {
 
     private const ENTITY = Customer::class;
@@ -23,9 +24,7 @@ class CustomerRepository
         $this->objectRepository = $this->entityManager->getRepository(self::ENTITY);
     }
 
-    /** @param Customer
-     * @return Customer|null
-     */
+    /** @inheritDoc */
     public function find(Customer $customer): ?Customer
     {
         $this->entityManager->find(self::ENTITY, $id->toString());
@@ -39,21 +38,5 @@ class CustomerRepository
         return $this->objectRepository->findOneBy(['email' => $email]);
     }
 
-    /**
-     * @param Customer $customer
-     */
-    public function save(Customer $customer): void
-    {
-        $this->entityManager->persist($customer);
-        $this->entityManager->flush();
-    }
 
-    /**
-     * @param Customer $customer
-     */
-    public function remove(Customer $customer): void
-    {
-        $this->entityManager->remove($customer);
-        $this->entityManager->flush();
-    }
 }

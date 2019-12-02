@@ -42,4 +42,10 @@ interface ParamServiceInterface
      */
     public function isOutOfRangeBooking(\DateTimeInterface $expectedDate): bool;
 
+
+    /**
+     * @param int $age
+     * @return bool
+     */
+    public function isUnderage(int $age): bool;
 }

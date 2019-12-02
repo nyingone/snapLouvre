@@ -17,6 +17,5 @@ interface VisitorManagerInterface
      * @param Visitor $visitor
      * @return bool
      */
-    public function isUnaccompaniedUnderage(Visitor $visitor): bool;
 
 }

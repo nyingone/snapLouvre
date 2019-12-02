@@ -23,11 +23,13 @@ class ParamService implements ParamServiceInterface
     private $endOfBooking;
     private $startOfBooking;
     private $maxBookingVisitors;
+    private $underAgeLimit;
 
     /**
      * @var DatComparator
      */
     private $datComparator;
+
 
     /**
      * @param ParamRepositoryInterface $paramRepository
@@ -80,12 +82,16 @@ class ParamService implements ParamServiceInterface
                 array_push($this->partTimeCodes, $list);
             }
 
-            if ($param->getRefCode() == "PartTimeCode") {
+            if ($param->getRefCode() == "PartTimeOptions") {
                 $this->partTimeArray[$param->getLabel()] = $param->getNumber();
             }
 
             if ($param->getRefCode() == "MaxBookingVisitors") {
                 $this->maxBookingVisitors = $param->getNumber();
+            }
+
+            if ($param->getRefCode() == "UnderAgeLimit") {
+                $this->underAgeLimit = $param->getNumber();
             }
 
         }
@@ -208,6 +214,20 @@ class ParamService implements ParamServiceInterface
         if ($this->datComparator->isLower($expectedDate, $this->findStartOfBooking()) || $this->datComparator->isHigher($expectedDate, $this->findEndOfBooking()) ){
             return true;
         }
+        return false;
+    }
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isUnderage(int $age): bool
+    {
+        if ($age < $this->underAgeLimit) {
+            return true;
+        }
+
         return false;
     }
 }

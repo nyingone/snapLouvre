@@ -32,7 +32,7 @@ class PricingRepository implements PricingRepositoryInterface
     }
 
 
-    public function findLastTarifDate($date)
+    public function findLastTariffDate($date)
     {
       $dateRef =  $date->format('Y-m-d');
    

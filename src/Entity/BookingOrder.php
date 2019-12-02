@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Visitor;
 use App\Validator\Constraints\BookingOrders as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -14,7 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @CustomAssert\NotOutsideDayBookingQuotas(groups={"pre_booking"})
  * @CustomAssert\NotTooLateRegistrationForToday(groups={"pre_booking"})
- * @CustomAssert\NotOnlyFreeVisitors(groups={"pre_booking"})
+ * @CustomAssert\NotUnaccompaniedUnderage(groups={"pre_booking"})
+ * ---------------------@CustomAssert\NotOnlyFreeVisitors(groups={"pre_booking"})
  */
 class BookingOrder
 {
@@ -75,7 +77,7 @@ class BookingOrder
     private $validatedAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255 , nullable=true)
      */
     private $paymentExtRef;
 
@@ -213,6 +215,18 @@ class BookingOrder
     public function getVisitors(): Collection
     {
         return $this->visitors;
+    }
+
+    public function getGroupMaxAge(): int
+    {
+        $ageMax = 0;
+        foreach (array_values($this->visitors->getValues()) as $visitor){
+            if($visitor->getAgeYearsOld() > $ageMax) {
+                $ageMax = $visitor->getAgeYearsOld();
+            }
+        }
+     return $ageMax;
+
     }
 
     public function addVisitor(Visitor $visitor): self

@@ -6,8 +6,10 @@
 parameters:
     # IN/20191120 locale
     locale: 'fr'
-
-
+    # locale: 'fr_FR'
+    # ...Ycitynil
+    stripe_public_key: 'pk_test_sAuma2qLuGqShxLMk7Fr233r00EcyNcBe9'
+    stripe_secret_key: 'sk_test_yoj8qJgNDQkA6UWC2tuTzndK00hMdJ6t6C'
 
 
 services:

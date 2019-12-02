@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 
+
 use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
@@ -12,37 +13,21 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-class CustomerType extends AbstractType
+
+class NameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class,[
-                'attr' => ['class' => 'form-control'],
-                'constraints' => [
-                    new NotBlank(),
-                    new Email()
-                ]
-            ])
             ->add('firstName', null , ['required' => false,])
             ->add('lastName', null , ['required' => false,])
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        
         $resolver->setDefaults([
-            'data_class' => Customer::class,
-            'empty_data' => function(FormInterface $form){
-            // dd($form->get('bookingOrderDTOs')->getdata('element'), $form->get('bookingOrderDTOs')->getdata());
-                return new Customer(
-                    $form->get('email')->getData(),
-                    $form->get('firstName')->getData(),
-                    $form->get('lastName')->getData()
-                );
-            },
+            'data_class' => null,
         ]);
         
     }

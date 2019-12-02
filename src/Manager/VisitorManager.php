@@ -57,7 +57,7 @@ class VisitorManager implements VisitorManagerInterface
         $visitor->setCreatedAt($visitor->getBookingOrder()->getOrderDate());
         $birthDate = $visitor->getBirthDate();
         if(isset($birthDate)) {
-            $visitor->setCost($this->pricingService->findVisitorTariff(
+            $visitor->setTariff($this->pricingService->findVisitorTariff(
                 $visitor->getBookingOrder()->getOrderDate(),
                 $visitor->getBookingOrder()->getPartTimeCode(),
                 $visitor->getDiscounted(),
@@ -104,14 +104,6 @@ class VisitorManager implements VisitorManagerInterface
         return false;
     }
 
-    public function isUnaccompaniedUnderage(Visitor $visitor): bool
-    {
-        if (count($visitor->getBookingOrder()->getVisitors()) == 1) {
-            return true;
-        }
-
-        return false;
-    }
 
 
 }

@@ -138,24 +138,24 @@ class Pricing
         return $this;
     }
 
-    public function getPrice(): ?integer
+    public function getPrice(): ?int
     {
         return $this->price;
     }
 
-    public function setPrice(integer $price): self
+    public function setPrice(int $price): self
     {
         $this->price = $price;
 
         return $this;
     }
 
-    public function getTtcAmount(): ?integer
+    public function getTtcAmount(): ?int
     {
         return $this->ttcAmount;
     }
 
-    public function setTtcAmount(integer $ttcAmount): self
+    public function setTtcAmount(int $ttcAmount): self
     {
         $this->ttcAmount = $ttcAmount;
 

@@ -17,6 +17,7 @@ class PricingService implements PricingServiceInterface
     private $paramService;
 
     private $tariffDate;
+    private $tariffCode = '';
     private $cost = null;
 
 
@@ -52,7 +53,7 @@ class PricingService implements PricingServiceInterface
      * @inheritDoc
      * @throws \Exception
      */
-    public function findVisitorTariff(\DateTimeInterface $date , $partTimeCode, $discounted, \DateTimeInterface $birthDate) : int
+    public function findVisitorTariff(\DateTimeInterface $date , $partTimeCode, $discounted, \DateTimeInterface $birthDate) : array
     {
         $this->findLastTariffDate($date);
 
@@ -66,12 +67,14 @@ class PricingService implements PricingServiceInterface
                 ($pricing->getPartTimeCode() == null || $partTimeCode = $pricing->getPartTimeCode()) )
             {
                 $this->cost = $pricing->getPrice();
+
                 if( ($pricing->getPartTimeCode() == null) && ($partTimeCode !==0) ):               
                     $this->cost = $this->cost / $partTimeCode;
                 endif;
+                $this->tariffCode = $pricing->getPrice();
             }  
         }
-        return $this->cost;
+        return [$this->tariffCode => $this->cost];
     }
 
 }

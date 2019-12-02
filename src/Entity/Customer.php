@@ -26,15 +26,13 @@ class Customer
      */
     protected $id;
 
-    public $bookingOrderCount = 0;
-
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable = true)
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable = true)
      */
     private $lastName;
 
@@ -141,5 +139,10 @@ class Customer
         $this->bookingOrderCount ++;
 
         return $this;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

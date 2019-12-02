@@ -10,7 +10,6 @@ use App\Validator\Constraints\Visitors as CustomAssert;
 
 /**
  * @ORM\Entity
- * @CustomAssert\NotUnaccompaniedFreeUnderage(groups={"pre_booking"})
  * @CustomAssert\NotMultiRegistered(groups={"registration"})
  */
 class Visitor 
@@ -94,7 +93,7 @@ class Visitor
     /**
      * @ORM\Column(type="boolean")
      */
-    private $cancelled;
+    private $cancelled = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BookingOrder", inversedBy="visitors")
@@ -269,5 +268,12 @@ class Visitor
     private function setAgeYearsOld()
     {
         $this->ageYearsOld = $this->birthDate->diff(new DateTime())->y;
+
+    }
+
+    public function setTariff(array $findVisitorTariff)
+    {
+        $this->tariffCode = array_key_first($findVisitorTariff);
+        $this->cost = $findVisitorTariff[$this->tariffCode];
     }
 }

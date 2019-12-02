@@ -13,10 +13,10 @@ class BookingValidationType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    $builder
-        ->add('customer', CustomerType::class, [
-            'attr' => ['class' => 'form-control',],
-        ]);
+        $builder
+            ->add('customer', CustomerType::class, [
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -121,6 +121,17 @@ class BookingOrderManager implements BookingOrderManagerInterface
         //    $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
     }
 
+    /** @inheritDoc */
+    public function save(BookingOrder $bookingOrder)
+    {
+        $this->setBookingOrder($this->bookingOrderRepository->save($bookingOrder));
+    }
+
+    /** @inheritDoc */
+    public function remove(BookingOrder $bookingOrder)
+    {
+        return $this->bookingOrderRepository->remove($bookingOrder);
+    }
 
     /**
      * @param BookingOrder $bookingOrder

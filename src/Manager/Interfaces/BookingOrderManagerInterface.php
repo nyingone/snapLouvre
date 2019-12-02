@@ -18,5 +18,18 @@ interface BookingOrderManagerInterface
      * @return bool
      */
     public function cannotProvideEnoughTickets(BookingOrder $bookingOrder): bool;
+
+
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return bool
+     */
+    public function save(BookingOrder $bookingOrder);
+
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return bool
+     */
+    public function remove(BookingOrder $bookingOrder);
 }
 

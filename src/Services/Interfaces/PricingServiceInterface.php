@@ -13,7 +13,7 @@ interface PricingServiceInterface
      * @param integer $partTimeCode
      * @param boolean $discounted
      * @param $birthDate
-     * @return int
+     * @return array               // [tariffCode => cost]
      */
-    public function findVisitorTariff(\DateTimeInterface $date , $partTimeCode, $discounted,\DateTimeInterface $birthDate) : int ;
+    public function findVisitorTariff(\DateTimeInterface $date , $partTimeCode, $discounted,\DateTimeInterface $birthDate) : array ;
 }
