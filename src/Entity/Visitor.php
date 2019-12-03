@@ -97,7 +97,7 @@ class Visitor
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BookingOrder", inversedBy="visitors")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $bookingOrder;
 

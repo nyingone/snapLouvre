@@ -3,62 +3,88 @@
 {% block title %}synthesis{% endblock %}
 
 {% block body %}
+    {% include 'inc/_workflow.html.twig' with {'level': '3'} only %}
+    <div class="row">
+        <div class="col-md-12" id="cart">
+            <h3>{% trans %}Mail adress required to receive ticket(s) following payment{% endtrans %} </h3>
 
-<script></script>
-<div class="row">
-    <div class="col-md-12" id="cart">
-        <h3>{% trans %}Mail adress required to receive ticket(s) following payment{% endtrans %} </h3>
+            {{ form_start(form) }}
 
-        {{ form_start(form) }}
+            {{ form_row(form) }}
 
-        {{ form_row(form) }}
-
-        <h3>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </h3>
+            <h3>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </h3>
 
 
-        {% if bookingOrder.visitors is defined%}
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>{% trans %}Firstname{% endtrans %}</th>
-                    <th>{% trans %}Lastname{% endtrans %}</th>
-                    <th>{% trans %}Birthdate{% endtrans %}</th>
-                    <th>{% trans %}discounted{% endtrans %}</th>
-                    <th>{% trans %}cost{% endtrans %}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for visitor in bookingOrder.visitors %}
+            {% if bookingOrder.visitors is defined %}
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>{{ visitor.firstName | title }}</td>
-                        <td>{{ visitor.lastName | upper }}</td>
-                        <td>{{ visitor.birthDate| date("d/m/Y") }}</td>
-                        <td>{{ visitor.discounted }}</td>
-                        <td>{{ visitor.cost }}</td>
+                        <th>{% trans %}Firstname{% endtrans %}</th>
+                        <th>{% trans %}Lastname{% endtrans %}</th>
+                        <th>{% trans %}Birthdate{% endtrans %}</th>
+                        <th>{% trans %}discounted{% endtrans %}</th>
+                        <th>{% trans %}cost{% endtrans %}</th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    {% for visitor in bookingOrder.visitors %}
+                        <tr>
+                            <td>{{ visitor.firstName | title }}</td>
+                            <td>{{ visitor.lastName | upper }}</td>
+                            <td>{{ visitor.birthDate| date("d/m/Y") }}</td>
+                            <td>{{ visitor.discounted }}</td>
+                            <td>{{ visitor.cost }}</td>
+                        </tr>
 
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>{% trans %}no visitor found{% endtrans %}</p>
-        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>{% trans %}no visitor found{% endtrans %}</p>
+            {% endif %}
 
 
-        {{ form_rest(form) }}
+            {{ form_rest(form) }}
 
-        {% if bookingOrder.id is defined%}
-            {% include('inc/payment.html.twig') %}
-        {% else %}
             <input type="submit" class="btn btn-primary" value="{% trans %} Payment {% endtrans %} "/>
-        {% endif %}
-        {{ form_end(form) }}
 
+            {% if bookingOrder.id is defined %}
+                {#   {% include('inc/payment.html.twig') %} #}
+            {% else %}
+
+            {% endif %}
+            {{ form_end(form) }}
+
+        </div>
+$
     </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+{% if stripeSession is defined %}
+    <script>
+    alert('kop');
+    // Create a Stripe client.
+    // var stripe = Stripe('{#{{ stripe_public_key }}#}');
+    var stripe = Stripe('pk_test_sAuma2qLuGqShxLMk7Fr233r00EcyNcBe9');
 
 
-</div>
-<script>
+
+    stripe.redirectToCheckout({
+        // Make the id field from the Checkout Session creation API response
+        // available to this file, so you can provide it as parameter here
+        // instead of the {#{{CHECKOUT_SESSION_ID}}#} placeholder.
+        sessionId: '{{stripeSession.id}}'
+    }).then(function (result) {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer
+        // using `result.error.message`.
+        console.log(result);
+    });
+
 </script>
+{% endif %}
 {% endblock %}
 

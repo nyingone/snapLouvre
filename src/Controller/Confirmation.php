@@ -2,31 +2,25 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
-use App\Form\Type\CustomerType;
+
+use App\Manager\BookingOrderManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class Confirmation extends AbstractController
 {
-   /** @var Customer */
-    private $customer;
+
     /**
      * @Route("/confirmation", name="confirmation")
+     * @param BookingOrderManager $bookingOrderManager
+     * @return Response
      */
-    public function index(Request $request) : Response
+    public function index(BookingOrderManager $bookingOrderManager) : Response
     {
-        $form = $this->createForm(CustomerType::class, $this->customer);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()){
-
-            // TODO
-        }
-
-        return $this->render('confirmation/index.html.twig', [ 'form' => $form->createView(),
+        $bookingOrder = $bookingOrderManager->getBookingOrder();
+        return $this->render('confirmation.html.twig', ['bookingOrder' => $bookingOrder,
         ]);
+
     }
 }

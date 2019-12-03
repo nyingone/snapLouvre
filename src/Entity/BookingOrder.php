@@ -87,8 +87,8 @@ class BookingOrder
     private $cancelledAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Customer", inversedBy="bookingOrders", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Customer",inversedBy="bookingOrders", cascade={"persist"} )
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Assert\Type(type="App\Entity\Customer")
      * @Assert\Valid
      */

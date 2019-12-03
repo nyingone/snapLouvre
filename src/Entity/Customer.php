@@ -27,12 +27,12 @@ class Customer
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable = true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable = true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastName;
 
@@ -45,7 +45,7 @@ class Customer
      */
     private $email;
 
-     /**
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\BookingOrder", mappedBy="customer" )
      */
     private $bookingOrders;
@@ -136,7 +136,7 @@ class Customer
 
     public function addBookingOrderCount(): self
     {
-        $this->bookingOrderCount ++;
+        $this->bookingOrderCount++;
 
         return $this;
     }

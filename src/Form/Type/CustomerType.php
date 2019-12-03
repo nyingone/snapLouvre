@@ -36,7 +36,6 @@ class CustomerType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Customer::class,
             'empty_data' => function(FormInterface $form){
-            // dd($form->get('bookingOrderDTOs')->getdata('element'), $form->get('bookingOrderDTOs')->getdata());
                 return new Customer(
                     $form->get('email')->getData(),
                     $form->get('firstName')->getData(),

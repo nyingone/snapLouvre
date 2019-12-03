@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}
                 {% trans %}  Welcome! {% endtrans %}
         {% endblock %}</title>
@@ -11,16 +12,6 @@
             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
             <link rel="stylesheet" type="text/css"  href="{{ asset('css/app.css') }}  ">
             <link rel="shortcut icon" href=" {{ asset('img/favicon.ico') }}   " >
-
-
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-                    crossorigin="anonymous">  </script>
-
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"> </script>
-
-            <script src="https://js.stripe.com/v3/"></script>
-            <script type="text/javascript" src=" {{ asset('js/main.js') }}  "></script>
 
 
         {% endblock %}
@@ -55,8 +46,13 @@
             <script src="https://code.jquery.com/jquery-3.4.1.min.js"
                     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
                     crossorigin="anonymous">  </script>
-
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"> </script>
+
+            <script src="https://use.fontawesome.com/releases/v5.7.0/js/all.js"></script>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+            <script src="https://js.stripe.com/v3/"></script>
+            <script type="text/javascript" src=" {{ asset('js/main.js') }}  "></script>
 
         {% endblock %}
     </body>

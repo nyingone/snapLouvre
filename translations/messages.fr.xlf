@@ -55,7 +55,7 @@
                 <target>Pays</target>
             </trans-unit>
             <trans-unit id="Birth_date">
-                <source>Birthdate</source>
+                <source>Birth date</source>
                 <target>Date de naissance</target>
             </trans-unit>
             <trans-unit id="Eligible_to_discount?">
@@ -190,6 +190,11 @@
                  <source>Debit Card for total due:</source>
                  <target>Debiter la carte pour un total de:</target>
              </trans-unit>
+             <trans-unit id = "Booking_validation">
+                 <source>Booking validation</source>
+                 <target>Validation de la réservation</target>
+             </trans-unit>
+
         </body>
     </file>
 </xliff>

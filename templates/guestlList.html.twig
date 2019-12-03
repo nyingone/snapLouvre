@@ -3,8 +3,9 @@
 {% block title %}visitors{% endblock %}
 
 {% block body %}
+    {% set vars = {'level': '2'} %}
 
-    <script>     </script>
+    {% include 'inc/_workflow.html.twig' with vars only %}
     <div class = "row">
         <div class= "col-md-12" id= "cart">
 

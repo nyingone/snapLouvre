@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Form\BookingOrderType;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,9 +36,19 @@ class KickOff extends AbstractController
             return $this->redirectToRoute('guest');
         }
 
+        $x = $this->workflow(1);
         return $this->render('kickOff.html.twig', ['bookingOrder' => $bookingOrder,
             'form' => $form->createView(),
+
         ]);
+    }
+
+    public function workflow(int $step) {
+        $activ =   " active";
+        $textLight = " text-light";
+
+        $x = [];
+        return $x;
     }
 }
 

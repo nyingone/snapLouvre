@@ -4,7 +4,10 @@
 
 {% block body %}
 
-    <script>     </script>
+    {% set vars = {'level': '1'} %}
+
+    {% include 'inc/_workflow.html.twig' with vars only %}
+
     <div class = "row">
         <div class= "col-md-12" id= "cart">
 

@@ -144,7 +144,13 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
     public function getBookingOrder()
     {
-        return $this->sessionManager->sessionGet('bookingOrder');
+        $booking = $this->sessionManager->sessionGet('bookingOrder');
+
+        if($booking->getId()){
+            /// va chercher dans la bdd TODO
+        }
+
+        return $booking;
     }
 
     public function setBookingOrder($bookingOrder)

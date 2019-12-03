@@ -1,0 +1,43 @@
+<div class="font-up-bold text-uppercase">
+    <nav id="snap_crumbs" aria-label="breadcrumb">
+
+       {# <ol class="breadcrumb breadcrumb-dot bg-dark"> #}
+        <ul class="breadcrumb breadcrumb-dot bg-dark">
+            {% if  level  >= "1" and  level  < "4" %}
+                <li class="breadcrumb-item" ><a href = "{{ path('home') }}" >
+                        <i class="fab fa-asymmetrik" aria-hidden="true"></i> When</a>
+                </li>
+            {% else %}
+                <li class="breadcrumb-item  text-light active" aria-current="page"> When</li>
+            {%  endif %}
+
+            {% if level >= "2" and  level  < "4" %}
+                {% dump(level) %}
+                <li class="breadcrumb-item" ><a href = "{{ path('guest') }} ">
+                        <span class ="fas fa-users" ></span> Who</a>
+                </li>
+            {% else %}
+                <li class="breadcrumb-item  text-light active" aria-current="page"> Who</li>
+            {%  endif %}
+
+
+            {% if level  >= "3" and  level  < "4"%}
+                <li class="breadcrumb-item" ><a href = "{{ path('lastCheck') }}">
+                        <span class ="fab fa-cc-stripe" aria-hidden="true"></span> Check</a>
+                </li>
+            {% else %}
+                <li class="breadcrumb-item text-light active" aria-current="page"> Check</li>
+            {%  endif %}
+
+            {% if level  >= "4" %}
+                {% dump(level) %}
+                <li class="breadcrumb-item" ><a href = "{{ path('confirmation') }} ">
+                    <span class ="fas fa-paper-plane" ></span> Go</a>
+                </li>
+            {% else %}
+                <li class="breadcrumb-item  text-light active" aria-current="page"> Go</li>
+            {%  endif %}
+        </ul>
+    </nav>
+</div>
+

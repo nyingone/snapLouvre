@@ -47,10 +47,9 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
      */
     public function save(BookingOrder $bookingOrder) : BookingOrder
     {
-        var_dump("inside repository before persist " . $bookingOrder->getId());
         $this->entityManager->persist($bookingOrder);
         $this->entityManager->flush();
-       return($this->find($bookingOrder));
+       return $bookingOrder;
     }
 
     /**
