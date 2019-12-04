@@ -103,9 +103,6 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
 
         $this->bookingOrder->setTotalAmount($amount);
-        //  $this->bookingOrderControl();
-
-        //  $this->bookingOrderRepository->save($this->bookingOrder);
 
         $this->setBookingOrder($this->bookingOrder);
     }

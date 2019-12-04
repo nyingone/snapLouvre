@@ -14,31 +14,10 @@
 
     <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
 
-
     {% if bookingOrder.visitors is defined %}
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>{% trans %}Firstname{% endtrans %}</th>
-                <th>{% trans %}Lastname{% endtrans %}</th>
-                <th>{% trans %}Birthdate{% endtrans %}</th>
-                <th>{% trans %}discounted{% endtrans %}</th>
-                <th>{% trans %}cost{% endtrans %}</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for visitor in bookingOrder.visitors %}
-                <tr>
-                    <td>{{ visitor.firstName | title }}</td>
-                    <td>{{ visitor.lastName | upper }}</td>
-                    <td>{{ visitor.birthDate| date("d/m/Y") }}</td>
-                    <td>{{ visitor.discounted }}</td>
-                    <td>{{ visitor.cost }}</td>
-                </tr>
 
-            {% endfor %}
-            </tbody>
-        </table>
+        {% include 'inc/_visitor.html.twig' with {'level': '3'} %}
+
     {% else %}
         <p>{% trans %}no visitor found{% endtrans %}</p>
     {% endif %}
