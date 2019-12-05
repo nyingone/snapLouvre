@@ -11,8 +11,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class VisitorManager implements VisitorManagerInterface
 {
-    /** @var SessionManager */
-    private  $sessionManager;
     /** @var VisitorRepositoryInterface  */
     private $visitorRepository;
     /** @var PricingService  */
@@ -21,14 +19,12 @@ class VisitorManager implements VisitorManagerInterface
     protected $validator;
 
     /**
-     * @param SessionManager $sessionManager
      * @param VisitorRepositoryInterface $visitorRepository
      * @param PricingServiceInterface $pricingService
      * @param ValidatorInterface $validator
      */
-    public function __construct(SessionManager $sessionManager, VisitorRepositoryInterface $visitorRepository, PricingServiceInterface $pricingService, ValidatorInterface $validator)
+    public function __construct( VisitorRepositoryInterface $visitorRepository, PricingServiceInterface $pricingService, ValidatorInterface $validator)
     {
-        $this->sessionManager = $sessionManager;
         $this->visitorRepository = $visitorRepository;
         $this->pricingService = $pricingService;
         $this->validator = $validator;
@@ -65,7 +61,6 @@ class VisitorManager implements VisitorManagerInterface
             ));
         }
 
-       // $this->visitorControl($visitor);
 
         return $visitor;
     }
@@ -73,16 +68,6 @@ class VisitorManager implements VisitorManagerInterface
     public function removeVisitor($visitor): void
     {
         $this->visitorRepository->remove($visitor);
-    }
-
-
-
-    public function visitorControl($visitor)
-    {
-        // $this->visitorRepository->save($visitor);
-
-       //  $errors = $this->validator->validate($visitor);
-
     }
 
 

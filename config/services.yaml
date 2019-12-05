@@ -41,3 +41,9 @@ services:
             $router: '@router'
             $stripePublicKey: '%stripe_public_key%'
             $stripeSecretKey: '%stripe_secret_key%'
+
+    # explicitly configure twig currency restitution
+    App\Twig\AppExtension:
+        arguments:
+            $currency: '%currency%'
+

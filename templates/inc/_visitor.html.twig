@@ -17,7 +17,7 @@
                 <td>{{ visitor.lastName | upper }}</td>
                 <td>{{ visitor.birthDate| date("d/m/Y") }}</td>
                 <td>{{ visitor.discounted }} </td>
-                <td>{{ visitor.cost / 100 }}</td>
+                <td>{{ visitor.cost | price }}</td>
             </tr>
 
         {% endfor %}

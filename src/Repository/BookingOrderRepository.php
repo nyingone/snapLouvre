@@ -10,14 +10,14 @@ use App\Repository\Interfaces\BookingOrderRepositoryInterface;
 
 final class BookingOrderRepository implements BookingOrderRepositoryInterface
 {
-    
+
     private const ENTITY = BookingOrder::class;
 
-    /** @var EntityManagerInterface  */
-   private $entityManager;
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
-  /** @var \Doctrine\Common\Persistence\ObjectRepository  */
-   private $objectRepository;
+    /** @var \Doctrine\Common\Persistence\ObjectRepository */
+    private $objectRepository;
 
     /**
      * Repository by composition not inheritance
@@ -41,15 +41,24 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
 
         return $bookingOrder;
     }
+
     /**
      * @param BookingOrder
      * @return void
      */
-    public function save(BookingOrder $bookingOrder) : BookingOrder
+    public function save(BookingOrder $bookingOrder): BookingOrder
     {
-        $this->entityManager->persist($bookingOrder);
+      //  $placedOrder = $this->entityManager->find($bookingOrder, $bookingOrder->getId());
+        $ok = $this->entityManager->contains($bookingOrder);
+
+        if ($ok) {
+            $this->entityManager->refresh($bookingOrder);
+        } else {
+            $this->entityManager->persist($bookingOrder);
+        }
+
         $this->entityManager->flush();
-       return $bookingOrder;
+        return $bookingOrder;
     }
 
     /**
@@ -70,9 +79,9 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
      * @throws \Doctrine\DBAL\DBALException
      */
     public function findDaysEntriesFromTo(\DateTime $start, \DateTime $end)
-    {   
-        $fromDate =  $start->format('Y-m-d');
-        $toDate  =  $end->format('Y-m-d');
+    {
+        $fromDate = $start->format('Y-m-d');
+        $toDate = $end->format('Y-m-d');
         $conn = $this->entityManager->getConnection();
 
         $sql = "
@@ -94,12 +103,11 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
         return $stmt->fetchAll();
     }
 
-    
 
     /**
-    * @return BookingOrder[] Returns an array of BookingOrder objects
-    */
-   
+     * @return BookingOrder[] Returns an array of BookingOrder objects
+     */
+
     public function findByBookingRef($value)
     {
         return $this->createQueryBuilder('b')
@@ -108,8 +116,7 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
             ->orderBy('b.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 }

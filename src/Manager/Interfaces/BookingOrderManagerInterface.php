@@ -24,7 +24,7 @@ interface BookingOrderManagerInterface
      * @param BookingOrder $bookingOrder
      * @return bool
      */
-    public function save(BookingOrder $bookingOrder);
+    public function place(BookingOrder $bookingOrder);
 
     /**
      * @param BookingOrder $bookingOrder

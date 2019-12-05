@@ -194,6 +194,37 @@
                  <source>Booking validation</source>
                  <target>Validation de la réservation</target>
              </trans-unit>
+            <trans-unit id = "Payment_is_confirmed">
+                 <source>Payment is confirmed</source>
+                 <target>Paiement accepté</target>
+             </trans-unit>
+             <trans-unit id = "is_beeing_processed">
+                  <source>is beeing processed</source>
+                  <target>en cours de traitement</target>
+              </trans-unit>
+              <trans-unit id = "confirmation_to">
+                   <source>confirmation to</source>
+                   <target>confirmation adressé à </target>
+               </trans-unit>
+               <trans-unit id = "under_way">
+                    <source>under way</source>
+                    <target>en cours</target>
+                </trans-unit>
+                <trans-unit id = "Birthdate">
+                     <source>Birthdate</source>
+                     <target>Année de naissance</target>
+                 </trans-unit>
+                 <trans-unit id = "Order_ref:">
+                      <source>Order ref:</source>
+                      <target>Référence Commande</target>
+                  </trans-unit>
+
+            <trans-unit id = "Mail_address_required_to_receive_ticket(s)_following_payment">
+                 <source>Mail address required to receive ticket(s) following payment</source>
+                 <target>Un contact mail est requis pour faire suivre vos billets d'entrée</target>
+             </trans-unit>
+
+
 
         </body>
     </file>

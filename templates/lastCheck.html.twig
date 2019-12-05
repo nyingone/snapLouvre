@@ -27,7 +27,7 @@
                 <h3>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </h3>
 
                 {% if bookingOrder.visitors is defined %}
-                    {% include 'inc/_visitor.html.twig' with {'level': '3'} %}
+                    {% include 'inc/_visitor.html.twig' %}
                 {% else %}
                     <p>{% trans %}no visitor found{% endtrans %}</p>
                 {% endif %}
@@ -38,6 +38,7 @@
     </div>
 {% endblock %}
 
+{# TODO     TWIG JS ???????????????    #}
 {% block javascripts %}
     {{ parent() }}
 

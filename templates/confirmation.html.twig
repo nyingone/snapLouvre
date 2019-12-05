@@ -16,7 +16,7 @@
 
     {% if bookingOrder.visitors is defined %}
 
-        {% include 'inc/_visitor.html.twig' with {'level': '3'} %}
+        {% include 'inc/_visitor.html.twig'  %}
 
     {% else %}
         <p>{% trans %}no visitor found{% endtrans %}</p>

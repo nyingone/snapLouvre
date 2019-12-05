@@ -22,15 +22,12 @@ class GuestList extends AbstractController
      * @return Response
      * @throws \Exception
      */
-    public function index(Request $request, BookingOrderManagerInterface $bookingOrderManager): Response
+    public function __invoke(Request $request, BookingOrderManagerInterface $bookingOrderManager): Response
     {
         $bookingOrder = $bookingOrderManager->getBookingOrder();
 
         $form = $this->createForm(BookingVisitorsType::class, $bookingOrder);
         $form->handleRequest($request);
-        if ($form->isSubmitted() ){
-        //    dd($form->getData());
-        }
 
         if ($form->isSubmitted()  && $form->isValid()){
             $bookingOrderManager->refreshBookingOrder($bookingOrder);

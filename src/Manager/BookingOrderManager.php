@@ -3,15 +3,16 @@
 namespace App\Manager;
 
 use App\Entity\BookingOrder;
+use App\Event\Booking\BookingPlacedEvent;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
 use App\Services\Interfaces\ParamServiceInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class BookingOrderManager implements BookingOrderManagerInterface
 {
-    /** @var SessionManager */
-    private $sessionManager;
 
     /** @var BookingOrderRepositoryInterface */
     private $bookingOrderRepository;
@@ -34,9 +35,20 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
     /** @var int */
     protected $amount;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
 
     /**
-     * @param SessionManager $sessionManager
+     * BookingOrderManager constructor.
+     * @param SessionInterface $session
+     * @param EventDispatcherInterface $eventDispatcher
      * @param BookingOrderRepositoryInterface $bookingOrderRepository
      * @param VisitorManager $visitorManager
      * @param ParamServiceInterface $paramService
@@ -44,20 +56,24 @@ class BookingOrderManager implements BookingOrderManagerInterface
      * @throws \Exception
      */
     public function __construct(
-        SessionManager $sessionManager,
+        SessionInterface $session,
+        EventDispatcherInterface $eventDispatcher ,
         BookingOrderRepositoryInterface $bookingOrderRepository,
         VisitorManager $visitorManager,
         ParamServiceInterface $paramService,
         ValidatorInterface $validator)
     {
-        $this->sessionManager = $sessionManager;
+        $this->session = $session;
+        $this->eventDispatcher = $eventDispatcher;
         $this->bookingOrderRepository = $bookingOrderRepository;
         $this->visitorManager = $visitorManager;
         $this->paramService = $paramService;
         $this->validator = $validator;
 
         $this->bookingOrderStartDate = new \DateTime('now');
-        $this->bookingRef = 'testTempRef' . $this->sessionManager->getProvisionalRef();
+        $this->bookingRef = 'TempRef' . $session->getId();
+
+       // TODO get ref  $this->bookingRef = 'TempRef' . $this->session->getBag();
 
     }
 
@@ -77,7 +93,6 @@ class BookingOrderManager implements BookingOrderManagerInterface
         $this->bookingOrder->setBookingRef($this->bookingRef);
 
         $this->setBookingOrder($this->bookingOrder);
-
         return $this->bookingOrder;
     }
 
@@ -88,12 +103,12 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function refreshBookingOrder(BookingOrder $bookingOrder): void
     {
-        $this->bookingOrder = $bookingOrder;
         $amount = 0;
 
-        $visitors = $this->bookingOrder->getVisitors();
-        for ($i = count($visitors); $i < $this->bookingOrder->getWishes(); ++$i) {
-            $this->addVisitor();
+        $visitors = $bookingOrder->getVisitors();
+        for ($i = count($visitors); $i < $bookingOrder->getWishes(); ++$i) {
+            $visitor = $this->visitorManager->inzVisitor();
+            $bookingOrder->addVisitor($visitor);
         }
 
         foreach ($visitors as $visitor) {
@@ -101,17 +116,11 @@ class BookingOrderManager implements BookingOrderManagerInterface
             $amount += $visitor->getCost();
         }
 
+        $bookingOrder->setTotalAmount($amount);
 
-        $this->bookingOrder->setTotalAmount($amount);
-
-        $this->setBookingOrder($this->bookingOrder);
+        $this->setBookingOrder($bookingOrder);
     }
 
-    private function addVisitor()
-    {
-        $visitor = $this->visitorManager->inzVisitor();
-        $this->bookingOrder->addVisitor($visitor);
-    }
 
     public function bookingOrderControl()
     {
@@ -119,9 +128,17 @@ class BookingOrderManager implements BookingOrderManagerInterface
     }
 
     /** @inheritDoc */
-    public function save(BookingOrder $bookingOrder)
+    public function place(BookingOrder $bookingOrder)
     {
-        $this->setBookingOrder($this->bookingOrderRepository->save($bookingOrder));
+
+        $bookingOrder->setValidatedAt(new \DateTime('now'));
+        $this->bookingOrderRepository->save($bookingOrder);
+
+        $this->setBookingOrder($bookingOrder);
+
+        $event = new BookingPlacedEvent($bookingOrder);
+        // creates the BookingPlacedEvent and dispatches it
+        $this->eventDispatcher->dispatch($event);
     }
 
     /** @inheritDoc */
@@ -139,20 +156,26 @@ class BookingOrderManager implements BookingOrderManagerInterface
         return count($this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate()));
     }
 
+    /**
+     * @return mixed
+     */
     public function getBookingOrder()
     {
-        $booking = $this->sessionManager->sessionGet('bookingOrder');
+        $booking = $this->session->get('BookingOrder');
 
-        if($booking->getId()){
+        if($booking instanceOf Booking && $booking->getId()){
             /// va chercher dans la bdd TODO
         }
 
         return $booking;
     }
 
+    /**
+     * @param $bookingOrder
+     */
     public function setBookingOrder($bookingOrder)
     {
-        $this->sessionManager->sessionSet('bookingOrder', $bookingOrder);
+        $this->session->set('BookingOrder', $bookingOrder);
     }
 
     /**
