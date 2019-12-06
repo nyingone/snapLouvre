@@ -33,6 +33,25 @@ class ParamRepository implements ParamRepositoryInterface
         return $this->objectRepository->findAll();
     }
 
+
+    /**
+     * @param string $KBON
+     * @param $fiscalYear
+     * @return Param
+     */
+    public function findNumber(string $KBON, $fiscalYear): Param
+    {
+        $param = $this->objectRepository->findOneBy([
+            'refCode' => $KBON,
+            'exeNum' => $fiscalYear
+        ]);
+
+        $newNumber = $param->getNumber() + 1;
+        $param->setNumber($newNumber);
+        $this->entityManager->persist($param);
+        return $param;
+    }
+
 }
 
 

@@ -13,6 +13,7 @@ class ParamService implements ParamServiceInterface
 {
     /** @var ParamRepositoryInterface */
     private $paramRepository;
+    public const KBON = 'KBON';
     /**  */
     protected $params = [];
 
@@ -29,6 +30,12 @@ class ParamService implements ParamServiceInterface
      * @var DatComparator
      */
     private $datComparator;
+    private $siret;
+    private $fiscalYear;
+    /**
+     * @var \App\Entity\Param
+     */
+    private $param;
 
 
     /**
@@ -47,6 +54,8 @@ class ParamService implements ParamServiceInterface
             ->findAll();
 
         $this->formatParam();
+        $tstDate = $this->datComparator->convert(new DateTime());
+        $this->fiscalYear = substr($tstDate, 0, 4);
     }
 
     /**  */
@@ -94,15 +103,23 @@ class ParamService implements ParamServiceInterface
                 $this->underAgeLimit = $param->getNumber();
             }
 
+            if ($param->getRefCode() == "SIRET") {
+                $this->siret = $param->getLabel();
+            }
+
         }
     }
 
     /**
      * @inheritDoc
      */
-    public function allocateBookingNumber(): string
+    public function allocateBookingReference(): string
     {
-        return $this->paramRepository->saveNumber(self::KBON);
+
+        $this->param = $this->paramRepository->findNumber(self::KBON, $this->fiscalYear);
+        $number = $this->param->getNumber();
+
+        return $this->siret . '/' . $this->fiscalYear . '/' . sprintf("%'.09d\n", $number);
     }
 
     /**
@@ -118,7 +135,7 @@ class ParamService implements ParamServiceInterface
      */
     public function findEndOfBooking(): datetime
     {
-        if ($this->endOfBooking <= $this->imperativeEndOfBooking){
+        if ($this->endOfBooking <= $this->imperativeEndOfBooking) {
             return $this->endOfBooking;
         }
 
@@ -132,7 +149,7 @@ class ParamService implements ParamServiceInterface
      */
     public function findStartOfBooking(): datetime
     {
-        if ($this->startOfBooking > new DateTime() ) {
+        if ($this->startOfBooking > new DateTime()) {
             return $this->startOfBooking;
         }
 
@@ -210,13 +227,12 @@ class ParamService implements ParamServiceInterface
      */
     public function isOutOfRangeBooking(\DateTimeInterface $expectedDate): bool
     {
-       // TODO CLEAN   dd($expectedDate, $this->findStartOfBooking(), $this->findEndOfBooking() );
-        if ($this->datComparator->isLower($expectedDate, $this->findStartOfBooking()) || $this->datComparator->isHigher($expectedDate, $this->findEndOfBooking()) ){
+        // TODO CLEAN   dd($expectedDate, $this->findStartOfBooking(), $this->findEndOfBooking() );
+        if ($this->datComparator->isLower($expectedDate, $this->findStartOfBooking()) || $this->datComparator->isHigher($expectedDate, $this->findEndOfBooking())) {
             return true;
         }
         return false;
     }
-
 
 
     /**

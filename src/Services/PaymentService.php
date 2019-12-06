@@ -5,7 +5,10 @@ namespace App\Services;
 
 
 use App\Entity\BookingOrder;
+use App\Manager\BookingOrderManager;
 use App\Services\Interfaces\PaymentServiceInterface;
+use Stripe\Checkout\Session as StripeSession;
+use Stripe\PaymentIntent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -25,63 +28,88 @@ class PaymentService implements PaymentServiceInterface
      * @var string
      */
     private $stripeSecretKey;
+    /**
+     * @var BookingOrderManager
+     */
+    private $bookingOrderManager;
 
     /**
      * PaymentService constructor.
      * @param RouterInterface $router
      * @param SessionInterface $session
+     * @param BookingOrderManager $bookingOrderManager
      * @param string $stripePublicKey
      * @param string $stripeSecretKey
      */
-    public function __construct(RouterInterface $router, SessionInterface $session, string $stripePublicKey, string $stripeSecretKey)
+    public function __construct(
+        RouterInterface $router, 
+        SessionInterface $session, 
+        BookingOrderManager $bookingOrderManager,
+        string $stripePublicKey, 
+        string $stripeSecretKey)
     {
         $this->router = $router;
+        $this->session = $session;
+        $this->bookingOrderManager = $bookingOrderManager;
         $this->stripePublicKey = $stripePublicKey;
         $this->stripeSecretKey = $stripeSecretKey;
-        $this->session = $session;
+       
     }
 
-    public function setCheckoutSession(BookingOrder $bookingOrder, string $redirectOK, string $redirectNOK)
+    public function setCheckoutSession(
+        BookingOrder $bookingOrder,
+        string $redirectOK,
+        string $redirectNOK): StripeSession
+
     {
+        $items = $this->preparePayment($bookingOrder);
         \Stripe\Stripe::setApiKey($this->stripeSecretKey);
 
         $stripeSession = \Stripe\Checkout\Session::create([
+            'client_reference_id' => $bookingOrder->getBookingRef(),
             'customer_email' => $bookingOrder->getCustomer()->getEmail(),
             'payment_method_types' => ['card'],
-            'line_items' => [[
-                'name' => 'SnapLouvre tickets',
-                'description' => $bookingOrder->getBookingRef(),
-                'amount' => $bookingOrder->getTotalAmount(),
-                'currency' => 'eur',
-                'quantity' => 1,
-            ]],
-            'success_url' => $this->router->generate($redirectOK,[], RouterInterface::ABSOLUTE_URL).'?session_id={CHECKOUT_SESSION_ID}',
+            'line_items' => $items,
+            'success_url' => $this->router->generate($redirectOK,[], RouterInterface::ABSOLUTE_URL).'?sessionId={CHECKOUT_SESSION_ID}',
             'cancel_url' => $this->router->generate($redirectNOK,[], RouterInterface::ABSOLUTE_URL),
         ]);
 
-        $this->session->set('stripeSession', $stripeSession);
+
+        $this->session->set('stripeSessionId', $stripeSession->id);
+        $this->session->set('stripePaymentIntent', $stripeSession->payment_intent);
         return $stripeSession;
     }
 
-    public function getPublicKey()
+    public function getPublicKey() : string
     {
         return $this->stripePublicKey;
     }
 
-    public function getSessionId()
+
+    private function preparePayment(BookingOrder $bookingOrder) : array
     {
-        $stripeSession = $this->session->get('stripeSession');
-        // TODO $sessionId = $session->getRequest()->query->get('sessionId');
-        dump($stripeSession->id);
-        return $stripeSession->id;
+        $items = [];
+        foreach($bookingOrder->getVisitors() as $visitor)
+        {
+            $items[] = [
+                'name' => 'Visitor' . '/' . $visitor->getName(),
+                'description' => $visitor->getName(),
+                'amount' => $visitor->getCost(),
+                'currency' => 'eur',
+                'quantity' => 1,
+            ];
+        }
+        return $items;
     }
 
-    public function getPaymentIntent($sessionId)
+
+    public function reconcilePayment($sessionId) : bool
     {
         \Stripe\Stripe::setApiKey($this->stripeSecretKey);
+       dump(PaymentIntent::retrieve($sessionId));
 
-        $stripeResponse = \Stripe\PaymentIntent::retrieve(
-            $sessionId
-        );
+      return $this->bookingOrderManager->reconcilePayment();
+
     }
+
 }

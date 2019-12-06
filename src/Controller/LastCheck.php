@@ -9,6 +9,7 @@ use App\Event\Booking\BookingPlacedEvent;
 use App\Form\BookingValidationType;
 use App\Manager\BookingOrderManager;
 use App\Services\PaymentService;
+use Stripe\PaymentIntent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,8 +48,6 @@ class LastCheck extends AbstractController
 
             $this->bookingOrder = $form->getData();
             $bookingOrderManager->place($this->bookingOrder);
-
-            dump($this->bookingOrder);
 
             return $this->render('lastCheck.html.twig', ['bookingOrder' => $this->bookingOrder,
                 'form' => $form->createView(),

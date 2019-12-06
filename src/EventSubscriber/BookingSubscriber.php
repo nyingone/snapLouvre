@@ -28,8 +28,8 @@ class BookingSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BookingPlacedEvent::NAME => 'onBookingPlaced',
-            BookingSettledEvent::NAME => 'onBookingSettled',
+            BookingPlacedEvent::class => 'onBookingPlaced',
+            BookingSettledEvent::class => 'onBookingSettled',
         ];
     }
 
@@ -38,9 +38,8 @@ class BookingSubscriber implements EventSubscriberInterface
      */
     public function onBookingPlaced(BookingPlacedEvent $event)
     {
-        // TODO why not called
-        dump('bookingSubscriber __onBookingPlaced called');
-        $this->bookingOrderManager->save($event->getBookingOrder());
+        // TODO KEEP or NOT ?
+        //
     }
 
 
@@ -51,6 +50,7 @@ class BookingSubscriber implements EventSubscriberInterface
     public function onBookingSettled(BookingSettledEvent $event)
     {
         dump('bookingSubscriber __onBookingSettled called');
+        // TODO send MAIL
         return new Response(
             $event->getBookingOrder()
         );

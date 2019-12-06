@@ -4,6 +4,7 @@ namespace App\Manager;
 
 use App\Entity\BookingOrder;
 use App\Event\Booking\BookingPlacedEvent;
+use App\Event\Booking\BookingSettledEvent;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
 use App\Services\Interfaces\ParamServiceInterface;
@@ -57,7 +58,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function __construct(
         SessionInterface $session,
-        EventDispatcherInterface $eventDispatcher ,
+        EventDispatcherInterface $eventDispatcher,
         BookingOrderRepositoryInterface $bookingOrderRepository,
         VisitorManager $visitorManager,
         ParamServiceInterface $paramService,
@@ -72,9 +73,6 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
         $this->bookingOrderStartDate = new \DateTime('now');
         $this->bookingRef = 'TempRef' . $session->getId();
-
-       // TODO get ref  $this->bookingRef = 'TempRef' . $this->session->getBag();
-
     }
 
     /**
@@ -124,22 +122,39 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
     public function bookingOrderControl()
     {
-        //    $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
+        //    TODO CLEAN    $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
     }
 
     /** @inheritDoc */
     public function place(BookingOrder $bookingOrder)
     {
-
+        $bookingOrder->setBookingRef($this->paramService->allocateBookingReference());
         $bookingOrder->setValidatedAt(new \DateTime('now'));
+
         $this->bookingOrderRepository->save($bookingOrder);
 
         $this->setBookingOrder($bookingOrder);
 
         $event = new BookingPlacedEvent($bookingOrder);
-        // creates the BookingPlacedEvent and dispatches it
+        // TODO DELETE PLACED EVENT ? creates the BookingPlacedEvent and dispatches it
         $this->eventDispatcher->dispatch($event);
     }
+
+    public function reconcilePayment(string $bookingRef, string $stripePaymentRef, string $stripeCustomer = null): bookingOrder
+    {
+        $bookingOrder = $this->getBookingOrder();
+        if ($bookingOrder->getBookingRef() == $bookingRef) {
+
+            $bookingOrder->setPaymentExtRef($stripePaymentRef);
+
+            $this->bookingOrderRepository->save($bookingOrder);
+            $event = new BookingSettledEvent($bookingOrder);
+            // Dispatches mail
+            $this->eventDispatcher->dispatch($event);
+        }
+        return $bookingOrder;
+    }
+
 
     /** @inheritDoc */
     public function remove(BookingOrder $bookingOrder)
@@ -159,15 +174,15 @@ class BookingOrderManager implements BookingOrderManagerInterface
     /**
      * @return mixed
      */
-    public function getBookingOrder()
+    public function getBookingOrder(): ?BookingOrder
     {
-        $booking = $this->session->get('BookingOrder');
+        $bookingOrder = $this->session->get('BookingOrder');
 
-        if($booking instanceOf Booking && $booking->getId()){
-            /// va chercher dans la bdd TODO
+        if ($bookingOrder instanceOf BookingOrder && $bookingOrder->getId()) {
+            return $this->bookingOrderRepository->find($bookingOrder);
         }
 
-        return $booking;
+        return $bookingOrder;
     }
 
     /**
@@ -205,5 +220,6 @@ class BookingOrderManager implements BookingOrderManagerInterface
         return false;
 
     }
+
 
 }

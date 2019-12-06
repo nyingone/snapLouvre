@@ -10,7 +10,7 @@ interface ParamServiceInterface
     /**
      * @return string
      */
-    public function allocateBookingNumber(): string;
+    public function allocateBookingReference(): string;
 
     /**
      * @param int $value

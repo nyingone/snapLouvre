@@ -36,15 +36,17 @@ class PaymentAuthenticateSubscriber implements EventSubscriberInterface
     {
         $action = $event->getController();
 
-        if ((!is_array($action)) || !$action[0] instanceOf PaymentAuthenticate) {
+      /*  if ((!is_array($action)) || !$action[0] instanceOf PaymentAuthenticate) {
            return;
-        }
+        } */
 
         // when a controller class defines multiple action methods, the controller
         // is returned as [$controllerInstance, 'methodName']
         $sessionId = $event->getRequest()->query->get('sessionId');
+        //  #requestUri: "/confirmation?session_id=cs_test_NuAKfk3yPrEnjh3XMt2tUO01do2xkfqhEB9qgUBu2XFswnn6YrpXcsXj"
+        // dump($event);
         if ($sessionId !== $this->paymentSessionId) {
-            throw new UnIdentifiedPaymentException('This is not a valid Payment Identifier');
+         //   throw new UnIdentifiedPaymentException('This is not a valid Payment Identifier');
             return;
         }
 
