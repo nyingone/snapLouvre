@@ -140,25 +140,30 @@ class BookingOrderManager implements BookingOrderManagerInterface
         $this->eventDispatcher->dispatch($event);
     }
 
-    public function reconcilePayment(string $bookingRef, string $stripePaymentRef, string $stripeCustomer = null): bookingOrder
+
+    public function reconcilePayment($bookingInfos = [], $paymentInfos = []): BookingOrder
     {
         $bookingOrder = $this->getBookingOrder();
-        if ($bookingOrder->getBookingRef() == $bookingRef) {
+        if ($bookingOrder->getBookingRef() == $bookingInfos['bookingReference']) {
 
-            $bookingOrder->setPaymentExtRef($stripePaymentRef);
+            $bookingOrder->setExtPaymentRef($paymentInfos['payment_ref']);
+            $bookingOrder->setExtPaymentIntentRef($paymentInfos['payment_Intent' ]);
+            $bookingOrder->setExtPaymentStatus($paymentInfos['status']);
+            $bookingOrder->setSettledAt(new \DateTime());
 
-            $this->bookingOrderRepository->save($bookingOrder);
+            $bookingOrder = $this->bookingOrderRepository->save($bookingOrder);
+
             $event = new BookingSettledEvent($bookingOrder);
             // Dispatches mail
             $this->eventDispatcher->dispatch($event);
         }
+
+
+        /** @inheritDoc */
+        public function remove(BookingOrder $bookingOrder)
+    {
         return $bookingOrder;
     }
-
-
-    /** @inheritDoc */
-    public function remove(BookingOrder $bookingOrder)
-    {
         return $this->bookingOrderRepository->remove($bookingOrder);
     }
 

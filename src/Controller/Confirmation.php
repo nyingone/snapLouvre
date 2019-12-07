@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Controller\Interfaces\PaymentAuthenticate;
+use App\Entity\BookingOrder;
 use App\Exception\UnIdentifiedPaymentException;
 use App\Manager\BookingOrderManager;
 use App\Services\Interfaces\PaymentServiceInterface;
@@ -31,18 +32,19 @@ class Confirmation extends AbstractController implements PaymentAuthenticate
     ): Response
     {
         if (!isset($_GET['sessionId']) || $_GET['sessionId'] !== $session->get('paymentSessionId')) {
-            throw new UnIdentifiedPaymentException('This is not a valid Payment Identifier');
+           // throw new UnIdentifiedPaymentException('This is not a valid Payment Identifier');
+            $this->addFlash('alert', 'Invalid Payment Identifier' );
         } else {
-            $endFlag = $paymentService->reconcilePayment(htmlentities($_GET['sessionId'], ENT_QUOTES,"UTF-8"));
+            $bookingOrder = $paymentService->reconcilePayment(htmlentities($_GET['sessionId'], ENT_QUOTES,"UTF-8"));
         }
-        if($endFlag) {
-            $this->addFlash('success', 'Order paid!');
+        if(isset($bookingOrder)) {
+            $this->addFlash('success', 'Order paid and settled!');
+            return $this->render('confirmation.html.twig', ['bookingOrder' => $bookingOrder,
+            ]);
         } else{
             $this->addFlash('success', 'Order could not be completed!');
+            return $this->redirectToRoute('/');
         }
-        $bookingOrder = $bookingOrderManager->getBookingOrder();
 
-        return $this->render('confirmation.html.twig', ['bookingOrder' => $bookingOrder,
-        ]);
     }
 }

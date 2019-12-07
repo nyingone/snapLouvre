@@ -24,8 +24,6 @@ class CustomerType extends AbstractType
                     new Email()
                 ]
             ])
-            ->add('firstName', null , ['required' => false,])
-            ->add('lastName', null , ['required' => false,])
         ;
 
     }
@@ -37,9 +35,7 @@ class CustomerType extends AbstractType
             'data_class' => Customer::class,
             'empty_data' => function(FormInterface $form){
                 return new Customer(
-                    $form->get('email')->getData(),
-                    $form->get('firstName')->getData(),
-                    $form->get('lastName')->getData()
+                    $form->get('email')->getData()
                 );
             },
         ]);

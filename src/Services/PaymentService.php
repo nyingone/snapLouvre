@@ -14,7 +14,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PaymentService implements PaymentServiceInterface
 {
-   /** @var SessionInterface */
+    /** @var SessionInterface */
     private $session;
     /**
      * @var RouterInterface
@@ -42,10 +42,10 @@ class PaymentService implements PaymentServiceInterface
      * @param string $stripeSecretKey
      */
     public function __construct(
-        RouterInterface $router, 
-        SessionInterface $session, 
+        RouterInterface $router,
+        SessionInterface $session,
         BookingOrderManager $bookingOrderManager,
-        string $stripePublicKey, 
+        string $stripePublicKey,
         string $stripeSecretKey)
     {
         $this->router = $router;
@@ -53,7 +53,7 @@ class PaymentService implements PaymentServiceInterface
         $this->bookingOrderManager = $bookingOrderManager;
         $this->stripePublicKey = $stripePublicKey;
         $this->stripeSecretKey = $stripeSecretKey;
-       
+
     }
 
     public function setCheckoutSession(
@@ -70,27 +70,26 @@ class PaymentService implements PaymentServiceInterface
             'customer_email' => $bookingOrder->getCustomer()->getEmail(),
             'payment_method_types' => ['card'],
             'line_items' => $items,
-            'success_url' => $this->router->generate($redirectOK,[], RouterInterface::ABSOLUTE_URL).'?sessionId={CHECKOUT_SESSION_ID}',
-            'cancel_url' => $this->router->generate($redirectNOK,[], RouterInterface::ABSOLUTE_URL),
+            'success_url' => $this->router->generate($redirectOK, [], RouterInterface::ABSOLUTE_URL) . '?sessionId={CHECKOUT_SESSION_ID}',
+            'cancel_url' => $this->router->generate($redirectNOK, [], RouterInterface::ABSOLUTE_URL),
         ]);
 
 
-        $this->session->set('stripeSessionId', $stripeSession->id);
+        $this->session->set('paymentSessionId', $stripeSession->id);
         $this->session->set('stripePaymentIntent', $stripeSession->payment_intent);
         return $stripeSession;
     }
 
-    public function getPublicKey() : string
+    public function getPublicKey(): string
     {
         return $this->stripePublicKey;
     }
 
 
-    private function preparePayment(BookingOrder $bookingOrder) : array
+    private function preparePayment(BookingOrder $bookingOrder): array
     {
         $items = [];
-        foreach($bookingOrder->getVisitors() as $visitor)
-        {
+        foreach ($bookingOrder->getVisitors() as $visitor) {
             $items[] = [
                 'name' => 'Visitor' . '/' . $visitor->getName(),
                 'description' => $visitor->getName(),
@@ -103,12 +102,25 @@ class PaymentService implements PaymentServiceInterface
     }
 
 
-    public function reconcilePayment($sessionId) : bool
+    public function reconcilePayment(string $paymentSessionId): BookingOrder
     {
         \Stripe\Stripe::setApiKey($this->stripeSecretKey);
-       dump(PaymentIntent::retrieve($sessionId));
+        $sessionInfos = StripeSession::retrieve($paymentSessionId);
+        $bookingInfos = [
+            'bookingReference' => $sessionInfos->client_reference_id
+        ];
 
-      return $this->bookingOrderManager->reconcilePayment();
+        $paymentInfos = PaymentIntent::retrieve($this->session->get('stripePaymentIntent'));
+        dump();
+        $payingInfos = [
+            'customer' => $paymentInfos->customer,
+            'payment_Intent' => $paymentInfos->id,
+            'payment_ref' => $paymentInfos->payment_method,
+            'status' => $paymentInfos->status,
+            'amount_received' => $paymentInfos->amount_received
+        ];
+
+        return $this->bookingOrderManager->reconcilePayment($bookingInfos, $payingInfos);
 
     }
 

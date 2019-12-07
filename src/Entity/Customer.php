@@ -37,6 +37,11 @@ class Customer
     private $lastName;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $refPaymentCustomer;
+
+    /**
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
      *     checkMX = true

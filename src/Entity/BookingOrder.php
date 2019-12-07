@@ -79,7 +79,22 @@ class BookingOrder
     /**
      * @ORM\Column(type="string", length=255 , nullable=true)
      */
-    private $paymentExtRef;
+    private $extPaymentIntentRef;
+
+    /**
+     * @ORM\Column(type="string", length=255 , nullable=true)
+     */
+    private $extPaymentRef;
+
+    /**
+     * @ORM\Column(type="string", length=255 , nullable=true)
+     */
+    private $extPaymentStatus;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $settledAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -185,15 +200,59 @@ class BookingOrder
         return $this;
     }
 
-    public function getPaymentExtRef(): ?string
+    public function getExtPaymentIntentRef(): ?string
     {
-        return $this->paymentExtRef;
+        return $this->extPaymentIntentRef;
     }
 
-    public function setPaymentExtRef(string $paymentExtRef): self
+    public function setExtPaymentIntentRef(string $extPaymentIntentRef): self
     {
-        $this->paymentExtRef = $paymentExtRef;
+        $this->extPaymentIntentRef = $extPaymentIntentRef;
 
+        return $this;
+    }
+
+    public function getExtPaymentRef(): ?string
+    {
+        return $this->extPaymentRef;
+    }
+
+    public function setExtPaymentRef(string $extPaymentRef): self
+    {
+        $this->extPaymentRef = $extPaymentRef;
+        return $this;
+    }
+
+    public function getExtPaymentStatus(): ?string
+    {
+        return $this->extPaymentStatus;
+    }
+
+    public function setExtPaymentStatus(string $extPaymentStatus): self
+    {
+        $this->extPaymentStatus = $extPaymentStatus;
+        return $this;
+    }
+
+    public function getSettledAt(): ?\DateTimeInterface
+    {
+        return $this->settledAt;
+    }
+
+    public function setSettledAt(?\DateTimeInterface $settledAt): self
+    {
+        $this->settledAt = $settledAt;
+        return $this;
+    }
+
+    public function getCancelledAt(): ?\DateTimeInterface
+    {
+        return $this->cancelledAt;
+    }
+
+    public function setCancelledAt(?\DateTimeInterface $cancelledAt): self
+    {
+        $this->cancelledAt = $cancelledAt;
         return $this;
     }
 

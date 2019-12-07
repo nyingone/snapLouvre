@@ -47,7 +47,7 @@ class Pricing
     private $ageMax;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer" )
      */
     private $price;
 
