@@ -131,6 +131,11 @@ class BookingOrderManager implements BookingOrderManagerInterface
         $bookingOrder->setBookingRef($this->paramService->allocateBookingReference());
         $bookingOrder->setValidatedAt(new \DateTime('now'));
 
+        $ticketOrder = 0;
+        foreach ($bookingOrder->getVisitors() as $visitor) {
+            $ticketOrder = $this->visitorManager->validVisitor($visitor, $ticketOrder);
+        }
+
         $this->bookingOrderRepository->save($bookingOrder);
 
         $this->setBookingOrder($bookingOrder);
@@ -144,26 +149,31 @@ class BookingOrderManager implements BookingOrderManagerInterface
     public function reconcilePayment($bookingInfos = [], $paymentInfos = []): BookingOrder
     {
         $bookingOrder = $this->getBookingOrder();
-        if ($bookingOrder->getBookingRef() == $bookingInfos['bookingReference']) {
+        if ($bookingOrder->getBookingRef() == $bookingInfos['bookingReference'] && $bookingOrder->getSettledAt() == null) {
 
             $bookingOrder->setExtPaymentRef($paymentInfos['payment_ref']);
-            $bookingOrder->setExtPaymentIntentRef($paymentInfos['payment_Intent' ]);
+            $bookingOrder->setExtPaymentIntentRef($paymentInfos['payment_Intent']);
             $bookingOrder->setExtPaymentStatus($paymentInfos['status']);
-            $bookingOrder->setSettledAt(new \DateTime());
+            $bookingOrder->setSettledAt(new \DateTime('now'));
+
+            $bookingOrder->getCustomer()->setLastName($paymentInfos['customer']);
 
             $bookingOrder = $this->bookingOrderRepository->save($bookingOrder);
 
             $event = new BookingSettledEvent($bookingOrder);
             // Dispatches mail
             $this->eventDispatcher->dispatch($event);
+
         }
+        $this->setBookingOrder($bookingOrder);
 
-
-        /** @inheritDoc */
-        public function remove(BookingOrder $bookingOrder)
-    {
-        return $bookingOrder;
+        return $this->getBookingOrder();
     }
+
+
+    /** @inheritDoc */
+    public function remove(BookingOrder $bookingOrder): bool
+    {
         return $this->bookingOrderRepository->remove($bookingOrder);
     }
 
@@ -224,6 +234,22 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
         return false;
 
+    }
+
+    public function hasMultiRegisteredVisitor(BookingOrder $bookingOrder): bool
+    {
+        $visitors = $bookingOrder->getVisitors();
+        foreach ($visitors as $visitor) {
+            $i = 0;
+            foreach ($bookingOrder->getVisitors() as $visitorToControl) {
+                if ($visitor == $visitorToControl) {
+                    $i++;
+                    if ($i > 1): return true;
+                    endif;
+                }
+            }
+        }
+        return false;
     }
 
 

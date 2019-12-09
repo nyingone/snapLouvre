@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\Constraints\Visitors;
+namespace App\Validator\Constraints\BookingOrders;
 
 use Symfony\Component\Validator\Constraint;
 

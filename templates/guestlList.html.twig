@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}visitors{% endblock %}
-
+{% block title %}
+    {% if bookingOrder.validatedAt == null %}
+        <h3>{% trans %}Order reference :{% endtrans %} {{ bookingOrder.bookingRef }} </h3>
+    {% endif %}
+{% endblock %}
 {% block body %}
     {% set vars = {'level': '2'} %}
 
     {% include 'inc/_workflow.html.twig' with vars only %}
-    <div class = "row">
-        <div class= "col-md-12" id= "cart">
+    <div class="row">
+        <div class="col-md-12" id="cart">
 
             {{ form_start(form) }}
 
@@ -18,9 +21,9 @@
 
 
 
-          {{ form_rest(form) }}
+            {{ form_rest(form) }}
 
-            <input type="submit" class="btn btn-primary" value= "{% trans %} Go ahead {% endtrans %} " />
+            <input type="submit" class="btn btn-primary" value="{% trans %} Go ahead {% endtrans %} "/>
 
             {{ form_end(form) }}
 

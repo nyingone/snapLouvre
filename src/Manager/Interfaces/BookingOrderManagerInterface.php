@@ -19,6 +19,11 @@ interface BookingOrderManagerInterface
      */
     public function cannotProvideEnoughTickets(BookingOrder $bookingOrder): bool;
 
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return bool
+     */
+    public function hasMultiRegisteredVisitor(BookingOrder $bookingOrder) : bool;
 
     /**
      * @param BookingOrder $bookingOrder

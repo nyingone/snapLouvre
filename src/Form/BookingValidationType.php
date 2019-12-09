@@ -23,6 +23,7 @@ class BookingValidationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BookingOrder::class,
+            'validation_groups' => ['pre_booking'],
         ]);
     }
 }

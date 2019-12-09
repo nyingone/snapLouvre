@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Validator\Constraints\Visitors;
+namespace App\Validator\Constraints\BookingOrders;
 
-use App\Entity\Visitor;
-use App\Manager\VisitorManager;
+use App\Entity\BookingOrder;
+
+use App\Manager\BookingOrderManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -11,17 +12,20 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class NotMultiRegisteredValidator extends ConstraintValidator
 {
-    /** @var VisitorManager  */
-    private $visitorManager;
 
-    /** @param VisitorManager */
-    public function __construct(VisitorManager $visitorManager)
+    /** @var BookingOrderManager  */
+    private $bookingOrderManager;
+
+    /**
+     * @param BookingOrderManager $bookingOrderManager
+     */
+    public function __construct(BookingOrderManager $bookingOrderManager)
     {
-        $this->visitorManager = $visitorManager;
+        $this->bookingOrderManager = $bookingOrderManager;
 
     }
 
-    public function validate($visitor, Constraint $constraint)
+    public function validate($bookingOrder, Constraint $constraint)
     {
        
         if (!($constraint instanceof NotMultiRegistered))
@@ -29,12 +33,12 @@ class NotMultiRegisteredValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint,  NotMultiRegistered::class);
 
         }
-        if (!($visitor instanceof Visitor)) {
+        if (!($bookingOrder instanceof BookingOrder)) {
             // throw this exception if your validator cannot handle the passed type so that it can be marked as invalid
-            throw new UnexpectedValueException($visitor, Visitor::class);
+            throw new UnexpectedValueException($bookingOrder, BookingOrder::class);
         }
     
-        if($this->visitorManager->isMultiRegisteredVisitor($visitor)) {
+        if($this->bookingOrderManager->hasMultiRegisteredVisitor($bookingOrder)) {
             $this->context->buildViolation($constraint->message)
             ->addViolation();
         }

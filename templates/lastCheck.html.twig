@@ -7,15 +7,25 @@
 
     <div class="row">
         <div class="col-md-12" id="cart">
-            <h3>{% trans %}Mail address required to receive ticket(s) following payment{% endtrans %} </h3>
 
-            {{ form_start(form) }}
+            {% if bookingOrder.settledAt == null %}
+                <h3>{% trans %}Order reference :{% endtrans %} {{ bookingOrder.bookingRef }} </h3>
+                <quote>{% trans %}Mail address required to receive ticket(s) following payment{% endtrans %} </quote>
 
-            {{ form_row(form) }}
-            <quote>« la validation de votre commande vaut acceptation des conditions qui s’y réfèrent »</quote>
-            {{ form_rest(form) }}
+                {{ form_start(form) }}
 
-            <input type="submit" class="btn btn-primary" value="{% trans %} Payment {% endtrans %} "/>
+                {{ form_row(form) }}
+
+                {{ form_rest(form) }}
+
+
+                <quote>« la validation de votre commande vaut acceptation des conditions qui s’y réfèrent »</quote>
+
+                <input type="submit" class="btn btn-primary" value="{% trans %}Payment{% endtrans %}"/>
+            {% else %}
+                <quote>« {%  trans %}  %} booking order already settled {% endtrans %}»</quote>
+                <span> {% trans %}Order reference :{% endtrans %} {{  bookingOrder.extPaymentRef }}</span>
+            {% endif %}
 
             <ul>
                 <li><a href="#fragment-1">Guests</a></li>
@@ -33,7 +43,6 @@
                 {% endif %}
             </div>
 
-
         </div>
     </div>
 {% endblock %}
@@ -44,7 +53,7 @@
 
     {% if stripeSession is defined %}
 
-      {# <script type="text/javascript" src=" {{ asset('js/payment_stripe.js') }}  "></script> #}
+        {# <script type="text/javascript" src=" {{ asset('js/payment_stripe.js') }}  "></script> #}
         <script>
             // Create a Stripe client.
             var stripe = Stripe('{{ stripe_public_key }}');

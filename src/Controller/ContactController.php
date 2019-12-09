@@ -15,14 +15,10 @@ class ContactController extends AbstractController
     /** @var \Swift_Mailer */
     private $mailer;
     /**
-     * @var SessionInterface
-     */
-    private $session;
 
-    public function __Construct(\Swift_Mailer $mailer, SessionInterface $session)
+    public function __Construct(\Swift_Mailer $mailer)
     {
         $this->mailer = $mailer;
-        $this->session = $session;
     }
 
     /**
@@ -43,6 +39,8 @@ class ContactController extends AbstractController
 
             $contactFormData = $form->getData();
 
+
+
             $message = (new \Swift_Message('Incoming contact mail'))
                 ->setFrom($contactFormData['email'])
                 ->setTo('ycitynil@gmail.com')
@@ -52,9 +50,8 @@ class ContactController extends AbstractController
                 );
 
             $this->mailer->send($message);
-
-            $this->session->getFlashBag()->add('info', 'your message has been submitted');
-
+            $this->addFlash('info', 'your message has been submitted');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('contact/index.html.twig', [ 'form' => $form->createView(),

@@ -38,7 +38,7 @@ class BookingSubscriber implements EventSubscriberInterface
      */
     public function onBookingPlaced(BookingPlacedEvent $event)
     {
-        // TODO KEEP or NOT ?
+        // TODO send trace internal log $event->getBookingOrder()
         //
     }
 
@@ -49,10 +49,11 @@ class BookingSubscriber implements EventSubscriberInterface
      */
     public function onBookingSettled(BookingSettledEvent $event)
     {
-        dump('bookingSubscriber __onBookingSettled called');
-        // TODO send MAIL
+        dump($event);
+        // TODO send MAIL $event->getBookingOrder()
+
         return new Response(
-            $event->getBookingOrder()
+           'test'
         );
     }
 }

@@ -10,7 +10,6 @@ use App\Validator\Constraints\Visitors as CustomAssert;
 
 /**
  * @ORM\Entity
- * @CustomAssert\NotMultiRegistered(groups={"registration"})
  */
 class Visitor 
 {

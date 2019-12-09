@@ -198,8 +198,8 @@
                  <source>Payment is confirmed</source>
                  <target>Paiement accepté</target>
              </trans-unit>
-             <trans-unit id = "is_beeing_processed">
-                  <source>is beeing processed</source>
+             <trans-unit id = "is_being_processed">
+                  <source>is being processed</source>
                   <target>en cours de traitement</target>
               </trans-unit>
               <trans-unit id = "confirmation_to">
@@ -218,12 +218,22 @@
                       <source>Order ref:</source>
                       <target>Référence Commande</target>
                   </trans-unit>
-
             <trans-unit id = "Mail_address_required_to_receive_ticket(s)_following_payment">
                  <source>Mail address required to receive ticket(s) following payment</source>
                  <target>Un contact mail est requis pour faire suivre vos billets d'entrée</target>
              </trans-unit>
-
+             <trans-unit id = "booking_already_settled">
+               <source>booking order already settled</source>
+               <target>réservation déjà réglée.</target>
+             </trans-unit>
+             <trans-unit id = "already_settled_order">
+                <source>already settled order</source>
+                <target>réservation déjà réglée.</target>
+              </trans-unit>
+            <trans-unit id = "">
+              <source></source>
+              <target></target>
+            </trans-unit>
 
 
         </body>

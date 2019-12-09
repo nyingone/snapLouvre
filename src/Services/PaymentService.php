@@ -111,7 +111,7 @@ class PaymentService implements PaymentServiceInterface
         ];
 
         $paymentInfos = PaymentIntent::retrieve($this->session->get('stripePaymentIntent'));
-        dump();
+
         $payingInfos = [
             'customer' => $paymentInfos->customer,
             'payment_Intent' => $paymentInfos->id,

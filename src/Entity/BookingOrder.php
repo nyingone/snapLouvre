@@ -15,8 +15,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @CustomAssert\NotOutsideDayBookingQuotas(groups={"pre_booking"})
  * @CustomAssert\NotTooLateRegistrationForToday(groups={"pre_booking"})
+ * @CustomAssert\NotMultiRegistered(groups={"pre_booking"})
  * @CustomAssert\NotUnaccompaniedUnderage(groups={"pre_booking"})
- * ---------------------@CustomAssert\NotOnlyFreeVisitors(groups={"pre_booking"})
+ * @CustomAssert\NotAlreadySettledOrder(groups={"pre_booking"})
  */
 class BookingOrder
 {
@@ -276,14 +277,16 @@ class BookingOrder
         return $this->visitors;
     }
 
-    public function getGroupMaxAge(): int
+    public function getGroupMaxAge($bookingOrder): int
     {
         $ageMax = 0;
-        foreach (array_values($this->visitors->getValues()) as $visitor){
-            if($visitor->getAgeYearsOld() > $ageMax) {
+
+        foreach ($bookingOrder->visitors as $visitor){
+            if($visitor->getAgeYearsOld() >= $ageMax) {
                 $ageMax = $visitor->getAgeYearsOld();
             }
         }
+
      return $ageMax;
 
     }

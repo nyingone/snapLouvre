@@ -3,13 +3,12 @@
 namespace App\Manager;
 
 use App\Entity\Visitor;
-use App\Manager\Interfaces\VisitorManagerInterface;
 use App\Services\Interfaces\PricingServiceInterface;
 use App\Services\PricingService;
 use App\Repository\Interfaces\VisitorRepositoryInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class VisitorManager implements VisitorManagerInterface
+class VisitorManager
 {
     /** @var VisitorRepositoryInterface  */
     private $visitorRepository;
@@ -71,24 +70,14 @@ class VisitorManager implements VisitorManagerInterface
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function isMultiRegisteredVisitor(Visitor $visitorToControl) : bool
+
+    public function validVisitor(Visitor $visitor, int $ticketOrder) : int
     {
-        $i = 0;
-        $visitors = $visitorToControl->getBookingOrder()->getVisitors();
-        foreach ($visitors as $visitor) {
-            if($visitor == $visitorToControl){
-                $i++;
-                if ($i > 1): return true;
-                endif;
-            }
-        }
-
-        return false;
+        $ticketOrder ++;
+        $visitor->setConfirmedAt($visitor->getBookingOrder()->getValidatedAt());
+        $visitor->setTicketRef($visitor->getBookingOrder()->getBookingRef() . 'vis###_'. sprintf("%'.03d\n", $ticketOrder));
+        return $ticketOrder;
     }
-
 
 
 }

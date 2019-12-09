@@ -7,8 +7,8 @@
 
 {% block body %}
     {% include 'inc/_workflow.html.twig' with {'level': '4'} only %}
-    <h2>{% trans %}Payment is confirmed {% endtrans %} : {{ bookingOrder.paymentExtRef }} </h2>
-    <p>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }} {% trans %} is beeing processed{% endtrans %} </p>
+    <h2>{% trans %}Payment is confirmed {% endtrans %} : {{ bookingOrder.extPaymentRef }} </h2>
+    <p>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }} {% trans %} is being processed{% endtrans %} </p>
 
     <h4>{% trans %}confirmation to {% endtrans %} {{ bookingOrder.customer.email }} {% trans %} under way {% endtrans %} </h4>
 

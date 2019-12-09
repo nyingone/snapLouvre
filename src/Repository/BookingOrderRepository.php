@@ -52,12 +52,13 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
         $ok = $this->entityManager->contains($bookingOrder);
 
         if ($ok) {
-            $this->entityManager->refresh($bookingOrder);
+         //   $this->entityManager->refresh($bookingOrder);
         } else {
             $this->entityManager->persist($bookingOrder);
         }
 
         $this->entityManager->flush();
+        dump($bookingOrder);
         return $bookingOrder;
     }
 
