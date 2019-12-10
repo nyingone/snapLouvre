@@ -12,13 +12,16 @@ parameters:
     stripe_secret_key: 'sk_test_yoj8qJgNDQkA6UWC2tuTzndK00hMdJ6t6C'
     currency: 'eur'
 
-
 services:
     # default configuration for services in *this* file
     _defaults:
+
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+        # pass this value to any $adminEmail argument for any service
+        # that's defined in this file (including controller arguments)
+            $adminEmail: 'ycitynil@gmail.com'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

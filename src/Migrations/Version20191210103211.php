@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20191207172153 extends AbstractMigration
+final class Version20191210103211 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20191207172153 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE booking_order (id INT AUTO_INCREMENT NOT NULL, customer_id INT UNSIGNED NOT NULL, order_date DATETIME NOT NULL, expected_date DATE NOT NULL, part_time_code SMALLINT NOT NULL, total_amount INT DEFAULT NULL, booking_ref VARCHAR(255) NOT NULL, validated_at DATETIME DEFAULT NULL, ext_payment_intent_ref VARCHAR(255) DEFAULT NULL, ext_payment_ref VARCHAR(255) DEFAULT NULL, ext_payment_status VARCHAR(255) DEFAULT NULL, cancelled_at DATETIME DEFAULT NULL, INDEX IDX_64556E2D9395C3F3 (customer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE booking_order (id INT AUTO_INCREMENT NOT NULL, customer_id INT UNSIGNED NOT NULL, order_date DATETIME NOT NULL, expected_date DATE NOT NULL, part_time_code SMALLINT NOT NULL, total_amount INT DEFAULT NULL, booking_ref VARCHAR(255) NOT NULL, validated_at DATETIME DEFAULT NULL, ext_payment_intent_ref VARCHAR(255) DEFAULT NULL, ext_payment_ref VARCHAR(255) DEFAULT NULL, ext_payment_status VARCHAR(255) DEFAULT NULL, settled_at DATETIME DEFAULT NULL, confirmed_at DATETIME DEFAULT NULL, cancelled_at DATETIME DEFAULT NULL, INDEX IDX_64556E2D9395C3F3 (customer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE closing_period (id INT AUTO_INCREMENT NOT NULL, from_dat0 DATE NOT NULL, to_datex DATE DEFAULT NULL, holy_day TINYINT(1) NOT NULL, closing_day TINYINT(1) NOT NULL, day_of_week SMALLINT DEFAULT NULL, info VARCHAR(50) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE customer (id INT UNSIGNED AUTO_INCREMENT NOT NULL, first_name VARCHAR(255) DEFAULT NULL, last_name VARCHAR(255) DEFAULT NULL, ref_payment_customer VARCHAR(255) DEFAULT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE param (id INT AUTO_INCREMENT NOT NULL, ref_code VARCHAR(30) NOT NULL, label VARCHAR(255) NOT NULL, exe_num VARCHAR(4) NOT NULL, month_num VARCHAR(2) NOT NULL, day_num VARCHAR(2) NOT NULL, number INT NOT NULL, list VARCHAR(255) NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

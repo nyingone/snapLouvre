@@ -1,0 +1,47 @@
+
+
+                    <h4>Check List</h4>
+                    <ul class="timeline">
+                        <li>
+                            <a target="_blank" href="#">New visit</a>
+                            {% if level >= "2" %}
+                                <a href="#" class="float-right">{{ bookingOrder.expectedDate |date("d/m/Y") }}</a>
+                                <p></p>
+                            {% endif %}
+                        </li>
+                        <li>
+
+                                <a href="#">Guest_list</a>
+                            {% if level >= "2" %}
+                                <a href="#" class="float-right"> {{ bookingOrder.wishes }}</a>
+                                <p>...</p>
+                            {% endif %}
+                        </li>
+                        <li>
+
+                            <a href="#">bookingReference</a>
+                            {% if level >= "3" %}
+                                {% if bookingOrder.bookingRef starts with "Temp" %}
+                                    <a href="#" class="float-right">stand by</a>
+                                    {% else %}
+                                    <a href="#" class="float-right"> {{ bookingOrder.bookingRef }}</a>
+                                {% endif %}
+                                <p>total...
+                                <a href="#" class="float-right"> {{ bookingOrder.totalAmount | price}}</a>
+                                </p>
+                            {% endif %}
+                        </li>
+                        <li>
+
+                            <a href="#">PaymentReference</a>
+                            {% if level >= "4" %}
+                            <a href="#" class="float-right">{{ bookingOrder.extPaymentRef }}</a>
+                            <p></p>
+                            {% endif %}
+                        </li>
+                    </ul>
+
+
+
+
+

@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Visitor;
 use App\Validator\Constraints\BookingOrders as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -100,6 +99,11 @@ class BookingOrder
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
+    private $confirmedAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
     private $cancelledAt;
 
     /**
@@ -115,6 +119,7 @@ class BookingOrder
      * @Assert\Valid
      */
     private $visitors;
+
 
 
     public function __construct()
@@ -322,6 +327,18 @@ class BookingOrder
     public function setWishes(int $wishes): self
     {
         $this->wishes = $wishes;
+
+        return $this;
+    }
+
+    public function getConfirmedAt(): ?\DateTimeInterface
+    {
+        return $this->confirmedAt;
+    }
+
+    public function setConfirmedAt(?\DateTimeInterface $confirmedAt): self
+    {
+        $this->confirmedAt = $confirmedAt;
 
         return $this;
     }

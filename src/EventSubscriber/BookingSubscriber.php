@@ -7,8 +7,12 @@ namespace App\EventSubscriber;
 use App\Event\Booking\BookingPlacedEvent;
 use App\Event\Booking\BookingSettledEvent;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
+use App\Services\EmailService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class BookingSubscriber implements EventSubscriberInterface
 {
@@ -17,11 +21,15 @@ class BookingSubscriber implements EventSubscriberInterface
      * @var BookingOrderManagerInterface
      */
     private $bookingOrderManager;
+    /**
+     * @var EmailService
+     */
+    private $emailService;
 
-    public function __construct(BookingOrderManagerInterface $bookingOrderManager)
+    public function __construct(BookingOrderManagerInterface $bookingOrderManager, EmailService $emailService)
     {
         $this->bookingOrderManager = $bookingOrderManager;
-    //  dd('bookingSubscriber __construct called');
+        $this->emailService = $emailService;
     }
 
 
@@ -42,18 +50,23 @@ class BookingSubscriber implements EventSubscriberInterface
         //
     }
 
-
     /**
      * @param BookingSettledEvent $event
-     * @return Response
      */
     public function onBookingSettled(BookingSettledEvent $event)
     {
-        dump($event);
-        // TODO send MAIL $event->getBookingOrder()
+        $response = 0;
+        try {
+            $response = $this->emailService->sendConfirmation($event->getBookingOrder());
+        } catch (LoaderError $e) {
+        } catch (RuntimeError $e) {
+        } catch (SyntaxError $e) {
+        }
 
-        return new Response(
-           'test'
-        );
+        if ($response == 1) {
+            $this->bookingOrderManager->confirmOrderSent($event->getBookingOrder());
+        }
+        // TODO TODO get OK/NOK Response
+
     }
 }

@@ -36,5 +36,6 @@ interface BookingOrderManagerInterface
      * @return bool
      */
     public function remove(BookingOrder $bookingOrder);
+
 }
 

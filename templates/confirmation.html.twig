@@ -5,26 +5,27 @@
 {% endblock %}
 
 
-{% block body %}
+{% block main %}
     {% include 'inc/_workflow.html.twig' with {'level': '4'} only %}
-    <h2>{% trans %}Payment is confirmed {% endtrans %} : {{ bookingOrder.extPaymentRef }} </h2>
-    <p>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }} {% trans %} is being processed{% endtrans %} </p>
+    <h3>{% trans %}Payment_confirmed {% endtrans %}   </h3>
+    <p>{% trans %}Order_being_processed{% endtrans %} </p>
 
-    <h4>{% trans %}confirmation to {% endtrans %} {{ bookingOrder.customer.email }} {% trans %} under way {% endtrans %} </h4>
+    <h4>{% trans %}confirmation_to{% endtrans %} {{ bookingOrder.customer.email }} {% trans %} under_way {% endtrans %} </h4>
 
-    <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
+    <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s)_expected_on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
 
     {% if bookingOrder.visitors is defined %}
 
         {% include 'inc/_visitor.html.twig'  %}
 
     {% else %}
-        <p>{% trans %}no visitor found{% endtrans %}</p>
+        <p>{% trans %}no_visitor_found{% endtrans %}</p>
     {% endif %}
-
-
 
 {% endblock %}
 
-{% block aside %} {% endblock %}
+{% block aside %}
+    {% set vars = {'level': '4'} %}
+    {% include 'inc/_timeline.html.twig' with vars %}
+{% endblock %}
 

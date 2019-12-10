@@ -166,8 +166,14 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
         }
         $this->setBookingOrder($bookingOrder);
+        $this->bookingOrderRepository->save($bookingOrder);
 
         return $this->getBookingOrder();
+    }
+
+    public function confirmOrderSent(BookingOrder $bookingOrder)
+    {
+        $bookingOrder->setConfirmedAt(new \DateTime('now'));
     }
 
 
@@ -206,6 +212,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
     public function setBookingOrder($bookingOrder)
     {
         $this->session->set('BookingOrder', $bookingOrder);
+
     }
 
     /**

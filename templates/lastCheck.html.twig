@@ -2,14 +2,17 @@
 
 {% block title %}synthesis{% endblock %}
 
-{% block body %}
+{% block main %}
     {% include 'inc/_workflow.html.twig' with {'level': '3'} only %}
 
     <div class="row">
         <div class="col-md-12" id="cart">
+            {% if bookingOrder.validatedAt != null %}
+                <h3>{% trans %}Order reference :{% endtrans %} {{ bookingOrder.bookingRef }} </h3>
+            {% endif %}
 
             {% if bookingOrder.settledAt == null %}
-                <h3>{% trans %}Order reference :{% endtrans %} {{ bookingOrder.bookingRef }} </h3>
+
                 <quote>{% trans %}Mail address required to receive ticket(s) following payment{% endtrans %} </quote>
 
                 {{ form_start(form) }}
@@ -17,7 +20,6 @@
                 {{ form_row(form) }}
 
                 {{ form_rest(form) }}
-
 
                 <quote>« la validation de votre commande vaut acceptation des conditions qui s’y réfèrent »</quote>
 
@@ -45,6 +47,11 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block aside %}
+    {% set vars = {'level': '3'} %}
+    {% include 'inc/_timeline.html.twig' with vars %}
 {% endblock %}
 
 {# TODO     TWIG JS ???????????????    #}

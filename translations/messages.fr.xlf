@@ -75,7 +75,7 @@
                 <target>tarif</target>
             </trans-unit>
              <trans-unit id="Visitor_count">
-                <source>Visitor count</source>
+                <source>Visitor_count</source>
                 <target>Nombre de visiteurs</target>
             </trans-unit>
             <trans-unit id="Full_day_and_Full_tarif">
@@ -91,11 +91,11 @@
                 <target>DemiJournée  -Demi Tarif</target>
             </trans-unit>
             <trans-unit id="Part_time_code">
-                <source>Part time code</source>
+                <source>Part_time_code.label</source>
                 <target>Créneau tarifaire</target>
             </trans-unit>
              <trans-unit id="Go_ahead">
-                <source>Go ahead</source>
+                <source>Go_ahead</source>
                 <target>Etape suivante</target>
             </trans-unit>
             <trans-unit id="visitors">
@@ -103,23 +103,23 @@
                  <target>visiteurs</target>
             </trans-unit>
             <trans-unit id="Your_order">
-                <source>Your order</source>
+                <source>Your_order</source>
                 <target>Votre réservation</target>
             </trans-unit>
             <trans-unit id="Your_visitors">
-                <source>Your visitors</source>
+                <source>Your_visitors</source>
                 <target>Vos visiteurs</target>
             </trans-unit>
             <trans-unit id="Your_guests">
-                <source>Your guests</source>
+                <source>Your_guests</source>
                 <target>Vos invités</target>
             </trans-unit>
              <trans-unit id="Your_references_and_tickets_order">
-                <source>Your references and tickets order</source>
+                <source>Your_references_and_tickets_order</source>
                 <target>Vos références et billets commandés</target>
             </trans-unit>
             <trans-unit id="Your_orders">
-                <source>Your orders</source>
+                <source>Your_orders</source>
                 <target>Vos commandes</target>
             </trans-unit>
             <trans-unit id="Booking">
@@ -127,11 +127,11 @@
                 <target>Réservation</target>
             </trans-unit>
             <trans-unit id="booking_orders">
-                <source>Booking orders</source>
+                <source>Booking_orders</source>
                 <target>Demandes de réservation</target>
             </trans-unit>
             <trans-unit id="Booking_visitors">
-                 <source>Booking visitors</source>
+                 <source>Booking_visitors</source>
                  <target>Visiteurs</target>
             </trans-unit>
             <trans-unit id="symfony_is_great">
@@ -139,23 +139,23 @@
                 <target>J'aime Symfony</target>
             </trans-unit>
             <trans-unit id="booking_closed_booking_period_or_day">
-                <source>Closed booking period or day</source>
+                <source>booking_closed_booking_period_or_day</source>
                 <target>Réservations fermées à cette date</target>
             </trans-unit>
             <trans-unit id="booking_closed_on_following_days_of_week">
-                <source>Booking closed on Tuesdays and Sundays</source>
+                <source>booking_closed_on_following_days_of_week</source>
                 <target>Réservations fermées les Mardi et Dimanche</target>
             </trans-unit>
             <trans-unit id="booking_ended_for_today">
-                <source>Booking closed for today</source>
+                <source>booking_ended_for_today</source>
                 <target>Réservations closes pour aujourd'hui</target>
             </trans-unit>
             <trans-unit id="booking_order">
-               <source>Booking order</source>
+               <source>booking_order</source>
                <target>Réservation</target>
             </trans-unit>
             <trans-unit id="select_a_date">
-                <source>select a date</source>
+                <source>select_a_date</source>
                 <target>choisir une date</target>
             </trans-unit>
             <trans-unit id="Wishes">
@@ -163,23 +163,23 @@
                 <target>Nombre de billets</target>
             </trans-unit>
             <trans-unit id="booking_closed_on_holy_day">
-                <source>booking closed on holy days</source>
+                <source>booking_closed_on_holy_day</source>
                 <target>réservations fermées les jours feriés</target>
             </trans-unit>
             <trans-unit id= "museum_closed_on_chosen_date_or_period">
-                <source>museum closed on chosen date or period</source>
+                <source>museum_closed_on_chosen_date_or_period</source>
                 <target>museum fermé le jour ou pour la période choisie</target>
              </trans-unit>
              <trans-unit id= "unaccompanied_underage_visitor_not_allowed">
-                <source>unaccompagnied underage are not allowed</source>
+                <source>unaccompanied_underage_visitor_not_allowed</source>
                 <target>mineurs non accompagnés non autorisés</target>
              </trans-unit>
              <trans-unit id= "Enter_mail_to_receive_your_ticket(s)_following_payment">
-             <source>Mail adress required to receive ticket(s) following payment</source>
+             <source>Enter_mail_to_receive_your_ticket(s)_following_payment</source>
              <target>Indiquer obligatoirement un contact mail pour envoi de vos billets après règlement</target>
              </trans-unit>
              <trans-unit id = "visitor(s)_expected_on">
-                <source>visitor(s) expected on</source>
+                <source>visitor(s) expected onvisitor(s)_expected_on</source>
                 <target>visiteur(s) attendu(s) le</target>
              </trans-unit>
              <trans-unit id="Payment">
@@ -187,27 +187,27 @@
                  <target>Paiement</target>
              </trans-unit>
              <trans-unit id = "Debit_Card_for_total_due:">
-                 <source>Debit Card for total due:</source>
+                 <source>DDebit_Card_for_total_due:</source>
                  <target>Debiter la carte pour un total de:</target>
              </trans-unit>
              <trans-unit id = "Booking_validation">
-                 <source>Booking validation</source>
+                 <source>Booking_validation</source>
                  <target>Validation de la réservation</target>
              </trans-unit>
             <trans-unit id = "Payment_is_confirmed">
-                 <source>Payment is confirmed</source>
+                 <source>Payment_is_confirmed</source>
                  <target>Paiement accepté</target>
              </trans-unit>
              <trans-unit id = "is_being_processed">
-                  <source>is being processed</source>
+                  <source>is_being_processed</source>
                   <target>en cours de traitement</target>
               </trans-unit>
               <trans-unit id = "confirmation_to">
-                   <source>confirmation to</source>
+                   <source>confirmation_to</source>
                    <target>confirmation adressé à </target>
                </trans-unit>
                <trans-unit id = "under_way">
-                    <source>under way</source>
+                    <source>under_way</source>
                     <target>en cours</target>
                 </trans-unit>
                 <trans-unit id = "Birthdate">
@@ -215,21 +215,26 @@
                      <target>Année de naissance</target>
                  </trans-unit>
                  <trans-unit id = "Order_ref:">
-                      <source>Order ref:</source>
+                      <source>Order_ref:</source>
                       <target>Référence Commande</target>
                   </trans-unit>
             <trans-unit id = "Mail_address_required_to_receive_ticket(s)_following_payment">
-                 <source>Mail address required to receive ticket(s) following payment</source>
+                 <source>Mail_address_required_to_receive_ticket(s)_following_payment</source>
                  <target>Un contact mail est requis pour faire suivre vos billets d'entrée</target>
              </trans-unit>
              <trans-unit id = "booking_already_settled">
-               <source>booking order already settled</source>
+               <source>booking_already_settled</source>
                <target>réservation déjà réglée.</target>
              </trans-unit>
              <trans-unit id = "already_settled_order">
-                <source>already settled order</source>
+                <source>already_settled_order</source>
                 <target>réservation déjà réglée.</target>
               </trans-unit>
+               <trans-unit id = "subject_bookingOrder_confirmation">
+                <source>subject_bookingOrder_confirmation</source>
+                <target>objet: confirmation de réservation</target>
+              </trans-unit>
+
             <trans-unit id = "">
               <source></source>
               <target></target>

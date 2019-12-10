@@ -14,23 +14,25 @@ class ContactController extends AbstractController
 {
     /** @var \Swift_Mailer */
     private $mailer;
-    /**
-
-    public function __Construct(\Swift_Mailer $mailer)
-    {
-        $this->mailer = $mailer;
-    }
 
     /**
+     *
+     * public function __Construct(\Swift_Mailer $mailer)
+     * {
+     * $this->mailer = $mailer;
+     * }
+     *
+     * /**
      * @Route(
      *     path = "/contact",
      *     name="contact",
      *     methods = {"GET"}
      * )
      * @param Request $request
+     * @param string $adminEmail
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, string $adminEmail): Response
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
@@ -39,11 +41,9 @@ class ContactController extends AbstractController
 
             $contactFormData = $form->getData();
 
-
-
             $message = (new \Swift_Message('Incoming contact mail'))
                 ->setFrom($contactFormData['email'])
-                ->setTo('ycitynil@gmail.com')
+                ->setTo($adminEmail)
                 ->setBody(
                     $contactFormData['message'],
                     'text/plain'

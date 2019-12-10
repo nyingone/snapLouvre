@@ -2,7 +2,7 @@
 
 {% block title %}visit{% endblock %}
 
-{% block body %}
+{% block main %}
 
     {% set vars = {'level': '1'} %}
 
@@ -14,14 +14,14 @@
                 {{ form_start(form) }}
 
 
-                <h3>{% trans %} Your order {% endtrans %} </h3>
+                <h3>{% trans %}Your_order{% endtrans %} </h3>
 
 
 
             {{ form_row(form) }}
 
             {{ form_rest(form) }}
-            <input type="submit" class="btn btn-primary" value= "{% trans %} Go ahead {% endtrans %} " />
+            <input type="submit" class="btn btn-primary" value= "{% trans %} Go_ahead {% endtrans %} " />
 
             {{ form_end(form) }}
 

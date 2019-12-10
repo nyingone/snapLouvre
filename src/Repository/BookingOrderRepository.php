@@ -58,7 +58,7 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
         }
 
         $this->entityManager->flush();
-        dump($bookingOrder);
+
         return $bookingOrder;
     }
 
@@ -69,7 +69,7 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
     public function remove(BookingOrder $bookingOrder)
     {
         $this->entityManager->remove($bookingOrder);
-        return $this->entityManager->flush();
+        $this->entityManager->flush();
     }
 
     /**
