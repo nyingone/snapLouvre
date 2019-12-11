@@ -197,13 +197,18 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function getBookingOrder(): ?BookingOrder
     {
-        $bookingOrder = $this->session->get('BookingOrder');
+        if($this->session->has('BookingOrder'))
+        {
+            $bookingOrder = $this->session->get('BookingOrder');
 
-        if ($bookingOrder instanceOf BookingOrder && $bookingOrder->getId()) {
-            return $this->bookingOrderRepository->find($bookingOrder);
+            if ($bookingOrder instanceOf BookingOrder && $bookingOrder->getId()) {
+                return $this->bookingOrderRepository->find($bookingOrder);
+            }
+            return $bookingOrder;
         }
 
-        return $bookingOrder;
+        return $this->inzBookingOrder();
+
     }
 
     /**

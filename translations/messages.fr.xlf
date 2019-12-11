@@ -55,8 +55,8 @@
                 <target>Pays</target>
             </trans-unit>
             <trans-unit id="Birth_date">
-                <source>Birth date</source>
-                <target>Date de naissance</target>
+                <source>Birth_date</source>
+                <target>Né(e) le </target>
             </trans-unit>
             <trans-unit id="Eligible_to_discount?">
                 <source>Eligible to discount?</source>
@@ -91,12 +91,12 @@
                 <target>DemiJournée  -Demi Tarif</target>
             </trans-unit>
             <trans-unit id="Part_time_code">
-                <source>Part_time_code.label</source>
-                <target>Créneau tarifaire</target>
+                <source>Part_time_code</source>
+                <target>Type billet</target>
             </trans-unit>
              <trans-unit id="Go_ahead">
                 <source>Go_ahead</source>
-                <target>Etape suivante</target>
+                <target>Suite</target>
             </trans-unit>
             <trans-unit id="visitors">
                  <source>visitors</source>
@@ -212,8 +212,9 @@
                 </trans-unit>
                 <trans-unit id = "Birthdate">
                      <source>Birthdate</source>
-                     <target>Année de naissance</target>
+                     <target>Né(e) le </target>
                  </trans-unit>
+
                  <trans-unit id = "Order_ref:">
                       <source>Order_ref:</source>
                       <target>Référence Commande</target>

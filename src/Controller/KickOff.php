@@ -23,7 +23,7 @@ class KickOff extends AbstractController
      */
     public function index(Request $request, BookingOrderManagerInterface $bookingOrderManager): Response
     {
-        $bookingOrder = $bookingOrderManager->inzBookingOrder();
+        $bookingOrder = $bookingOrderManager->getBookingOrder();
 
         $form = $this->createForm(BookingOrderType::class, $bookingOrder);
         $form->handleRequest($request);

@@ -20,20 +20,25 @@ class VisitorType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'label_firstname',
+                ]
             ])
-            ->add('lastName',  TextType::class, [
+            ->add('lastName', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'label_lastname',
+                ]
             ])
             ->add('birthDate', BirthdayType::class, [
             ])
             ->add('country', CountryType::class, array(
-            'preferred_choices' => array('FR'),
+                'preferred_choices' => array('FR'),
             ))
             ->add('discounted', CheckboxType::class, [
-                'label'    => 'Eligible to discount?',
+                'label' => 'Eligible to discount?',
                 'required' => false,
-            ])
-        ;
-      //  $builder->add('delete', SubmitType::class);
+            ]);
+        //  $builder->add('delete', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -43,8 +48,8 @@ class VisitorType extends AbstractType
             'validation_groups' => ['default'],
         ]);
     }
-    
-    
+
+
 }
 
 

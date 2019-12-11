@@ -1,11 +1,107 @@
-body {
-    background-color: lightblue;
-    font-family: Arial,Verdana,Helvetica,sans-serif;
+@media (min-width: 468px) and (max-width: 767px) {
+    /*tablette verticale*/
+    .container-fluid {
+        min-width: 465px;
+    }
+
+    img {
+        max-width: 760px;
+        height: auto;
+    }
+
+    body {
+        /* background-image: url('/public/img/sunset.jpg'); */
+        background-size: 100% 100%;
+        font-family: Arial, Verdana, Helvetica, sans-serif;
+    }
 }
-.panel-group { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif;
+
+@media (min-width: 768px) and (max-width: 991px) {
+    /*tablette horizontales */
+    .container-fluid {
+        min-width: 768px;
+        background-image: url("/img/rooftop.jpg");
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    body {
+
+        padding: 3em 5em;
+        /* background-image: url('/public/img/sunset.jpg'); */
+        background-size: 100% 100%;
+        font-family: Arial, Verdana, Helvetica, sans-serif;
+    }
 }
+
+@media (min-width: 992px) and (max-width: 1024px) {
+    /*ecran ordi*/
+    .container-fluid {
+        min-width: 990px;
+        background-image: url("/img/img1024/rooftop.jpg");
+        background-size: cover;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+    }
+
+    body {
+
+        padding: 3em 5em;
+        /* background-image: url('/public/img/sunset.jpg'); */
+        background-size: 100% 100%;
+        font-family: Arial, Verdana, Helvetica, sans-serif;
+    }
+}
+
+@media (min-width: 1025px) {
+    /*ecran ordi*/
+    body {
+
+        padding: 3em 5em;
+
+        background-image: url(/img/up.jpg);
+        background-origin: inherit;
+        background-position: left;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-clip: initial;
+        /* background-image: url('/public/img/sunset.jpg'); */
+        font-family: Arial, Verdana, Helvetica, sans-serif;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: none;
+    }
+
+    footer {
+
+        position: fixed;
+        bottom: 10px;
+    }
+}
+
+.form-group {
+    width: 95%;
+}
+
+.panel-group {
+    margin: 1em auto;
+    max-width: 800px;
+    width: 95%;
+    font: 18px/1.5 sans-serif;
+}
+
+
 h1 {
-    font-family: Georgia,"Times New Roman",Times,serif;
+    font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 /*             ------------------------------------ */
@@ -14,10 +110,10 @@ h1 {
     list-style: none;
     display: inline-table;
 }
+
 #snap_crumbs ul li {
     display: inline;
 }
-
 
 #snap_crumbs ul li a {
     display: block;
@@ -37,8 +133,10 @@ h1 {
 
 
 #snap_crumbs ul li:first-child a {
-    border-top-left-radius: 10px; border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
+
 #snap_crumbs ul li:first-child a:before {
     display: none;
 }
@@ -48,17 +146,19 @@ h1 {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
 #snap_crumbs ul li:last-child a:after {
     display: none;
 }
 
 #snap_crumbs ul li a:hover {
     background: #357DFD;
-    color:#fff;
+    color: #fff;
 }
+
 #snap_crumbs ul li a:hover:after {
     border-left-color: #357DFD;
-    color:#fff;
+    color: #fff;
 }
 
 
@@ -72,6 +172,7 @@ h1 {
     top: 0;
     z-index: 1;
 }
+
 #snap_crumbs ul li:before {
     content: "";
     border-top: 40px solid transparent;
@@ -82,10 +183,11 @@ h1 {
     top: 0;
 }
 
-ul.timeline {
+ul.timeline, ul.detail {
     list-style-type: none;
     position: relative;
 }
+
 ul.timeline:before {
     content: ' ';
     background: #d4d9df;
@@ -96,10 +198,12 @@ ul.timeline:before {
     height: 100%;
     z-index: 400;
 }
+
 ul.timeline > li {
     margin: 20px 0;
     padding-left: 20px;
 }
+
 ul.timeline > li:before {
     content: ' ';
     background: white;
