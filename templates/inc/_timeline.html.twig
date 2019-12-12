@@ -1,56 +1,53 @@
-<h4>see you</h4>
 <ul class="timeline">
-
 
     {% if level >= "1" %}
         <li>
-            <a target="_blank" href="{{ path('home') }}">On</a>
-            <a href="{{ path('home') }}">{{ bookingOrder.expectedDate |date("d/m/Y") }}</a>
-            <p></p>
+            <a target="_blank" href="{{ path('home') }}">
+                <h5><i class="fa fa-calendar"></i>See_you_on {{ bookingOrder.expectedDate |date("d/m/Y") }}</h5></a>
         </li>
     {% endif %}
 
     {% if level >= "2" %}
         <li>
-            <a href="{{ path('guest') }} "> {{ bookingOrder.wishes }} guest </a>
+            <a href="{{ path('guest') }} "><h5>{{ bookingOrder.wishes }} guest </h5></a>
             {% if bookingOrder.visitors is defined %}
-                <ul class="detail">
-                    {% for visitor in bookingOrder.visitors %}
-                        <li>
-                            <p>{{ visitor.firstName | title }}   {{ visitor.lastName | upper }} </p>
-                            {% if level >= "3" %}
-                                <p> {{ visitor.birthDate| date("d/m/Y") }} . ' tariff ' .{{ visitor.cost | price }} </p>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% for visitor in bookingOrder.visitors %}
+                    <p>
+                        {{ visitor.firstName | title }} {{ visitor.lastName | upper }} <br>
+                        {% if level >= "3" %}
+                            <span class="float-right">
+                                ({{ visitor.cost | price }})
+                            </span>
+                        {% endif %}
+                    </p>
+                {% endfor %}
             {% endif %}
         </li>
     {% endif %}
 
-    {% if level >= "3" %}
-        <li>
-            <a href="{{ path('lastCheck') }}">bookingReference</a>
 
-            {% if bookingOrder.bookingRef starts with "Temp" %}
-                <a href="#" stand by</a>
-            {% else %}
-                <a href="#" class="float-right"> {{ bookingOrder.bookingRef }}</a>
-            {% endif %}
-            <p>total...
-                <a href="#" class="float-right"> {{ bookingOrder.totalAmount | price }}</a>
-            </p>
-        </li>
-    {% endif %}
+    <li>
+        {% if level >= "3" %}
+            <a href="{{ '#' }}"><h5>validation_for_payment</h5></a>
+            <p>{% trans %}Booking_reference {% endtrans %}  {{ bookingOrder.bookingRef }}  </p>
+        {% else %}
+            <a href="{{ path('lastCheck') }}">confirmation</a>
+        {% endif %}
 
-    {% if level >= "4" %}
-        <li>
-            <a href="#">PaymentReference</a>
+        <p>
+            <span class="float-right">
+                total {{ bookingOrder.totalAmount | price }}
+            </span>
+        </p>
 
-            <a href="#" class="float-right">{{ bookingOrder.extPaymentRef }}</a>
-            <p></p>
-        </li>
-    {% endif %}
+    </li>
+    <li>
+        <a href="#"><h5>Confirmation</h5></a>
+    <p>
+        {% trans %}Payment_confirmed {% endtrans %}   {{ bookingOrder.extPaymentRef }}
+    </p>
+    </li>
+
 </ul>
 
 

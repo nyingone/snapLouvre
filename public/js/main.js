@@ -20,7 +20,10 @@ window.onerror = function (msg, url, noLigne, noColonne, erreur) {
 let array = ["2019-10-01","2019-10-02","2019-10-03"];
 
 jQuery(document).ready(function (){
-    $("[id$= 'expectedDate']").datepicker();
+  $("[id$= 'expectedDate']").datepicker();
+    //$( "#datepicker" ).datepicker();
+
+
 
     $.datepicker.setDefaults({
         showOn: "both",
@@ -59,6 +62,8 @@ jQuery(document).ready(function (){
         buttonText: "Select date"
 
     });
+
+
 });
 
 

@@ -2,7 +2,7 @@
 
 {% block title %}
     {% if bookingOrder.validatedAt != null %}
-        <h3>{% trans %}Order_reference :{% endtrans %} {{ bookingOrder.bookingRef }} </h3>
+        <h3>{% trans %}Order_reference :{% endtrans %}  </h3>
     {% endif %}
 
 {% endblock %}
@@ -14,11 +14,18 @@
     <div class="row">
         <div class="col-md-12" id="cart">
 
+            <h3>{% trans %}guests{% endtrans %} </h3>
+
             {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {% for visitor in form.visitors %}
+                {{ form_row(visitor.firstName) }}
+                {{ form_row(visitor.lastName) }}
+                {{ form_row(visitor.birthDate) }}
+                {{ form_row(visitor.country) }}
+                {{ form_row(visitor.discounted) }}
+            {% endfor %}
 
-
-            <h3>{% trans %}Your_order{% endtrans %} </h3>
-           {{ form_row(form) }}
 
             {{ form_rest(form) }}
 

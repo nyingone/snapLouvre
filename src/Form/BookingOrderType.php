@@ -29,9 +29,8 @@ class BookingOrderType extends AbstractType
                 'html5' => false,
                 'format' => 'dd/MM/yyyy',
                  // adds a class that can be selected in JavaScript
-                'attr' => ['class' => 'js-datepicker', 
-                'id' => 'datepicker',
-                'placeholder' => 'select_a_date',
+                'attr' => [
+                    'class' => 'js-datepicker',
                 ],
             ])
             ->add('partTimeCode', PartTimeCodeType::class, [

@@ -1,60 +1,28 @@
-@media (min-width: 468px) and (max-width: 767px) {
-    /*tablette verticale*/
-    .container-fluid {
-        min-width: 465px;
-    }
-
-    img {
-        max-width: 760px;
-        height: auto;
-    }
-
+@media (max-width: 767px) {
     body {
-        /* background-image: url('/public/img/sunset.jpg'); */
-        background-size: 100% 100%;
-        font-family: Arial, Verdana, Helvetica, sans-serif;
+        padding-left: 0.5em;
+        background-color: #CC9494;
+        background-image: url(/img/img600/louvre_entrance.jpg);
+        background-position: left top;
+
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    / font-family: Arial, Verdana, Helvetica, sans-serif;
+
     }
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-    /*tablette horizontales */
-    .container-fluid {
-        min-width: 768px;
-        background-image: url("/img/rooftop.jpg");
-    }
-
-    img {
-        width: 100%;
-        height: auto;
-    }
-
+@media (min-width: 768px) and (max-width: 1024px) {
     body {
+        padding-left: 0.5em;
+        background-color: #3C3228;
+        background-image: url(/img/up.jpg);
+        background-position: center center;
 
-        padding: 3em 5em;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        /*  background-clip: initial; */
         /* background-image: url('/public/img/sunset.jpg'); */
-        background-size: 100% 100%;
-        font-family: Arial, Verdana, Helvetica, sans-serif;
-    }
-}
-
-@media (min-width: 992px) and (max-width: 1024px) {
-    /*ecran ordi*/
-    .container-fluid {
-        min-width: 990px;
-        background-image: url("/img/img1024/rooftop.jpg");
-        background-size: cover;
-    }
-
-    img {
-        width: 100%;
-        height: 100%;
-    }
-
-    body {
-
-        padding: 3em 5em;
-        /* background-image: url('/public/img/sunset.jpg'); */
-        background-size: 100% 100%;
         font-family: Arial, Verdana, Helvetica, sans-serif;
     }
 }
@@ -62,31 +30,37 @@
 @media (min-width: 1025px) {
     /*ecran ordi*/
     body {
+        padding-left: 0.5em;
+        background-color: #3C3228;
+        background-image: url(/img/img600/louvre_entrance.jpg), url(/img/img1024/rooftop.jpg);
+        background-position: left top, right bottom;
 
-        padding: 3em 5em;
-
-        background-image: url(/img/up.jpg);
-        background-origin: inherit;
-        background-position: left;
         background-attachment: fixed;
         background-repeat: no-repeat;
-        background-clip: initial;
+        /*  background-clip: initial; */
         /* background-image: url('/public/img/sunset.jpg'); */
         font-family: Arial, Verdana, Helvetica, sans-serif;
     }
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: none;
-    }
-
-    footer {
-
-        position: fixed;
-        bottom: 10px;
-    }
 }
+
+/* img {
+    width: 200%;
+    height: 200%;
+}*/
+
+form  {
+    padding-top: 5%;
+    background-color: rgba(204, 148, 148, 0.4);
+}
+#timeline {
+    background-color: rgba(204, 148, 148, 0.4);
+}
+
+footer {
+    position: fixed;
+    bottom: 10px;
+}
+
 
 .form-group {
     width: 95%;
@@ -104,62 +78,18 @@ h1 {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
+a {
+    color: #7E9FCC
+}
+a:hover , #timeline a:hover {
+    background: #B0C2D8
+}
+
+.navbar  {
+    background-position: left top;
+}
+
 /*             ------------------------------------ */
-
-#snap_crumbs ul {
-    list-style: none;
-    display: inline-table;
-}
-
-#snap_crumbs ul li {
-    display: inline;
-}
-
-#snap_crumbs ul li a {
-    display: block;
-    float: left;
-    height: 50px;
-    background: #F3F5FA;
-
-    text-align: center;
-    padding: 20px 20px 0 20px;
-    position: relative;
-    margin: 0 10px 0 0;
-
-    font-size: 20px;
-    text-decoration: none;
-    /*  color: $ text-color; */
-}
-
-
-#snap_crumbs ul li:first-child a {
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-#snap_crumbs ul li:first-child a:before {
-    display: none;
-}
-
-#snap_crumbs ul li:last-child a {
-    padding-right: 40px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-#snap_crumbs ul li:last-child a:after {
-    display: none;
-}
-
-#snap_crumbs ul li a:hover {
-    background: #357DFD;
-    color: #fff;
-}
-
-#snap_crumbs ul li a:hover:after {
-    border-left-color: #357DFD;
-    color: #fff;
-}
 
 
 #snap_crumbs ul li:after {
@@ -215,4 +145,18 @@ ul.timeline > li:before {
     width: 20px;
     height: 20px;
     z-index: 400;
+}
+
+#lastCheck {
+    padding-top: 5%;
+    background-color: rgba(204, 148, 148, 0.4);
+    background-position: right bottom;
+    text-align: center;
+    text-emphasis-position: over;
+}
+
+
+#endBooking {
+    text-align: center;
+    text-emphasis-position: over;
 }

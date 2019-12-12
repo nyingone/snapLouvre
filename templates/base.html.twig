@@ -20,24 +20,25 @@
     {% endblock %}
 </head>
 <body>
+<div class="col-md-12">
+    {{ include('inc/_navbar.html.twig') }}
+
+</div>
 
 <div class="container-fluid" style=" background-image: {{ asset('up.jpg.jpg') }}">
 
     <div class="col-md-12">
-        <div class="col-sm-6">
-            {{ include('inc/_navbar.html.twig') }}
-            {% include 'inc/_flashMsg.html.twig' %}
-        </div>
+
 
         <section class="row">
-            <div class="col-sm-6">
-
+            <div class="col-md-6">
+                {% include 'inc/_flashMsg.html.twig' %}
                 <main class="container main">
                     {% block main %}
                     {% endblock %}
                 </main>
             </div>
-            <div class="col-sm-4">
+            <div class="col-md-4">
                 <aside class="container main">
                     {% block aside %}
                     {% endblock %}

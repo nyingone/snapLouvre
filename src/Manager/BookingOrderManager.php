@@ -174,6 +174,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
     public function confirmOrderSent(BookingOrder $bookingOrder)
     {
         $bookingOrder->setConfirmedAt(new \DateTime('now'));
+        $this->bookingOrderRepository->save($bookingOrder);
     }
 
 

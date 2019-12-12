@@ -236,11 +236,15 @@
                 <target>objet: confirmation de réservation</target>
               </trans-unit>
 
-            <trans-unit id = "">
+            <trans-unit id = "accepting_booking_and_payment_requirements">
+              <source>accepting_booking_and_payment_requirements</source>
+              <target>la validation de votre commande vaut acceptation des conditions qui s’y réfèrent</target>
+            </trans-unit>
+
+<trans-unit id = "">
               <source></source>
               <target></target>
             </trans-unit>
-
 
         </body>
     </file>

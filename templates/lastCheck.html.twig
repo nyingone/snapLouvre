@@ -1,58 +1,47 @@
+{% set vars = {'level': '3'} %}
 {% extends 'base.html.twig' %}
 
-{% block title %}synthesis{% endblock %}
+{% block title %}payment{% endblock %}
 
 {% block main %}
     {#
     {% include 'inc/_workflow.html.twig' with {'level': '3'} only %} #}
 
     <div class="row">
-        <div class="col-md-12" id="cart">
+        <div class="col-md-9 offset-md-2" id="lastCheck">
+        <h2> {% trans %}Mail address required to receive ticket(s) following payment{% endtrans %} </h2>
+
             {% if bookingOrder.validatedAt != null %}
                 <h3>{% trans %}Order reference :{% endtrans %} {{ bookingOrder.bookingRef }} </h3>
+           {% else %}
+                <h3> </h3>
             {% endif %}
-
+            <hr>
             {% if bookingOrder.settledAt == null %}
 
-                <quote>{% trans %}Mail address required to receive ticket(s) following payment{% endtrans %} </quote>
-
                 {{ form_start(form) }}
+                {{ form_errors(form) }}
 
-                {{ form_row(form) }}
+                {{ form_row(form.customer.email) }}
 
                 {{ form_rest(form) }}
 
-                <quote>« la validation de votre commande vaut acceptation des conditions qui s’y réfèrent »</quote>
-
+                <quote>{% trans %}accepting_booking_and_payment_requirements{% endtrans %}</quote>
+                <hr>
                 <input type="submit" class="btn btn-primary" value="{% trans %}Payment{% endtrans %}"/>
-            {% else %}
-                <quote>« {%  trans %}  %} booking order already settled {% endtrans %}»</quote>
-                <span> {% trans %}Order reference :{% endtrans %} {{  bookingOrder.extPaymentRef }}</span>
             {% endif %}
 
-            <ul>
-                <li><a href="#fragment-1">Guests</a></li>
-            </ul>
+
 
             {{ form_end(form) }}
-
-            <div id="fragment-1">
-                <h3>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </h3>
-
-                {% if bookingOrder.visitors is defined %}
-                    {% include 'inc/_visitor.html.twig' %}
-                {% else %}
-                    <p>{% trans %}no visitor found{% endtrans %}</p>
-                {% endif %}
-            </div>
 
         </div>
     </div>
 {% endblock %}
 
 {% block aside %}
-    {% set vars = {'level': '3'} %}
-    {% include 'inc/_timeline.html.twig' with vars %}
+
+
 {% endblock %}
 
 {# TODO     TWIG JS ???????????????    #}

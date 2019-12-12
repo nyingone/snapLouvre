@@ -45,7 +45,6 @@ class Confirmation extends AbstractController implements PaymentAuthenticate
         $session->remove('bookingOrder');
 
         if(isset($bookingOrder)) {
-            $this->addFlash('success', 'Order paid and settled!');
             return $this->render('confirmation.html.twig', ['bookingOrder' => $bookingOrder,
             ]);
         } else{

@@ -8,20 +8,12 @@
 {% block main %}
     {#
     {% include 'inc/_workflow.html.twig' with {'level': '4'} only %} #}
-    <h3>{% trans %}Payment_confirmed {% endtrans %}   </h3>
-    <p>{% trans %}Order_being_processed{% endtrans %} </p>
 
-    <h4>{% trans %}confirmation_to{% endtrans %} {{ bookingOrder.customer.email }} {% trans %} under_way {% endtrans %} </h4>
 
-    <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s)_expected_on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
-
-    {% if bookingOrder.visitors is defined %}
-
-        {% include 'inc/_visitor.html.twig'  %}
-
-    {% else %}
-        <p>{% trans %}no_visitor_found{% endtrans %}</p>
-    {% endif %}
+<div id="endBooking">
+    <h2>{% trans %}confirmation_to{% endtrans %} <br>
+        {{ bookingOrder.customer.email }} <br> {% trans %}is_under_way {% endtrans %} </h2>
+</div>
 
 {% endblock %}
 
