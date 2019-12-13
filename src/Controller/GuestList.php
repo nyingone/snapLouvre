@@ -35,7 +35,7 @@ class GuestList extends AbstractController
         }
 
 
-        return $this->render('guestlList.html.twig', ['visitors' => $bookingOrder->getVisitors(),
+        return $this->render('guestList.html.twig', ['visitors' => $bookingOrder->getVisitors(),
             'form' => $form->createView(),
             'bookingOrder' => $bookingOrder,
         ]);

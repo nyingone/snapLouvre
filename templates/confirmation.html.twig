@@ -1,3 +1,4 @@
+{% set vars = {'level': '4'} %}
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -10,15 +11,18 @@
     {% include 'inc/_workflow.html.twig' with {'level': '4'} only %} #}
 
 
-<div id="endBooking">
+<div id="confirmation">
     <h2>{% trans %}confirmation_to{% endtrans %} <br>
         {{ bookingOrder.customer.email }} <br> {% trans %}is_under_way {% endtrans %} </h2>
 </div>
 
 {% endblock %}
 
+
 {% block aside %}
-    {% set vars = {'level': '4'} %}
-    {% include 'inc/_timeline.html.twig' with vars %}
+    {{ parent() }}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

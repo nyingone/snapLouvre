@@ -5,12 +5,24 @@
 {% endblock %}
 
 
-{% block body %}
-    {{ form_start(form) }}
+    {% block main %}
+    <div id="contact">
+        {{ form_start(form) }}
 
-    {{ form_end(form) }}
+        {{ form_rest(form) }}
 
-{% endblock %}
+        <button type = "submit" class="background-dark float-right" value="{% trans %} Send {% endtrans %} ">
+            <p>Send</p>
+            <img src="{{ asset('img/button_75.png') }}" />
+        </button>
 
-{% block aside %} {% endblock %}
+
+        {{ form_end(form) }}
+    </div>
+    {% endblock %}
+
+    {% block aside %}
+
+    {% endblock %}
+
 

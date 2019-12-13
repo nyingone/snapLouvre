@@ -1,60 +1,50 @@
-@media (max-width: 767px) {
-    body {
-        padding-left: 0.5em;
-        background-color: #CC9494;
-        background-image: url(/img/img600/louvre_entrance.jpg);
-        background-position: left top;
-
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-    / font-family: Arial, Verdana, Helvetica, sans-serif;
-
-    }
+* {
+    box-sizing: border-box;
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    body {
-        padding-left: 0.5em;
-        background-color: #3C3228;
-        background-image: url(/img/up.jpg);
-        background-position: center center;
+body {
+    min-height: 100vh;
+    padding-left: 0.5em;
+    /* background-color: #3C3228; */
+    background-image: url(../img/up.jpg), linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0.3));
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: Georgia, "Times New Roman", Times, serif;
 
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-        /*  background-clip: initial; */
-        /* background-image: url('/public/img/sunset.jpg'); */
-        font-family: Arial, Verdana, Helvetica, sans-serif;
-    }
 }
 
-@media (min-width: 1025px) {
-    /*ecran ordi*/
-    body {
-        padding-left: 0.5em;
-        background-color: #3C3228;
-        background-image: url(/img/img600/louvre_entrance.jpg), url(/img/img1024/rooftop.jpg);
-        background-position: left top, right bottom;
-
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-        /*  background-clip: initial; */
-        /* background-image: url('/public/img/sunset.jpg'); */
-        font-family: Arial, Verdana, Helvetica, sans-serif;
-    }
+main #contact {
+    min-height: 100vh;
+    min-width: 100vh;
+    padding-left: 0.5em;
+    background-image: url(../img/post_card.jpg), linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0.3));
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #7E9FCC;
+    font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-/* img {
-    width: 200%;
-    height: 200%;
-}*/
+.background-light{
+    background-color: rgba(255,255,255,.8);
+}
 
-form  {
-    padding-top: 5%;
-    background-color: rgba(204, 148, 148, 0.4);
+.background-dark{
+    /*  background-color: rgba(61, 51, 41, 0.9); */
+/* background-image: linear-gradient(to right, rgba(61, 51, 41, 1), rgba(204, 148, 148, 0.1));*/
+    background-image: linear-gradient(to right, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
 }
-#timeline {
-    background-color: rgba(204, 148, 148, 0.4);
+
+
+/* #timeline, .timeline {
+background-color: rgba(204, 148, 148, 0.4);
+} */
+
+.navbar {
+    background-position: left top;
 }
+
 
 footer {
     position: fixed;
@@ -62,101 +52,38 @@ footer {
 }
 
 
-.form-group {
-    width: 95%;
-}
-
-.panel-group {
-    margin: 1em auto;
-    max-width: 800px;
-    width: 95%;
-    font: 18px/1.5 sans-serif;
-}
-
-
 h1 {
     font-family: Georgia, "Times New Roman", Times, serif;
 }
 
-a {
-    color: #7E9FCC
-}
-a:hover , #timeline a:hover {
-    background: #B0C2D8
+.nav-item a {
+    color: #7E9FCC;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: x-large;
 }
 
-.navbar  {
-    background-position: left top;
+.nav-item a:hover {
+    background: #B0C2D8
 }
 
 /*             ------------------------------------ */
 
 
-#snap_crumbs ul li:after {
-    content: "";
-    border-top: 40px solid transparent;
-    border-bottom: 40px solid transparent;
-    border-left: 40px solid #F3F5FA;
-    position: absolute;
-    right: -40px;
-    top: 0;
-    z-index: 1;
-}
-
-#snap_crumbs ul li:before {
-    content: "";
-    border-top: 40px solid transparent;
-    border-bottom: 40px solid transparent;
-    border-left: 40px solid #fff;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-ul.timeline, ul.detail {
+ul.timeline {
     list-style-type: none;
     position: relative;
 }
 
-ul.timeline:before {
-    content: ' ';
-    background: #d4d9df;
-    display: inline-block;
-    position: absolute;
-    left: 29px;
-    width: 2px;
-    height: 100%;
-    z-index: 400;
-}
-
-ul.timeline > li {
-    margin: 20px 0;
-    padding-left: 20px;
-}
-
-ul.timeline > li:before {
-    content: ' ';
-    background: white;
-    display: inline-block;
-    position: absolute;
-    border-radius: 50%;
-    border: 3px solid #22c0e8;
-    left: 20px;
-    width: 20px;
-    height: 20px;
-    z-index: 400;
-}
-
-#lastCheck {
-    padding-top: 5%;
-    background-color: rgba(204, 148, 148, 0.4);
-    background-position: right bottom;
+#lastCheck, #confirmation {
     text-align: center;
     text-emphasis-position: over;
+
 }
 
-
-#endBooking {
-    text-align: center;
-    text-emphasis-position: over;
+#lastCheck h2, #confirmation h2 {
+    background: #B0C2D8;
 }
+
+/* #timeline, .timeline {
+    background-color: rgba(196, 132, 132, 0.6);
+} */

@@ -20,40 +20,35 @@
     {% endblock %}
 </head>
 <body>
-<div class="col-md-12">
+<div class="container-fluid mb-5">
     {{ include('inc/_navbar.html.twig') }}
-
 </div>
 
-<div class="container-fluid" style=" background-image: {{ asset('up.jpg.jpg') }}">
 
-    <div class="col-md-12">
+<div class="container">
+    {% include 'inc/_flashMsg.html.twig' %}
+    <div class="row" >
+        <div class="col-12 col-md-6 col-lg-5">
 
-
-        <section class="row">
-            <div class="col-md-6">
-                {% include 'inc/_flashMsg.html.twig' %}
-                <main class="container main">
-                    {% block main %}
-                    {% endblock %}
-                </main>
-            </div>
-            <div class="col-md-4">
-                <aside class="container main">
-                    {% block aside %}
-                    {% endblock %}
-                </aside>
-                <div>
-                </div>
-            </div>
-        </section>
-
-        <div class="row">
-            {{ include('inc/_footer.html.twig') }}
+            <main>
+                {% block main %}
+                {% endblock %}
+            </main>
         </div>
+        <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
+            <aside>
+                {% block aside %}
+                    {% if vars is defined %}
+                        {% include 'inc/_timeline.html.twig' with vars %}
+                    {% endif %}
+                {% endblock %}
+            </aside>
+        </div>
+    </div>
+</div>
 
+{{ include('inc/_footer.html.twig') }}
 
-</body>
 
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
@@ -70,5 +65,5 @@
     <script type="text/javascript" src=" {{ asset('js/main.js') }}  "></script>
 
 {% endblock %}
-
+</body>
 </html>

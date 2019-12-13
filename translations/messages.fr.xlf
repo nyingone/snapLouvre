@@ -241,10 +241,27 @@
               <target>la validation de votre commande vaut acceptation des conditions qui s’y réfèrent</target>
             </trans-unit>
 
-<trans-unit id = "">
-              <source></source>
-              <target></target>
+            <trans-unit id = "step1">
+              <source>step1</source>
+              <target>Date et type de visite</target>
             </trans-unit>
+            <trans-unit id = "step2">
+              <source>step2</source>
+              <target>Identification visiteurs</target>
+            </trans-unit>
+            <trans-unit id = "step3">
+              <source>step3</source>
+              <target>Validation pour paiement</target>
+            </trans-unit>
+            <trans-unit id = "step4">
+              <source>step4</source>
+              <target>Confirmation</target>
+            </trans-unit>
+
+            <trans-unit id = "">
+                          <source></source>
+                          <target></target>
+                        </trans-unit>
 
         </body>
     </file>
