@@ -103,7 +103,7 @@ class ParamService implements ParamServiceInterface
                 $this->underAgeLimit = $param->getNumber();
             }
 
-            if ($param->getRefCode() == "SIRET") {
+            if ($param->getRefCode() == "IDTVA") {
                 $this->siret = $param->getLabel();
             }
 
@@ -128,6 +128,15 @@ class ParamService implements ParamServiceInterface
     public function findPartTimeArray(): array
     {
         return $this->partTimeArray;
+    }
+
+    /**
+     * @param int $partTimeCode
+     * @return string|null
+     */
+    public function findPartTimeLabel($partTimeCode = 0): ?string
+    {
+       return array_search($partTimeCode, $this->partTimeArray);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BookingOrder;
 use App\Form\BookingOrderType;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,6 +14,8 @@ class KickOff extends AbstractController
 {
     /** @var  BookingOrderManagerInterface */
     private $bookingOrderManager;
+    /** @var BookingOrder */
+    private $bookingOrder;
 
     /**
      * @Route("/", name="home")
@@ -24,6 +27,13 @@ class KickOff extends AbstractController
     public function index(Request $request, BookingOrderManagerInterface $bookingOrderManager): Response
     {
         $bookingOrder = $bookingOrderManager->getBookingOrder();
+        /** BookingOrder is paid ==> raz and new session vs bokingOrder*/
+        if($bookingOrder->getExtPaymentRef() !== null) {
+            $bookingOrderManager->razBookingOrder();
+            return $this->redirectToRoute('home');
+        }
+
+        $savNbvisitors = $bookingOrder->getWishes();
 
         $form = $this->createForm(BookingOrderType::class, $bookingOrder);
         $form->handleRequest($request);
@@ -37,9 +47,14 @@ class KickOff extends AbstractController
 
             if ($request->request->get('next') && $form->isValid()) {
 
-                $bookingOrder = $form->getData();
+                $this->bookingOrder = $form->getData();
 
-                $bookingOrderManager->refreshBookingOrder($bookingOrder);
+
+                if($savNbvisitors > $this->bookingOrder->getWishes()) {
+                    $bookingOrderManager->clearVisitors($this->bookingOrder);
+                }
+
+                $bookingOrderManager->refreshBookingOrder($this->bookingOrder);
 
                 return $this->redirectToRoute('guest');
             }

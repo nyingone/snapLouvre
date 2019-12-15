@@ -97,6 +97,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
         }
 
         $this->bookingOrder->setBookingRef($this->bookingRef);
+        $this->bookingOrder->setPartTimeLabel($this->findPartTimeLabel($this->bookingOrder));
 
         $this->setBookingOrder($this->bookingOrder);
         return $this->bookingOrder;
@@ -110,6 +111,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
     public function refreshBookingOrder(BookingOrder $bookingOrder): void
     {
         $amount = 0;
+        $bookingOrder->setPartTimeLabel($this->findPartTimeLabel($bookingOrder));
 
         $visitors = $bookingOrder->getVisitors();
         for ($i = count($visitors); $i < $bookingOrder->getWishes(); ++$i) {
@@ -127,10 +129,13 @@ class BookingOrderManager implements BookingOrderManagerInterface
         $this->setBookingOrder($bookingOrder);
     }
 
-
-    public function bookingOrderControl()
+    /**
+     * @param BookingOrder $bookingOrder
+     * @return string
+     */
+    public function findPartTimeLabel(BookingOrder $bookingOrder)
     {
-        //    TODO CLEAN    $errors = $this->validator->validate($this->bookingOrder, null, ['pre_booking']);
+            return ($this->paramService->findPartTimeLabel($bookingOrder->getPartTimeCode()));
     }
 
     /** @inheritDoc */
@@ -222,8 +227,8 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
     public function clearVisitors(BookingOrder $bookingOrder)
     {
-     $bookingOrder->clearVisitors();
-     $this->setBookingOrder($bookingOrder);
+        $bookingOrder->clearVisitors();
+        $this->setBookingOrder($bookingOrder);
     }
 
     /**

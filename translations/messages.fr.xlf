@@ -54,8 +54,12 @@
                 <source>Country</source>
                 <target>Pays</target>
             </trans-unit>
-            <trans-unit id="Birth_date">
-                <source>Birth_date</source>
+            <trans-unit id="BirthDate">
+                <source>BirthDate</source>
+                <target>Né(e) le </target>
+            </trans-unit>
+            <trans-unit id="Birth date">
+                <source>Birth date</source>
                 <target>Né(e) le </target>
             </trans-unit>
             <trans-unit id="Eligible_to_discount?">
@@ -94,11 +98,7 @@
                 <source>Part_time_code</source>
                 <target>Type billet</target>
             </trans-unit>
-             <trans-unit id="Go_ahead">
-                <source>Go_ahead</source>
-                <target>Suite</target>
-            </trans-unit>
-            <trans-unit id="visitors">
+           <trans-unit id="visitors">
                  <source>visitors</source>
                  <target>visiteurs</target>
             </trans-unit>
@@ -134,10 +134,7 @@
                  <source>Booking_visitors</source>
                  <target>Visiteurs</target>
             </trans-unit>
-            <trans-unit id="symfony_is_great">
-                <source>Symfony is great</source>
-                <target>J'aime Symfony</target>
-            </trans-unit>
+
             <trans-unit id="booking_closed_booking_period_or_day">
                 <source>booking_closed_booking_period_or_day</source>
                 <target>Réservations fermées à cette date</target>
@@ -210,10 +207,6 @@
                     <source>under_way</source>
                     <target>en cours</target>
                 </trans-unit>
-                <trans-unit id = "Birthdate">
-                     <source>Birthdate</source>
-                     <target>Né(e) le </target>
-                 </trans-unit>
 
                  <trans-unit id = "Order_ref:">
                       <source>Order_ref:</source>
@@ -274,20 +267,38 @@
               <source>tariff_range_label</source>
               <target>Tarifs</target>
             </trans-unit>
-
-
-                             <trans-unit id = "Booking_reference">
-                                      <source>Booking_reference</source>
-                                      <target>Référence</target>
-                                    </trans-unit>
+             <trans-unit id = "Booking_reference">
+              <source>Booking_reference</source>
+              <target>Référence</target>
+            </trans-unit>
             <trans-unit id = "Choose_date_type_number_of_visitor">
               <source>Choose_date_type_number_of_visitor</source>
               <target>choisir date, billet et nombre de visiteurs</target>
             </trans-unit>
             <trans-unit id = "follow_your_order">
-                          <source>follow_your_order</source>
-                          <target>suivi de réservation</target>
-                        </trans-unit>
+              <source>follow_your_order</source>
+              <target>suivi de réservation</target>
+            </trans-unit>
+            <trans-unit id = "next_text_button">
+                <source>next_text_button</source>
+                <target>suivant</target>
+            </trans-unit>
+            <trans-unit id = "back_text_button">
+                <source>back_text_button</source>
+                <target>retour</target>
+            </trans-unit>
+            <trans-unit id = "years">
+                <source>years</source>
+                <target>ans </target>
+            </trans-unit>
+             <trans-unit id = "your_reference">
+                <source>your_reference</source>
+                <target>référence réservation </target>
+            </trans-unit>
+            <trans-unit id = "guests">
+                <source>guests</source>
+                <target>invité(s) </target>
+            </trans-unit>
 
 
         </body>

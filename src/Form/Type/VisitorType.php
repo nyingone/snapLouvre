@@ -20,14 +20,8 @@ class VisitorType extends AbstractType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'label_firstname',
-                ]
             ])
             ->add('lastName', TextType::class, [
-                'attr' => [
-                    'placeholder' => 'label_lastname',
-                ]
             ])
             ->add('birthDate', BirthdayType::class, [
             ])

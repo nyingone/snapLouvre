@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+                    <trans-unit id="booking_closed_booking_period_or_day">
+                <source>booking_closed_booking_period_or_day</source>
+                <target>Réservations fermées à cette date</target>
+            </trans-unit>
+            <trans-unit id="booking_closed_on_following_days_of_week">
+                <source>booking_closed_on_following_days_of_week</source>
+                <target>Réservations fermées les Mardi et Dimanche</target>
+            </trans-unit>
+            <trans-unit id="booking_ended_for_today">
+                <source>booking_ended_for_today</source>
+                <target>Réservations closes pour aujourd'hui</target>
+            </trans-unit>
+
+            <trans-unit id="select_a_date">
+                <source>select_a_date</source>
+                <target>choisir une date</target>
+            </trans-unit>
+
+            <trans-unit id="booking_closed_on_holy_day">
+                <source>booking_closed_on_holy_day</source>
+                <target>réservations fermées les jours feriés</target>
+            </trans-unit>
+            <trans-unit id= "museum_closed_on_chosen_date_or_period">
+                <source>museum_closed_on_chosen_date_or_period</source>
+                <target>museum fermé le jour ou pour la période choisie</target>
+             </trans-unit>
+             <trans-unit id= "unaccompanied_underage_visitor_not_allowed">
+                <source>unaccompanied_underage_visitor_not_allowed</source>
+                <target>mineurs non accompagnés non autorisés</target>
+             </trans-unit>
+             <trans-unit id= "Enter_mail_to_receive_your_ticket(s)_following_payment">
+             <source>Enter_mail_to_receive_your_ticket(s)_following_payment</source>
+             <target>Indiquer obligatoirement un contact mail pour envoi de vos billets après règlement</target>
+             </trans-unit>
+
+            <trans-unit id = "Mail_address_required_to_forward_tickets">
+                 <source>Mail_address_required_to_forward_tickets</source>
+                 <target>Un contact mail est requis pour transmettre vos billets</target>
+             </trans-unit>
+             <trans-unit id = "booking_already_settled">
+               <source>booking_already_settled</source>
+               <target>réservation déjà réglée.</target>
+             </trans-unit>
+             <trans-unit id = "already_settled_order">
+                <source>already_settled_order</source>
+                <target>réservation déjà réglée.</target>
+              </trans-unit>
+
+            <trans-unit id = "Choose_date_type_number_of_visitor">
+              <source>Choose_date_type_number_of_visitor</source>
+              <target>choisir date, billet et nombre de visiteurs</target>
+            </trans-unit>
+
+            <trans-unit id = "chosen_date_out_of_booking_range">
+               <source>chosen_date_out_of_booking_range</source>
+               <target>date saisie hors période de réservation</target>
+             </trans-unit>
+
+              <trans-unit id = "no_reservation_supported_on_chosen_day">
+                <source>no_reservation_supported_on_chosen_day</source>
+                <target>pas de réservation assurée les Mardi et Dimanche</target>
+              </trans-unit>
+
+               <trans-unit id = "exceeds_available_booking_on_chosen_date">
+                  <source>exceeds_available_booking_on_chosen_date</source>
+                  <target>date demandée au delà du délai maximum géré</target>
+                </trans-unit>
+
+                <trans-unit id = "Visitor_ is already registered for this day and booking">
+                  <source>Visitor_ is already registered for this day and booking</source>
+                  <target>un des visiteurs est enregistré plusieurs fois</target>
+                </trans-unit>
+        </body>
+    </file>
+</xliff>

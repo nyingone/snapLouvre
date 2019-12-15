@@ -4,15 +4,11 @@
 {% block title %} {{ parent() }} {% endblock %}
 
 {% block header %}
-    <h2>{% trans %}your_reference{% endtrans %}  {{ bookingOrder.bookingRef }}</h2>
+    <h2>{% trans %}your_reference{% endtrans %} </h2>
+    <h3 class= "text-align-center text-justify"> {{ bookingOrder.bookingRef }}</h3>
 {% endblock %}
 
 {% block main %}
-
-<div id="confirmation">
-    <h4>{% trans %}confirmation_to{% endtrans %} <br>
-        {{ bookingOrder.customer.email }} <br> {% trans %}is_under_way {% endtrans %} </h4>
-</div>
 
 {% endblock %}
 

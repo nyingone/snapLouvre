@@ -120,7 +120,10 @@ class BookingOrder
      * @Assert\Valid
      */
     private $visitors;
-
+    /**
+     * @var string
+     */
+    private $partTimeLabel;
 
 
     public function __construct()
@@ -163,10 +166,21 @@ class BookingOrder
     {
         return $this->partTimeCode;
     }
+    public function getPartTimeLabel(): ?string
+    {
+        return $this->partTimeLabel;
+    }
 
     public function setPartTimeCode(int $partTimeCode): self
     {
         $this->partTimeCode = $partTimeCode;
+
+        return $this;
+    }
+
+    public function setPartTimeLabel(string $partTimeLabel): self
+    {
+        $this->partTimeLabel = $partTimeLabel;
 
         return $this;
     }

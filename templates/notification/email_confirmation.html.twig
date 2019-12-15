@@ -7,21 +7,17 @@
 <body>
 
 <h1>Confirmation</h1>
-<p>Your order is confirmed!</p>
-<p>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }} {% trans %} is being processed{% endtrans %} </p>
+<h2>Louvre museum</h2>
 
-<h4>{% trans %}confirmation to {% endtrans %} {{ bookingOrder.customer.email }} {% trans %} under way {% endtrans %} </h4>
+<p>{% trans %}Your order is confirmed!{% endtrans %}</p>
+<p>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }}  </p>
+<p>{% trans %}Payment ref: {% endtrans %} {{ bookingOrder.extPaymentRef }}  {{ bookingOrder.extPaymentStatus }}</p>
 
 <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
 
-{% if bookingOrder.visitors is defined %}
+{% include 'inc/_visitor.html.twig' with vars %}
 
-    {% include 'inc/_visitor.html.twig' %}
-
-{% else %}
-    <p>{% trans %}no visitor found{% endtrans %}</p>
-{% endif %}
-
-<img src="{{ img }}">
+<p>hope_you_will_enjoy_your_visit</p>
+<img src=" {{ asset('img/logo.png') }} "  alt="logo du Louvre"/>
 </body>
 </html>

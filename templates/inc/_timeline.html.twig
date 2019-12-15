@@ -1,21 +1,27 @@
-
 <ul id="timeline" class="timeline background-light p-2">
     <h4>{% trans %}follow_your_order{% endtrans %}</h4>
 
     <li>
-        <a href="{% if  level < "4" %} {{ path('home') }}{% endif %}  ">
-
-            <h5>{% if  level >= "1" %} <img src="{{ asset('img/flag_xs.png') }}"/> {% endif %}{% trans %}step1{% endtrans %}
-                {% if  bookingOrder.expectedDate is not null %}<span class="float-right">{{ bookingOrder.expectedDate |date("d/m/Y") }} </span>{% endif %}
+        <a {% if  level < "4" %} class="active"  href="{{ path('home') }}" {% endif %} >
+            <h5>{% if  level >= "1" %}
+                    <img src="{{ asset('img/flag_xs.png') }}" alt="flag"/> {% endif %}
+                {% trans %}step1{% endtrans %}
+                {% if  bookingOrder.expectedDate is not null %}
+                    <span class="float-right">{{ bookingOrder.expectedDate |date("d/m/Y") }} </span>
+                    <br>
+                    <span class="float-right">{{ bookingOrder.partTimeLabel }} </span>
+                    <br>
+                {% endif %}
             </h5>
         </a>
-
     </li>
 
     <li>
-        <a href="{% if level >= "2" and level < "4" %} {{ path('guest') }} {% endif %}  ">
-            <h5>{% if  level >= "2" %} <img src="{{ asset('img/flag_xs.png') }}"/> {% endif %}{% trans %}step2{% endtrans %}
-                <span class="float-right">{{ bookingOrder.wishes }} </span>
+        <a {% if level >= "2" and level < "4" %} class="active" href="{{ path('guest') }}" {% endif %} >
+            <h5>{% if  level >= "2" %}
+                    <img src="{{ asset('img/flag_xs.png') }}" alt="flag"/>
+                {% endif %}
+                {% trans %}step2{% endtrans %}
             </h5>
         </a>
 
@@ -24,32 +30,51 @@
                 {% for visitor in bookingOrder.visitors %}
                     <li>
                         {{ visitor.firstName | title }} {{ visitor.lastName | upper }}
-                        {% if level >= "3" and   visitor.cost is not null  %}
+                        {% if level >= "3" and   visitor.cost is not null %}
                             <span class="float-right">
-                                ({{ visitor.cost | price }})
+                                {{ visitor.ageYearsOld }}  {% trans %}years {% endtrans %}({{ visitor.cost | price }})
                             </span>
                         {% endif %}
                     </li>
                 {% endfor %}
             </ul>
+            <br>
         {% endif %}
 
     </li>
 
-    <li> <a href="{% if level >= "3" and  level < "4" %} {{ path('lastCheck') }}{% endif %} ">
-             <h5>{% if  level >= "3" %} <img src="{{ asset('img/flag_xs.png') }}"/> {% endif %} {% trans %}step3{% endtrans %}
-                 {% if  bookingOrder.totalAmount is not null %}<span class="float-right"> total {{ bookingOrder.totalAmount | price }}</span> {% endif %}
+    <li><a {% if level >= "3" and  level < "4" %} class="active" href="{{ path('lastCheck') }}"{% endif %} >
+            <h5>{% if  level >= "3" %}
+                    <img src="{{ asset('img/flag_xs.png') }}" alt="flag"/>
+                {% endif %}
+                {% trans %}step3{% endtrans %}
+                {% if  bookingOrder.totalAmount is not null and bookingOrder.totalAmount > 0 %}
+                    <span class="float-right"> total {{ bookingOrder.totalAmount | price }}</span>
+                    <br>
+                {% endif %}
             </h5>
         </a>
-        <p> {% if  bookingOrder.extPaymentRef is not null %} <span class="float-right">{% trans %}Stripe_payment_n°:{% endtrans %}  {{ bookingOrder.extPaymentRef }}</span> <br>{% endif %}</p>
-
+        <p> {% if  bookingOrder.extPaymentRef is not null and bookingOrder.extPaymentRef > 0 %}
+                <span class="float-right">
+                    {% trans %}Stripe_payment_n°:{% endtrans %}  {{ bookingOrder.extPaymentRef }}
+                </span>
+                <br>
+            {% endif %}
+        </p>
     </li>
 
     <li>
-        <a href="#">
-            <h5>{% if  level == "4" %} <img src="{{ asset('img/flag_xs.png') }}"/> {% endif %}{% trans %}step4{% endtrans %}</h5>
-        </a>
+        <a {% if  level == "4" %} class="active" href="#"{% endif %}>
+            <h5>{% if  level == "4" %}
+                    <img src="{{ asset('img/flag_xs.png') }}" alt="flag"/>
+                {% endif %}
+                {% trans %}step4{% endtrans %}
 
+                {% if  level == "4" and bookingOrder.customer.email is not null %}
+                    <span class="float-right"> {{ bookingOrder.customer.email }} </span>
+                {% endif %}
+            </h5>
+        </a>
     </li>
 
 </ul>

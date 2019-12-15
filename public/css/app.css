@@ -27,7 +27,11 @@ main #contact {
 }
 
 .background-light{
-    background-color: rgba(255,255,255,.8);
+  /*  background-color: rgba(255,255,255,.8); */
+    background-color: rgba(216,219,227,.8);
+}
+.background-light-header{
+    background-image: linear-gradient(to right, rgba(216,219,227, 1), rgba(216,219,227, 0));
 }
 
 .background-dark{
@@ -42,6 +46,15 @@ main #contact {
     background-image: linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
 }
 
+/* Keep after btn-group */
+.background-dark-red{
+    background-image: linear-gradient(to left, rgba(77, 60, 45, 1), rgba(196, 132, 132, 0.1));
+}
+
+.background-dark-green{
+    background-image: linear-gradient(to right, rgba(196, 132,132, 0.1), rgba(108, 110, 24, 1));
+
+}
 
 .btn-small {
     width: 3em;
@@ -49,9 +62,6 @@ main #contact {
     background-image: linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
 }
 
-/* #timeline, .timeline {
-background-color: rgba(204, 148, 148, 0.4);
-} */
 
 .navbar {
     background-position: left top;
@@ -68,9 +78,10 @@ h1 {
 }
 
 .nav-item a {
-    color: #7E9FCC;
+    color: #331107;
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: x-large;
+    text-decoration: underline;
 }
 
 .nav-item a:hover {
@@ -79,16 +90,24 @@ h1 {
 
 /*             ------------------------------------ */
 
-
 ul.timeline {
     list-style-type: none;
     position: relative;
 }
 
 #timeline a {
-    color: #331107;
+    color: #331107; /* brun louvre */
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: x-large;
+}
+
+#timeline a.active {
+    text-decoration: underline;
+}
+
+
+#timeline a.active:hover {
+    background: #B0C2D8
 }
 
 #lastCheck, #confirmation {
@@ -97,10 +116,8 @@ ul.timeline {
 
 }
 
-#lastCheck h2, #confirmation h2 {
-    background: #B0C2D8;
+header h3 {
+    max-width: 100%;
 }
 
-/* #timeline, .timeline {
-    background-color: rgba(196, 132, 132, 0.6);
-} */
+

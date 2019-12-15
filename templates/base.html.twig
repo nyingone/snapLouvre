@@ -21,55 +21,59 @@
     {% endblock %}
 </head>
 <body>
-    <div class="container-fluid mb-5">
+<div class="container-fluid mb-5">
     {{ include('inc/_navbar.html.twig') }}
-        <h1 class="text-center">{% trans %}online_booking{% endtrans %}  </h1>
+    <h1 class="text-center">{% trans %}online_booking{% endtrans %}  </h1>
+</div>
+<div class="row">
+    <div class="col-12 col-md-8 col-lg-7 offset-lg-2 background-light-header">
+        {% block header %}
+        {% endblock %}
     </div>
+</div>
 
-    {% block header %}
-    {% endblock %}
 
-    <div class="container">
+<div class="container">
     {% include 'inc/_flashMsg.html.twig' %}
-        <div class="row">
-            <div class="col-12 col-md-6 col-lg-5">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-5">
 
-                <main>
-                    {% block main %}
-                    {% endblock %}
-                </main>
-            </div>
-            <div class="col-12 col-md-6 col-lg-5 offset-lg-1">
-                <aside>
-                    {% block aside %}
-                        {% if vars is defined %}
-                            {% include 'inc/_timeline.html.twig' with vars %}
-                        {% endif %}
-                    {% endblock %}
-                </aside>
-            </div>
+            <main>
+                {% block main %}
+                {% endblock %}
+            </main>
+        </div>
+        <div class="col-12 col-md-6 col-lg-5 offset-lg-1">
+            <aside>
+                {% block aside %}
+                    {% if vars is defined %}
+                        {% include 'inc/_timeline.html.twig' with vars %}
+                    {% endif %}
+                {% endblock %}
+            </aside>
         </div>
     </div>
+</div>
 
-    <div class="fixed-bottom">
-        {{ include('inc/_footer.html.twig') }}
-    </div>
+<div class="fixed-bottom">
+    {{ include('inc/_footer.html.twig') }}
+</div>
 
 
-    {% block javascripts %}
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-                crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-        <script src="https://use.fontawesome.com/releases/v5.7.0/js/all.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-              integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-              crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/releases/v5.7.0/js/all.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+          crossorigin="anonymous">
 
-        <script src="https://js.stripe.com/v3/"></script>
-        <script type="text/javascript" src=" {{ asset('js/main.js') }}  "></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript" src=" {{ asset('js/main.js') }}  "></script>
 
-    {% endblock %}
+{% endblock %}
 </body>
 </html>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+                    <trans-unit id="booking_closed_booking_period_or_day">
+                <source>booking_closed_booking_period_or_day</source>
+                <target>booking closed on period or day</target>
+            </trans-unit>
+            <trans-unit id="booking_closed_on_following_days_of_week">
+                <source>booking_closed_on_following_days_of_week</source>
+                <target>booking closed on Tuesday and Sunday</target>
+            </trans-unit>
+            <trans-unit id="booking_ended_for_today">
+                <source>booking_ended_for_today</source>
+                <target>booking closed for today</target>
+            </trans-unit>
+
+            <trans-unit id="select_a_date">
+                <source>select_a_date</source>
+                <target>select a date</target>
+            </trans-unit>
+
+            <trans-unit id="booking_closed_on_holy_day">
+                <source>booking_closed_on_holy_day</source>
+                <target>booking closed on holy days</target>
+            </trans-unit>
+            <trans-unit id= "museum_closed_on_chosen_date_or_period">
+                <source>museum_closed_on_chosen_date_or_period</source>
+                <target>mmuseum close for chosen day or period</target>
+             </trans-unit>
+             <trans-unit id= "unaccompanied_underage_visitor_not_allowed">
+                <source>unaccompanied_underage_visitor_not_allowed</source>
+                <target>unaccompanied underage visitors are not allowed</target>
+             </trans-unit>
+
+             <trans-unit id = "booking_already_settled">
+               <source>booking_already_settled</source>
+               <target>booking already settled.</target>
+             </trans-unit>
+
+
+        </body>
+    </file>
+</xliff>
