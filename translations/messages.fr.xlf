@@ -219,9 +219,9 @@
                       <source>Order_ref:</source>
                       <target>Référence Commande</target>
                   </trans-unit>
-            <trans-unit id = "Mail_address_required_to_receive_ticket(s)_following_payment">
-                 <source>Mail_address_required_to_receive_ticket(s)_following_payment</source>
-                 <target>Un contact mail est requis pour faire suivre vos billets d'entrée</target>
+            <trans-unit id = "Mail_address_required_to_forward_tickets">
+                 <source>Mail_address_required_to_forward_tickets</source>
+                 <target>Un contact mail est requis pour transmettre vos billets</target>
              </trans-unit>
              <trans-unit id = "booking_already_settled">
                <source>booking_already_settled</source>
@@ -247,7 +247,7 @@
             </trans-unit>
             <trans-unit id = "step2">
               <source>step2</source>
-              <target>Identification visiteurs</target>
+              <target>Visiteurs</target>
             </trans-unit>
             <trans-unit id = "step3">
               <source>step3</source>
@@ -257,11 +257,38 @@
               <source>step4</source>
               <target>Confirmation</target>
             </trans-unit>
+            <trans-unit id = "ticketing">
+              <source>ticketing</source>
+              <target>Billetterie</target>
+            </trans-unit>
+            <trans-unit id = "online_booking">
+              <source>online_booking</source>
+              <target>billetterie en ligne</target>
+            </trans-unit>
+            <trans-unit id = "opening_times_label">
+              <source>opening_times_label</source>
+              <target>Horaires d'ouverture</target>
+            </trans-unit>
 
-            <trans-unit id = "">
-                          <source></source>
-                          <target></target>
+            <trans-unit id = "tariff_range_label">
+              <source>tariff_range_label</source>
+              <target>Tarifs</target>
+            </trans-unit>
+
+
+                             <trans-unit id = "Booking_reference">
+                                      <source>Booking_reference</source>
+                                      <target>Référence</target>
+                                    </trans-unit>
+            <trans-unit id = "Choose_date_type_number_of_visitor">
+              <source>Choose_date_type_number_of_visitor</source>
+              <target>choisir date, billet et nombre de visiteurs</target>
+            </trans-unit>
+            <trans-unit id = "follow_your_order">
+                          <source>follow_your_order</source>
+                          <target>suivi de réservation</target>
                         </trans-unit>
+
 
         </body>
     </file>

@@ -29,9 +29,18 @@ class GuestList extends AbstractController
         $form = $this->createForm(BookingVisitorsType::class, $bookingOrder);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()  && $form->isValid()){
-            $bookingOrderManager->refreshBookingOrder($bookingOrder);
-            return $this->redirectToRoute('lastCheck');
+        if ($form->isSubmitted()) {
+
+            if ($request->request->get('cancel')) {
+                $bookingOrderManager->clearVisitors($bookingOrder);
+                return $this->redirectToRoute('home');
+            }
+
+            if ($request->request->get('next') && $form->isValid()) {
+                $bookingOrderManager->refreshBookingOrder($bookingOrder);
+                return $this->redirectToRoute('lastCheck');
+            }
+
         }
 
 

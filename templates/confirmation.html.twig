@@ -1,19 +1,17 @@
 {% set vars = {'level': '4'} %}
 {% extends 'base.html.twig' %}
 
-{% block title %}
+{% block title %} {{ parent() }} {% endblock %}
 
+{% block header %}
+    <h2>{% trans %}your_reference{% endtrans %}  {{ bookingOrder.bookingRef }}</h2>
 {% endblock %}
 
-
 {% block main %}
-    {#
-    {% include 'inc/_workflow.html.twig' with {'level': '4'} only %} #}
-
 
 <div id="confirmation">
-    <h2>{% trans %}confirmation_to{% endtrans %} <br>
-        {{ bookingOrder.customer.email }} <br> {% trans %}is_under_way {% endtrans %} </h2>
+    <h4>{% trans %}confirmation_to{% endtrans %} <br>
+        {{ bookingOrder.customer.email }} <br> {% trans %}is_under_way {% endtrans %} </h4>
 </div>
 
 {% endblock %}

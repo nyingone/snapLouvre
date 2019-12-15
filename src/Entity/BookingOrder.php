@@ -343,4 +343,9 @@ class BookingOrder
 
         return $this;
     }
+
+    public function clearVisitors()
+    {
+        $this->visitors = new ArrayCollection();
+    }
 }

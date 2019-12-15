@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class ContactController extends AbstractController
+class Contact extends AbstractController
 {
     /** @var \Swift_Mailer */
     private $mailer;
@@ -54,7 +54,7 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('contact/index.html.twig', [ 'form' => $form->createView(),
+        return $this->render('contact.html.twig', [ 'form' => $form->createView(),
         ]);
     }
 

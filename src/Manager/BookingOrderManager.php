@@ -78,6 +78,14 @@ class BookingOrderManager implements BookingOrderManagerInterface
     /**
      * @inheritDoc
      */
+    public function razBookingOrder()
+    {
+        $this->session->invalidate();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function inzBookingOrder(): BookingOrder
     {
         $this->bookingOrder = new BookingOrder();
@@ -184,6 +192,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
         return $this->bookingOrderRepository->remove($bookingOrder);
     }
 
+
     /**
      * @param BookingOrder $bookingOrder
      * @return int
@@ -198,8 +207,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function getBookingOrder(): ?BookingOrder
     {
-        if($this->session->has('BookingOrder'))
-        {
+        if ($this->session->has('BookingOrder')) {
             $bookingOrder = $this->session->get('BookingOrder');
 
             if ($bookingOrder instanceOf BookingOrder && $bookingOrder->getId()) {
@@ -210,6 +218,12 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
         return $this->inzBookingOrder();
 
+    }
+
+    public function clearVisitors(BookingOrder $bookingOrder)
+    {
+     $bookingOrder->clearVisitors();
+     $this->setBookingOrder($bookingOrder);
     }
 
     /**

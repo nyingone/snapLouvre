@@ -28,13 +28,24 @@ class KickOff extends AbstractController
         $form = $this->createForm(BookingOrderType::class, $bookingOrder);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $bookingOrder = $form->getData();
+        if ($form->isSubmitted()) {
 
-            $bookingOrderManager->refreshBookingOrder($bookingOrder);
+            if ($request->request->get('cancel')) {
+                $bookingOrderManager->razBookingOrder();
+                return $this->redirectToRoute('home');
+            }
 
-            return $this->redirectToRoute('guest');
+            if ($request->request->get('next') && $form->isValid()) {
+
+                $bookingOrder = $form->getData();
+
+                $bookingOrderManager->refreshBookingOrder($bookingOrder);
+
+                return $this->redirectToRoute('guest');
+            }
         }
+
+
 
         return $this->render('kickOff.html.twig', ['bookingOrder' => $bookingOrder,
             'form' => $form->createView(),

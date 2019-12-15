@@ -1,18 +1,21 @@
 {% set vars = {'level': '2'} %}
 {% extends 'base.html.twig' %}
 
-{% block title %}
+
+{% block title %}  {{ parent() }} {% endblock %}
+
+{% block header %}
     {% if bookingOrder.validatedAt != null %}
         <h3>{% trans %}Order_reference :{% endtrans %}  </h3>
     {% endif %}
-
 {% endblock %}
+
 {% block main %}
 
     <div class="row">
-        <div class="col-md-12" id="guestList">
+        <div class="col-md-12 background-light" id="guestList">
 
-            <h3>{% trans %}guests{% endtrans %} </h3>
+            <h4>{% trans %}guests{% endtrans %} </h4>
 
             {{ form_start(form) }}
             {{ form_errors(form) }}
@@ -22,12 +25,13 @@
                 {{ form_row(visitor.birthDate) }}
                 {{ form_row(visitor.country) }}
                 {{ form_row(visitor.discounted) }}
+         {# TODO       ndiquer qu’il sera nécessaire de présenter sa carte d’étudiant, militaire ou équivalent lors de l’entrée pour prouver qu’on bénéficie bien du tarif réduit. #}
             {% endfor %}
 
 
             {{ form_rest(form) }}
 
-            <input type="submit" class="btn btn-primary float-right"  value="{% trans %}Go_ahead{% endtrans %} "/>
+            {{ include('inc/_button.html.twig') }}
 
             {{ form_end(form) }}
 

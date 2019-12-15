@@ -1,34 +1,36 @@
 {% set vars = {'level': '1'} %}
 {% extends 'base.html.twig' %}
 
-{% block title %}visit{% endblock %}
+{% block title %}  {{ parent() }} {% endblock %}
+
+{% block header %}
+{% endblock %}
 
 {% block main %}
 
     <div class="row">
         <div class="col-md-12 background-light" id="kickOff">
 
-            <h3>{% trans %}Choose_date_type_number_of_visitor{% endtrans %} </h3>
+            <h4>{% trans %}Choose_date_type_number_of_visitor{% endtrans %} </h4>
             {{ form_start(form) }}
             {{ form_errors(form) }}
 
-                <i class="fa fa-calendar"></i>  {{ form_widget(form.expectedDate) }}
-                {{ form_widget(form.partTimeCode) }}
-                {{ form_widget(form.wishes) }}
+            <i class="fa fa-calendar"></i> {{ form_widget(form.expectedDate) }}
+            {{ form_widget(form.partTimeCode) }}
+            {{ form_widget(form.wishes) }}
 
-            <input type="submit" class="btn btn-primary float-right" value="{% trans %} Go_ahead {% endtrans %} "/>
+            {{ include('inc/_button.html.twig') }}
 
             {{ form_end(form) }}
-
         </div>
     </div>
 {% endblock %}
 
 
-{% block aside %}
-    {{ parent() }}
-{% endblock %}
+        {% block aside %}
+            {{ parent() }}
+        {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-{% endblock %}
+        {% block javascripts %}
+            {{ parent() }}
+        {% endblock %}

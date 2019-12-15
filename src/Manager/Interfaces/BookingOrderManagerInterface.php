@@ -37,5 +37,7 @@ interface BookingOrderManagerInterface
      */
     public function remove(BookingOrder $bookingOrder);
 
+    public function razBookingOrder();
+
 }
 

@@ -44,25 +44,29 @@ class LastCheck extends AbstractController
         $form = $this->createForm(BookingValidationType::class, $this->bookingOrder);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->request->get('cancel')) {
+            return $this->redirectToRoute('guest');
+        }
 
-            $this->bookingOrder = $form->getData();
-            $bookingOrderManager->place($this->bookingOrder);
+        if ($form->isSubmitted()) {
 
-            return $this->render('lastCheck.html.twig', ['bookingOrder' => $this->bookingOrder,
-                'form' => $form->createView(),
-                'stripeSession' => $paymentService->setCheckoutSession($this->bookingOrder, 'confirmation','lastCheck'),
-                'stripe_public_key' => $paymentService->getPublicKey()
-            ]);
+            if ($request->request->get('next') && $form->isValid()) {
+                $this->bookingOrder = $form->getData();
+                $bookingOrderManager->place($this->bookingOrder);
 
+                return $this->render('lastCheck.html.twig', ['bookingOrder' => $this->bookingOrder,
+                    'form' => $form->createView(),
+                    'stripeSession' => $paymentService->setCheckoutSession($this->bookingOrder, 'confirmation', 'lastCheck'),
+                    'stripe_public_key' => $paymentService->getPublicKey()
+                ]);
+
+            }
         }
 
         return $this->render('lastCheck.html.twig', ['bookingOrder' => $this->bookingOrder,
             'form' => $form->createView(),
         ]);
     }
-
-
 
 
 }

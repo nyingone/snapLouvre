@@ -16,7 +16,7 @@ body {
 
 main #contact {
     min-height: 100vh;
-    min-width: 100vh;
+    min-width: 80vh;
     padding-left: 0.5em;
     background-image: url(../img/post_card.jpg), linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0.3));
     background-size: contain;
@@ -36,6 +36,18 @@ main #contact {
     background-image: linear-gradient(to right, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
 }
 
+.btn-group {
+    width: 8em;
+    height:4em;
+    background-image: linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
+}
+
+
+.btn-small {
+    width: 3em;
+    height:2em;
+    background-image: linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
+}
 
 /* #timeline, .timeline {
 background-color: rgba(204, 148, 148, 0.4);
@@ -47,8 +59,7 @@ background-color: rgba(204, 148, 148, 0.4);
 
 
 footer {
-    position: fixed;
-    bottom: 10px;
+    background-image: linear-gradient(to bottom, rgba(61, 51, 41, 1), rgba(196, 132,132, 0));
 }
 
 
@@ -72,6 +83,12 @@ h1 {
 ul.timeline {
     list-style-type: none;
     position: relative;
+}
+
+#timeline a {
+    color: #331107;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: x-large;
 }
 
 #lastCheck, #confirmation {

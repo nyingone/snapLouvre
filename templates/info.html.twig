@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}  {{ parent() }} {% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block main %}
+
+    <div class="row">
+        <div class="col-md-12 background-light">
+            <h2 class="col-md-12 background-dark">{% trans %}opening_times_label{% endtrans %}  </h2>
+            <br>
+            <h3>Ouverture du musée</h3>
+            Ouvert tous les jours de 9h à 18h.
+            <h3>Fermetures</h3>
+            <p>Tous les mardis</p>
+            <p>Les 1er mai, 1er novembre et 25 décembre</p>
+
+            <h3>Fermeture des réservations en ligne</h3>
+            <blockquote>SnapLouvre ne prend aucune réservation pour les Dimanches et jours feriés. <br>
+                S'adresser directement au Louvre concernant les modalités et créneaux d'accès gratuit au public.
+            </blockquote>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block aside %}
+    <div class="row">
+        <div class="col-md-12 background-light">
+            <h2 class="col-md-12 background-dark">{% trans %}tariff_range_label{% endtrans %}  </h2>
+            <br>
+            <blockquote>Billet nominatif, valable uniquement le jour réservé. <br>
+                Billet à la journée ou à la demi-journée (à partir de 14 h)
+            </blockquote>
+
+            <p>Tarif normal : <span class="float-right">
+                    Plus de 12 ans : 16 euros</span></p>
+            <p>Tarif enfant : <span class="float-right">
+                    De 4 à 11 ans : 8 euros</span></p>
+            <p>Moins de 4 ans : <span class="float-right">gratuit</span></p>
+            <p>Tarif senior :<span class="float-right">
+                    A partir de 60 ans : 12 euros</span></p>
+            <p>Tarif réduit : <span class="float-right">10 euros </span><br>
+                    (sous conditions : étudiant, employé de musée, d'un service du Ministère de la culture, militaire)
+            </p>
+
+        </div>
+    </div>
+{% endblock %}
