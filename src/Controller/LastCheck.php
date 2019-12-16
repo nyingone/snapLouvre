@@ -5,17 +5,16 @@ namespace App\Controller;
 
 
 use App\Entity\BookingOrder;
-use App\Event\Booking\BookingPlacedEvent;
 use App\Form\BookingValidationType;
 use App\Manager\BookingOrderManager;
 use App\Services\PaymentService;
-use Stripe\PaymentIntent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
 
 class LastCheck extends AbstractController
 {
@@ -26,6 +25,7 @@ class LastCheck extends AbstractController
      * @Route("/lastcheck", name="lastCheck")
      *
      * @param Request $request
+     * @param TranslatorInterface $translator
      * @param BookingOrderManager $bookingOrderManager
      * @param SessionInterface $session
      * @param PaymentService $paymentService
@@ -33,6 +33,7 @@ class LastCheck extends AbstractController
      */
     public function __invoke(
         Request $request,
+        TranslatorInterface $translator,
         BookingOrderManager $bookingOrderManager,
         SessionInterface $session,
         PaymentService $paymentService
@@ -45,7 +46,16 @@ class LastCheck extends AbstractController
         $form->handleRequest($request);
 
         if ($request->request->get('cancel')) {
+            if ($this->bookingOrder->getSettledAt() !== null) {
+                return $this->redirectToRoute('home');
+            }
+
             return $this->redirectToRoute('guest');
+        }
+
+        if ($this->bookingOrder->getValidatedAt() !== null && $this->bookingOrder->getSettledAt() == null) {
+
+            $this->addFlash('warning', $translator->trans('no_returned_payment'));
         }
 
         if ($form->isSubmitted()) {
@@ -59,7 +69,6 @@ class LastCheck extends AbstractController
                     'stripeSession' => $paymentService->setCheckoutSession($this->bookingOrder, 'confirmation', 'lastCheck'),
                     'stripe_public_key' => $paymentService->getPublicKey()
                 ]);
-
             }
         }
 

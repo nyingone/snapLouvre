@@ -32,7 +32,7 @@ class NotUnaccompaniedUnderageValidator extends ConstraintValidator
             throw new UnexpectedValueException($bookingOrder, BookingOrder::class);
         }
 
-        if ( count($bookingOrder->getVisitors()) > 0 && $this->paramService->isUnderage($bookingOrder->getGroupMaxAge($bookingOrder)) ) {
+        if ( count($bookingOrder->getVisitors()) > 0 && $this->paramService->isUnderage($bookingOrder->getGroupMaxAge()) ) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

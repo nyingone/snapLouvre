@@ -300,6 +300,18 @@
                 <target>invité(s) </target>
             </trans-unit>
 
+            <trans-unit id = "no_returned_payment">
+                <source>no_returned_payment</source>
+                <target>Paiement non effectué </target>
+            </trans-unit>
+            <trans-unit id = "Invalid_Payment_Identifier">
+                <source>Invalid_Payment_Identifier</source>
+                <target>Identifiant de paiement invalide </target>
+            </trans-unit>
+            <trans-unit id = "Order_could_not_be_completed">
+                <source>Order_could_not_be_completed</source>
+                <target>Réservation ou paiement en erreur</target>
+            </trans-unit>
 
         </body>
     </file>

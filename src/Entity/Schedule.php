@@ -87,24 +87,24 @@ class Schedule
         return $this;
     }
 
-    public function getOpeningTime(): ?\DateTimeInterface
+    public function getOpeningTime()
     {
         return $this->openingTime;
     }
 
-    public function setOpeningTime(\DateTimeInterface $openingTime): self
+    public function setOpeningTime($openingTime): self
     {
         $this->openingTime = $openingTime;
 
         return $this;
     }
 
-    public function getLastEntryTime(): ?\DateTimeInterface
+    public function getLastEntryTime()
     {
         return $this->lastEntryTime;
     }
 
-    public function setLastEntryTime(\DateTimeInterface $lastEntryTime): self
+    public function setLastEntryTime($lastEntryTime): self
     {
         $this->lastEntryTime = $lastEntryTime;
 

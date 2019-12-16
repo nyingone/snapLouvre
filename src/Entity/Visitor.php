@@ -255,7 +255,11 @@ class Visitor
     /**  */
     public function getAgeYearsOld(): ?int
     {
-       return $this->ageYearsOld;
+        if($this->birthDate !== null) {
+            $this->setAgeYearsOld();
+        }
+
+        return $this->ageYearsOld;
     }
 
 
@@ -264,15 +268,16 @@ class Visitor
         return $this->firstName . ' ' . $this->lastName;
     }
 
-    private function setAgeYearsOld()
+    private function setAgeYearsOld(): self
     {
         $this->ageYearsOld = $this->birthDate->diff(new DateTime())->y;
-
+        return $this;
     }
 
-    public function setTariff(array $findVisitorTariff)
+    public function setTariff(array $findVisitorTariff): self
     {
         $this->tariffCode = array_key_first($findVisitorTariff);
         $this->cost = $findVisitorTariff[$this->tariffCode];
+        return $this;
     }
 }

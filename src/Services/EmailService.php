@@ -61,8 +61,7 @@ class EmailService extends AbstractController
             ->setFrom($this->sender)
             ->setTo($bookingOrder->getCustomer()->getEmail());
 
-     //   $img = $message->embed(\Swift_Image::fromPath('public/img/logo.PNG'));
-        $img = 'logo.PNG';
+        $img = $message->embed(\Swift_Image::fromPath('assets/img/logo.png'));
 
         $message->setBody(
             $this->template->render(

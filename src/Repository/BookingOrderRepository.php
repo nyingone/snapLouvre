@@ -48,13 +48,9 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
      */
     public function save(BookingOrder $bookingOrder): BookingOrder
     {
-      //  $placedOrder = $this->entityManager->find($bookingOrder, $bookingOrder->getId());
-        $ok = $this->entityManager->contains($bookingOrder);
 
-        if ($ok) {
-         //   $this->entityManager->refresh($bookingOrder);
-        } else {
-            $this->entityManager->persist($bookingOrder);
+        if (!$this->entityManager->contains($bookingOrder)) {
+                   $this->entityManager->persist($bookingOrder);
         }
 
         $this->entityManager->flush();

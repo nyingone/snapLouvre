@@ -14,6 +14,10 @@
                 <source>booking_ended_for_today</source>
                 <target>Réservations closes pour aujourd'hui</target>
             </trans-unit>
+             <trans-unit id="chosen_part_time_ticket_closed_for_today">
+                <source>chosen_part_time_ticket_closed_for_today</source>
+                <target>Type d'entrée choisie n'est plus accessible en réservation aujourd'hui</target>
+            </trans-unit>
 
             <trans-unit id="select_a_date">
                 <source>select_a_date</source>
@@ -62,17 +66,27 @@
 
               <trans-unit id = "no_reservation_supported_on_chosen_day">
                 <source>no_reservation_supported_on_chosen_day</source>
-                <target>pas de réservation assurée les Mardi et Dimanche</target>
+                <target>réservation non assurée pour ouverture musée du Dimanche</target>
               </trans-unit>
 
-               <trans-unit id = "exceeds_available_booking_on_chosen_date">
-                  <source>exceeds_available_booking_on_chosen_date</source>
-                  <target>date demandée au delà du délai maximum géré</target>
-                </trans-unit>
-
-                <trans-unit id = "Visitor_ is already registered for this day and booking">
+                               <trans-unit id = "Visitor_ is already registered for this day and booking">
                   <source>Visitor_ is already registered for this day and booking</source>
                   <target>un des visiteurs est enregistré plusieurs fois</target>
+                </trans-unit>
+
+                <trans-unit id = "exceeds_maximum_guest_allowed_for_booking">
+                  <source>exceeds_maximum_guest_allowed_for_booking</source>
+                  <target>dépasse le maximum autorisé par réservation</target>
+                </trans-unit>
+
+                <trans-unit id = "exceeds_available_booking_on_chosen_date">
+                  <source>exceeds_available_booking_on_chosen_date</source>
+                  <target>réservations complètes à la date choisie</target>
+                </trans-unit>
+
+                <trans-unit id = "no_returned_payment">
+                    <source>no_returned_payment</source>
+                    <target>Paiement non effectué </target>
                 </trans-unit>
         </body>
     </file>

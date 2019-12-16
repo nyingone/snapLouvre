@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class NotTooLateRegistrationForToday extends Constraint
 {
-    public $message = 'part_or_full_time_booking_closed_for_today';
+    public $message = 'chosen_part_time_ticket_closed_for_today';
 
     public function getTargets()
     {

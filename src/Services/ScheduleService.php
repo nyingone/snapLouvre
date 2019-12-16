@@ -53,9 +53,12 @@ class ScheduleService implements ScheduleServiceInterface
 
         if ($this->datComparator->isEqual($expectedDate)) {
 
+            dd($this->allPartTimeVisitingHours, $current_time);
+
             foreach ($this->allPartTimeVisitingHours as $schedule) {
 
-                if ($schedule->getPartTimeCode() == $partTimeCode && $schedule->getLastEntryTime() <= $current_time) {
+                if ($schedule->getPartTimeCode() == $partTimeCode && $schedule->getLastEntryTime()->format("H:i:s") <= $current_time) {
+
                     return true;
                 }
             }

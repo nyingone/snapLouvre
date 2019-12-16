@@ -16,14 +16,12 @@
             {{ form_errors(form) }}
 
             <i class="fa fa-calendar"></i> {{ form_widget(form.expectedDate) }}
-            <div class="form-error">
                 {{ form_errors(form.expectedDate) }}
-            </div>
+
             {{ form_widget(form.partTimeCode) }}
+
             {{ form_widget(form.wishes) }}
-            <div class="form-error">
                 {{ form_errors(form.wishes) }}
-            </div>
 
             {{ include('inc/_button.html.twig') }}
 

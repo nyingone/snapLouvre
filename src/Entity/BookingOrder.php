@@ -124,12 +124,17 @@ class BookingOrder
      * @var string
      */
     private $partTimeLabel;
+    /**
+     * @var int
+     */
+    private $groupMaxAge ;
 
 
     public function __construct()
     {
         $this->orderDate = new \Datetime();
         $this->visitors = new ArrayCollection();
+        $this->groupMaxAge = 0;
     }
 
     public function getId(): ?int
@@ -166,6 +171,7 @@ class BookingOrder
     {
         return $this->partTimeCode;
     }
+
     public function getPartTimeLabel(): ?string
     {
         return $this->partTimeLabel;
@@ -297,17 +303,24 @@ class BookingOrder
         return $this->visitors;
     }
 
-    public function getGroupMaxAge($bookingOrder): int
+    public function getGroupMaxAge(): int
+    {
+        $this->setGroupMaxAge();
+        return $this->groupMaxAge;
+    }
+
+    public function setGroupMaxAge(): self
     {
         $ageMax = 0;
 
-        foreach ($bookingOrder->visitors as $visitor){
-            if($visitor->getAgeYearsOld() >= $ageMax) {
+        foreach ($this->visitors as $visitor) {
+            if ($visitor->getAgeYearsOld() > $ageMax) {
                 $ageMax = $visitor->getAgeYearsOld();
             }
         }
 
-     return $ageMax;
+        $this->groupMaxAge = $ageMax;
+        return $this;
 
     }
 

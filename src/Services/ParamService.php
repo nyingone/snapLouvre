@@ -192,7 +192,7 @@ class ParamService implements ParamServiceInterface
      */
     public function isAllowedNumberOfGuest(int $wishes): bool
     {
-        if ($wishes < $this->maxBookingVisitors) {
+        if ($wishes <= $this->maxBookingVisitors) {
             return true;
         }
         return false;

@@ -11,6 +11,7 @@ use App\Services\Interfaces\ParamServiceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class BookingOrderManager implements BookingOrderManagerInterface
 {
@@ -44,12 +45,17 @@ class BookingOrderManager implements BookingOrderManagerInterface
      * @var EventDispatcherInterface
      */
     private $eventDispatcher;
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
 
 
     /**
      * BookingOrderManager constructor.
      * @param SessionInterface $session
      * @param EventDispatcherInterface $eventDispatcher
+     * @param TranslatorInterface $translator
      * @param BookingOrderRepositoryInterface $bookingOrderRepository
      * @param VisitorManager $visitorManager
      * @param ParamServiceInterface $paramService
@@ -59,6 +65,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
     public function __construct(
         SessionInterface $session,
         EventDispatcherInterface $eventDispatcher,
+        TranslatorInterface $translator,
         BookingOrderRepositoryInterface $bookingOrderRepository,
         VisitorManager $visitorManager,
         ParamServiceInterface $paramService,
@@ -70,7 +77,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
         $this->visitorManager = $visitorManager;
         $this->paramService = $paramService;
         $this->validator = $validator;
-
+        $this->translator = $translator;
         $this->bookingOrderStartDate = new \DateTime('now');
         $this->bookingRef = 'TempRef' . $session->getId();
     }
@@ -124,6 +131,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
             $amount += $visitor->getCost();
         }
 
+        $bookingOrder->setGroupMaxAge();
         $bookingOrder->setTotalAmount($amount);
 
         $this->setBookingOrder($bookingOrder);
@@ -135,7 +143,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function findPartTimeLabel(BookingOrder $bookingOrder)
     {
-            return ($this->paramService->findPartTimeLabel($bookingOrder->getPartTimeCode()));
+        return $this->translator->trans($this->paramService->findPartTimeLabel($bookingOrder->getPartTimeCode()));
     }
 
     /** @inheritDoc */
@@ -171,15 +179,16 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
             $bookingOrder->getCustomer()->setLastName($paymentInfos['customer']);
 
-            $bookingOrder = $this->bookingOrderRepository->save($bookingOrder);
-
+            $this->bookingOrderRepository->save($bookingOrder);
+            $bookingOrder = $this->getBookingOrder();
+            // Need infos missing from BD
             $event = new BookingSettledEvent($bookingOrder);
             // Dispatches mail
             $this->eventDispatcher->dispatch($event);
 
         }
-        $this->setBookingOrder($bookingOrder);
-        $this->bookingOrderRepository->save($bookingOrder);
+        $this->setBookingOrder($bookingOrder); // TODO control if useful
+        $this->bookingOrderRepository->save($bookingOrder); // TODO control if useful
 
         return $this->getBookingOrder();
     }
@@ -210,13 +219,15 @@ class BookingOrderManager implements BookingOrderManagerInterface
     /**
      * @return mixed
      */
-    public function getBookingOrder(): ?BookingOrder
+    public function getBookingOrder(): BookingOrder
     {
         if ($this->session->has('BookingOrder')) {
             $bookingOrder = $this->session->get('BookingOrder');
 
             if ($bookingOrder instanceOf BookingOrder && $bookingOrder->getId()) {
-                return $this->bookingOrderRepository->find($bookingOrder);
+                $bookingOrder =  $this->bookingOrderRepository->find($bookingOrder);
+                $bookingOrder->setPartTimeLabel($this->findPartTimeLabel($bookingOrder));
+                $bookingOrder->setGroupMaxAge();
             }
             return $bookingOrder;
         }
