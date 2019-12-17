@@ -26,6 +26,10 @@ class EmailService extends AbstractController
      * @var TranslatorInterface
      */
     private $translator;
+    /**
+     * @var QrCodeService
+     */
+    private $qrCodeService;
 
 
     /**
@@ -34,24 +38,24 @@ class EmailService extends AbstractController
      * @param string $adminEmail
      * @param \Twig\Environment $template
      * @param TranslatorInterface $translator
+     * @param QrCodeService $qrCodeService
      */
 
-    public function __construct(\Swift_Mailer $mailer, string $adminEmail, \Twig\Environment $template, TranslatorInterface $translator)
+    public function __construct(\Swift_Mailer $mailer, string $adminEmail, \Twig\Environment $template, TranslatorInterface $translator, QrCodeService $qrCodeService)
     {
         $this->mailer = $mailer;
         $this->sender = $adminEmail;
         $this->template = $template;
         $this->translator = $translator;
+        $this->qrCodeService = $qrCodeService;
     }
 
     /**
      * @param BookingOrder $bookingOrder
-     * @return int
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @param QrCodeService $qrCodeService
+     * @return void
      */
-    public function sendConfirmation(BookingOrder $bookingOrder):int
+    public function sendConfirmation(BookingOrder $bookingOrder): int
     {
 
         $vueName = 'notification/email_confirmation.html.twig';
@@ -61,19 +65,25 @@ class EmailService extends AbstractController
             ->setFrom($this->sender)
             ->setTo($bookingOrder->getCustomer()->getEmail());
 
-        $img = $message->embed(\Swift_Image::fromPath('img/logo.png'));
+        $qrCodePath = $this->qrCodeService->genQrCode($bookingOrder->getBookingRef());
 
         $message->setBody(
             $this->template->render(
                 $vueName,
-                ['bookingOrder' => $bookingOrder, 'img' => $img]
+                ['bookingOrder' => $bookingOrder,
+                    'img' => $message->embed(\Swift_Image::fromPath('img/logo.png')),
+                    'qrCode' => $message->embed(\Swift_Image::fromPath($qrCodePath))
+                ]
             ),
             'text/html'
         )
             ->addPart(
                 $this->renderView(
                     $vueName,
-                    ['bookingOrder' => $bookingOrder, 'img' => $img]
+                    ['bookingOrder' => $bookingOrder,
+                        'img' => $message->embed(\Swift_Image::fromPath('img/logo.png')),
+                        'qrCode' => $message->embed(\Swift_Image::fromPath($qrCodePath))
+                    ]
                 ),
                 'text/plain'
             );

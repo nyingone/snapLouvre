@@ -312,6 +312,12 @@
                 <source>Order_could_not_be_completed</source>
                 <target>Réservation ou paiement en erreur</target>
             </trans-unit>
+ <trans-unit id = "Stripe_payment_n°:">
+                <source>Stripe_payment_n°:</source>
+                <target>Référence paiement Stripe</target>
+            </trans-unit>
+
+
 
         </body>
     </file>

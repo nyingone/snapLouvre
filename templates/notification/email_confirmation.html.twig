@@ -1,24 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<meta charset="UTF-8">
+
 <body>
 
 <h1>Louvre museum</h1>
 <h2>Confirmation</h2>
 {% set vars = {'level': '4'} %}
-<p class="container">
+<div class="container">
     <p>{% trans %}order_confirmed and settled{% endtrans %}</p>
     <h3>{% trans %}Payment ref: {% endtrans %} {{ bookingOrder.extPaymentRef }}  {{ bookingOrder.extPaymentStatus }}</h3>
     <br>
     <hr>
-    <h3>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }}  </h3>
+    <div class="float left">
+        <img src="{{ img }}" alt="logo Louvre"/>
+    </div>
+
     <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
 
-    {% include 'inc/_visitor.html.twig' with vars %}
+    <h3>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }}  </h3>
+    <div>
+        {% include 'inc/_visitor.html.twig' with vars %}
+    </div>
+    <div class="float left">
+        <img src="{{ qrCode }}" alt="Booking_order_qr_code"/>
+    </div>
 
-
-    <p> <img class="float left" src= $img  alt="logo Louvre"/></p>
-    <p>{% trans %}hope_you_will_enjoy_your_visit{% endtrans %}</p>
-
+    <p>{% trans %}Enjoy_your_visit{% endtrans %}</p>
+    <hr>
 </div>
 </body>
 </html>

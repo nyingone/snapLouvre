@@ -180,17 +180,24 @@ class BookingOrderManager implements BookingOrderManagerInterface
             $bookingOrder->getCustomer()->setLastName($paymentInfos['customer']);
 
             $this->bookingOrderRepository->save($bookingOrder);
-            $bookingOrder = $this->getBookingOrder();
+
             // Need infos missing from BD
-            $event = new BookingSettledEvent($bookingOrder);
-            // Dispatches mail
-            $this->eventDispatcher->dispatch($event);
+            $bookingOrder = $this->getBookingOrder();
+            $this->signalSettledEvent($bookingOrder);
 
         }
         $this->setBookingOrder($bookingOrder); // TODO control if useful
         $this->bookingOrderRepository->save($bookingOrder); // TODO control if useful
 
         return $this->getBookingOrder();
+    }
+
+
+    public function signalSettledEvent(BookingOrder $bookingOrder)
+    {
+        $event = new BookingSettledEvent($bookingOrder);
+        // Dispatches mail
+        $this->eventDispatcher->dispatch($event);
     }
 
     public function confirmOrderSent(BookingOrder $bookingOrder)

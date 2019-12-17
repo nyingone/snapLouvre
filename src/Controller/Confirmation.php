@@ -59,6 +59,17 @@ class Confirmation extends AbstractController implements PaymentAuthenticate
 
 
         if ($this->bookingOrder->getSettledAt() !== null) {
+
+
+            if ($this->bookingOrder->getConfirmedAt() == null) {
+                $this->addFlash('warning', $translator->trans('See_mail_confirmation_or_click_for_a_new_one'));
+            }
+
+            if ($request->request->get('mail')) {
+                $bookingOrderManager->signalSettledEvent($this->bookingOrder);
+                return $this->redirectToRoute('confirmation');
+            }
+
             return $this->render('confirmation.html.twig', ['bookingOrder' => $this->bookingOrder,
                 'qrCode' => $qrCodeService->genQrCode($this->bookingOrder->getBookingRef()),
             ]);

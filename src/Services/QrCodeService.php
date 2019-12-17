@@ -20,10 +20,9 @@ class QrCodeService
         $path = 'img/qrconfirm/qr' . substr($message, 19, 9) . '.png';
 
         $qrCode->writeFile($path);         // Save it to a file
-        return $ref;
+        return $path;
 
         // Create a response object         $response = new QrCodeResponse($qrCode);
     }
-
 
 }

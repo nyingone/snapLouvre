@@ -5,13 +5,15 @@
 
 {% block header %}
     <h2>{% trans %}your_reference{% endtrans %} </h2>
-    <h3 class= "text-align-center text-justify"> {{ bookingOrder.bookingRef }}</h3>
+    <h3 class="text-align-center text-justify"> {{ bookingOrder.bookingRef }}</h3>
 {% endblock %}
 
 {% block main %}
-    <img  class="img-responsive"
-          src="{{ qrCode }}"
-         alt="Booking_order_qr_code">
+    <button type="submit" class="btn-group background-dark-green float-left"
+            name="mail" value="mail">
+        <img src="{{ qrCode }}" alt="Booking_order_qr_code"/>
+        {% trans %}resend_mail{% endtrans %}
+    </button>
 {% endblock %}
 
 
