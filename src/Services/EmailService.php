@@ -5,7 +5,6 @@ namespace App\Services;
 
 use App\Entity\BookingOrder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailService extends AbstractController
@@ -54,6 +53,7 @@ class EmailService extends AbstractController
      */
     public function sendConfirmation(BookingOrder $bookingOrder):int
     {
+
         $vueName = 'notification/email_confirmation.html.twig';
 
         $message = (new \Swift_Message())
@@ -61,7 +61,7 @@ class EmailService extends AbstractController
             ->setFrom($this->sender)
             ->setTo($bookingOrder->getCustomer()->getEmail());
 
-        $img = $message->embed(\Swift_Image::fromPath('assets/img/logo.png'));
+        $img = $message->embed(\Swift_Image::fromPath('img/logo.png'));
 
         $message->setBody(
             $this->template->render(
@@ -77,7 +77,6 @@ class EmailService extends AbstractController
                 ),
                 'text/plain'
             );
-
         return $this->mailer->send($message);
     }
 }

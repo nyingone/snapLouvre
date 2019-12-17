@@ -55,13 +55,10 @@ class BookingSubscriber implements EventSubscriberInterface
      */
     public function onBookingSettled(BookingSettledEvent $event)
     {
+
         $response = 0;
-        try {
+
             $response = $this->emailService->sendConfirmation($event->getBookingOrder());
-        } catch (LoaderError $e) {
-        } catch (RuntimeError $e) {
-        } catch (SyntaxError $e) {
-        }
 
         if ($response == 1) {
             $this->bookingOrderManager->confirmOrderSent($event->getBookingOrder());

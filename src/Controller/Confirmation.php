@@ -9,6 +9,7 @@ use App\Exception\UnIdentifiedPaymentException;
 use App\Manager\BookingOrderManager;
 use App\Services\Interfaces\PaymentServiceInterface;
 use App\Services\PaymentService;
+use App\Services\QrCodeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class Confirmation extends AbstractController implements PaymentAuthenticate
      * @param TranslatorInterface $translator
      * @param SessionInterface $session
      * @param BookingOrderManager $bookingOrderManager
+     * @param QrCodeService $qrCodeService
      * @param PaymentServiceInterface $paymentService
      * @return Response
      */
@@ -36,6 +38,7 @@ class Confirmation extends AbstractController implements PaymentAuthenticate
         TranslatorInterface $translator,
         SessionInterface $session,
         BookingOrderManager $bookingOrderManager,
+        QrCodeService $qrCodeService,
         PaymentServiceInterface $paymentService
     ): Response
     {
@@ -57,6 +60,7 @@ class Confirmation extends AbstractController implements PaymentAuthenticate
 
         if ($this->bookingOrder->getSettledAt() !== null) {
             return $this->render('confirmation.html.twig', ['bookingOrder' => $this->bookingOrder,
+                'qrCode' => $qrCodeService->genQrCode($this->bookingOrder->getBookingRef()),
             ]);
         } else {
             $this->addFlash('warning', $translator->trans('Order_could_not_be_completed'));

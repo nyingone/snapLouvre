@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <body>
 
-<h1>Confirmation</h1>
-<h2>Louvre museum</h2>
+<h1>Louvre museum</h1>
+<h2>Confirmation</h2>
+{% set vars = {'level': '4'} %}
+<p class="container">
+    <p>{% trans %}order_confirmed and settled{% endtrans %}</p>
+    <h3>{% trans %}Payment ref: {% endtrans %} {{ bookingOrder.extPaymentRef }}  {{ bookingOrder.extPaymentStatus }}</h3>
+    <br>
+    <hr>
+    <h3>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }}  </h3>
+    <p>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
 
-<p>{% trans %}Your order is confirmed!{% endtrans %}</p>
-<p>{% trans %}Order ref: {% endtrans %} {{ bookingOrder.bookingRef }}  </p>
-<p>{% trans %}Payment ref: {% endtrans %} {{ bookingOrder.extPaymentRef }}  {{ bookingOrder.extPaymentStatus }}</p>
+    {% include 'inc/_visitor.html.twig' with vars %}
 
-<p>{{ bookingOrder.wishes }}  {% trans %}visitor(s) expected on{% endtrans %}  {{ bookingOrder.expectedDate | date("d/m/Y") }}  </p>
 
-{% include 'inc/_visitor.html.twig' with vars %}
+    <p> <img class="float left" src= $img  alt="logo Louvre"/></p>
+    <p>{% trans %}hope_you_will_enjoy_your_visit{% endtrans %}</p>
 
-<p>hope_you_will_enjoy_your_visit</p>
-<img src=" {{ asset('img/logo.png') }} "  alt="logo du Louvre"/>
+</div>
 </body>
 </html>
