@@ -50,10 +50,13 @@ class EmailService extends AbstractController
         $this->qrCodeService = $qrCodeService;
     }
 
+
     /**
      * @param BookingOrder $bookingOrder
-     * @param QrCodeService $qrCodeService
-     * @return void
+     * @return int
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function sendConfirmation(BookingOrder $bookingOrder): int
     {

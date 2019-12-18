@@ -8,6 +8,7 @@ use App\Event\Booking\BookingSettledEvent;
 use App\Manager\Interfaces\BookingOrderManagerInterface;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
 use App\Services\Interfaces\ParamServiceInterface;
+use App\Services\Interfaces\PaymentServiceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -49,6 +50,10 @@ class BookingOrderManager implements BookingOrderManagerInterface
      * @var TranslatorInterface
      */
     private $translator;
+    /**
+     * @var PaymentServiceInterface
+     */
+    private $paymentService;
 
 
     /**
@@ -59,6 +64,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
      * @param BookingOrderRepositoryInterface $bookingOrderRepository
      * @param VisitorManager $visitorManager
      * @param ParamServiceInterface $paramService
+     * @param PaymentServiceInterface $paymentService
      * @param ValidatorInterface $validator
      * @throws \Exception
      */
@@ -161,9 +167,6 @@ class BookingOrderManager implements BookingOrderManagerInterface
 
         $this->setBookingOrder($bookingOrder);
 
-        $event = new BookingPlacedEvent($bookingOrder);
-        // TODO DELETE PLACED EVENT ? creates the BookingPlacedEvent and dispatches it
-        $this->eventDispatcher->dispatch($event);
     }
 
 
@@ -186,8 +189,8 @@ class BookingOrderManager implements BookingOrderManagerInterface
             $this->signalSettledEvent($bookingOrder);
 
         }
-        $this->setBookingOrder($bookingOrder); // TODO control if useful
-        $this->bookingOrderRepository->save($bookingOrder); // TODO control if useful
+        $this->setBookingOrder($bookingOrder);
+        $this->bookingOrderRepository->save($bookingOrder);
 
         return $this->getBookingOrder();
     }
@@ -196,7 +199,6 @@ class BookingOrderManager implements BookingOrderManagerInterface
     public function signalSettledEvent(BookingOrder $bookingOrder)
     {
         $event = new BookingSettledEvent($bookingOrder);
-        // Dispatches mail
         $this->eventDispatcher->dispatch($event);
     }
 
@@ -232,7 +234,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
             $bookingOrder = $this->session->get('BookingOrder');
 
             if ($bookingOrder instanceOf BookingOrder && $bookingOrder->getId()) {
-                $bookingOrder =  $this->bookingOrderRepository->find($bookingOrder);
+                $bookingOrder = $this->bookingOrderRepository->find($bookingOrder);
                 $bookingOrder->setPartTimeLabel($this->findPartTimeLabel($bookingOrder));
                 $bookingOrder->setGroupMaxAge();
             }
@@ -300,6 +302,31 @@ class BookingOrderManager implements BookingOrderManagerInterface
             }
         }
         return false;
+    }
+
+    public function ControlBooking(string $step, \Symfony\Component\HttpFoundation\Request $request): string
+    {
+        $bookingOrder = $this->getBookingOrder();
+
+        if ($step == "step4") {
+
+            if ($bookingOrder->getSettledAt() == null) {
+                $stripeSession = $request->query->get('sessionId');
+                if ($stripeSession !== $this->session->get('paymentSessionId')) {
+                    // throw new UnIdentifiedPaymentException('This is not a valid Payment Identifier');
+                    $this->session->getFlashBag()->add('warning', 'Invalid_Payment_Identifier');
+                    return 'step1';
+                } else {
+                    return 'step5';
+                }
+            } else {
+                if ($bookingOrder->getConfirmedAt() == null) {
+                    $this->session->getFlashBag()->add('warning', 'See_mail_confirmation_or_click_for_a_new_one');
+                }
+            }
+        }
+        return $step;
+
     }
 
 

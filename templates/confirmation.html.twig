@@ -9,11 +9,15 @@
 {% endblock %}
 
 {% block main %}
-    <button type="submit" class="btn-group background-dark-green float-left"
-            name="mail" value="mail">
-        <img src="{{ qrCode }}" alt="Booking_order_qr_code"/>
-        {% trans %}resend_mail{% endtrans %}
+{%  if bookingOrder.confirmedAt is null%}
+    <button type="submit" class="btn-group background-dark-red float-left"  name="mail" value="mail">
+        <a href="{{ path('resendMail') }}">
+
+            <img src="{{ qrCode }}" width=60 height=60 alt="Booking_order_qr_code"/>
+            {% trans %}resend_mail{% endtrans %}
+        </a>
     </button>
+    {% endif %}
 {% endblock %}
 
 

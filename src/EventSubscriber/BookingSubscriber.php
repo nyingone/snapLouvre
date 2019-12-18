@@ -36,19 +36,10 @@ class BookingSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            BookingPlacedEvent::class => 'onBookingPlaced',
-            BookingSettledEvent::class => 'onBookingSettled',
+               BookingSettledEvent::class => 'onBookingSettled',
         ];
     }
 
-    /**
-     * @param BookingPlacedEvent $event
-     */
-    public function onBookingPlaced(BookingPlacedEvent $event)
-    {
-        // TODO send trace internal log $event->getBookingOrder()
-        //
-    }
 
     /**
      * @param BookingSettledEvent $event
@@ -58,7 +49,12 @@ class BookingSubscriber implements EventSubscriberInterface
 
         $response = 0;
 
+        try {
             $response = $this->emailService->sendConfirmation($event->getBookingOrder());
+        } catch (LoaderError $e) {
+        } catch (RuntimeError $e) {
+        } catch (SyntaxError $e) {
+        }
 
         if ($response == 1) {
             $this->bookingOrderManager->confirmOrderSent($event->getBookingOrder());

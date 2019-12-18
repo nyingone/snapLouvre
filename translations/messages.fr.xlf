@@ -312,12 +312,18 @@
                 <source>Order_could_not_be_completed</source>
                 <target>Réservation ou paiement en erreur</target>
             </trans-unit>
- <trans-unit id = "Stripe_payment_n°:">
+            <trans-unit id = "Stripe_payment_n°:">
                 <source>Stripe_payment_n°:</source>
                 <target>Référence paiement Stripe</target>
             </trans-unit>
-
-
+            <trans-unit id = "See_mail_confirmation_or_click_for_a_new_one">
+                <source>See_mail_confirmation_or_click_for_a_new_one</source>
+                <target>Vérifier l'arrivée du mail de confirmation ou cliquer pour redemander un envoi </target>
+            </trans-unit>
+            <trans-unit id = "resend_mail">
+                <source>resend_mail</source>
+                <target>Renvoi mail de confirmation</target>
+            </trans-unit>
 
         </body>
     </file>
