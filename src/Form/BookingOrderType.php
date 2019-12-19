@@ -38,6 +38,7 @@ class BookingOrderType extends AbstractType
             ])
             ->add('wishes', IntegerType::class, [
                 'attr' => [ 'type' => 'number', 'step' => 1, 'mapped' => false],
+
             ])
             ;
            
@@ -47,6 +48,13 @@ class BookingOrderType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BookingOrder::class,
+            'empty_data' => function(FormInterface $form){
+                return new BookingOrder(
+                    $form->get('expectedDate')->getData(),
+                    $form->get('partTimeCode')->getData(),
+                    $form->get('wishes')->getData()
+                );
+            },
             'validation_groups' => ['pre_booking'],
         ]);
     }

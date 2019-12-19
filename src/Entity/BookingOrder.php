@@ -14,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @CustomAssert\NotOutsideDayBookingQuotas(groups={"pre_booking"})
  * @CustomAssert\NotTooLateRegistrationForToday(groups={"pre_booking"})
- * @CustomAssert\NotAlreadySettledOrder(groups={"pre_booking"})pre_booking
+ * @CustomAssert\NotAlreadySettledOrder(groups={"pre_booking"})
+ * @CustomAssert\IfValidatedCannotChangeVisitorNumber(groups={"pre_booking"})
  *
  * @CustomAssert\NotMultiRegistered(groups={"guest_booking"})
  * @CustomAssert\NotUnaccompaniedUnderage(groups={"guest_booking"})

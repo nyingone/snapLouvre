@@ -75,7 +75,7 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
      * @return mixed
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function findDaysEntriesFromTo(\DateTime $start, \DateTime $end)
+    public function findDaysEntriesFromTo(\DateTime $start, \DateTime $end): ?array
     {
         $fromDate = $start->format('Y-m-d');
         $toDate = $end->format('Y-m-d');
@@ -86,7 +86,7 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
             WHERE p.id = q.booking_order_id
             AND p.expected_date >= :from_date
             AND p.expected_date <= :to_date
-            AND p.validated_at <> null
+            AND p.settled_at IS NOT NULL
             GROUP BY p.expected_date
             ORDER BY p.expected_date ASC
             ";
@@ -100,6 +100,28 @@ final class BookingOrderRepository implements BookingOrderRepositoryInterface
         return $stmt->fetchAll();
     }
 
+    public function findFullBooked(int $maxVisitors)
+    {
+        $today = new \DateTime();
+        $fromDate = $today->format('Y-m-d');
+        $conn = $this->entityManager->getConnection();
+        $sql = "
+            SELECT p.expected_date  FROM booking_order p, visitor q 
+            WHERE p.id = q.booking_order_id     
+            AND p.expected_date >= :from_date
+            AND p.settled_at IS NOT NULL
+            GROUP BY p.expected_date
+            HAVING  count(q.id) >= :max_visitors
+            ORDER BY p.expected_date ASC
+            ";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            'from_date' => $fromDate,
+            'max_visitors' => $maxVisitors
+        ]);
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
 
     /**
      * @return BookingOrder[] Returns an array of BookingOrder objects

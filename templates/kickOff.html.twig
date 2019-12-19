@@ -1,9 +1,11 @@
 {% set vars = {'level': '1'} %}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}  {{ parent() }} {% endblock %}
 
 {% block header %}
+    {{ include('inc/_header.html.twig') }}
 {% endblock %}
 
 {% block main %}
@@ -27,12 +29,18 @@
 
             {{ form_end(form) }}
         </div>
+
     </div>
 {% endblock %}
 
 
         {% block aside %}
             {{ parent() }}
+            {% if fullBooked is defined %}
+                <div class="js-full-booked" data-full-booked ="{{ fullBooked |json_encode|e('html_attr') }}">
+                    <!-- ... -->
+                </div>
+            {% endif %}
         {% endblock %}
 
         {% block javascripts %}

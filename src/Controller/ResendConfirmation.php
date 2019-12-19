@@ -17,25 +17,25 @@ class ResendConfirmation extends AbstractController
 {
     /**
      * @Route("/resendMail", name="resendMail")
-     * @param BookingOrder $bookingOrder
      * @param BookingOrderManager $bookingOrderManager
      * @param EmailService $emailService
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-
     public function resendConfirmation(BookingOrderManager $bookingOrderManager, EmailService $emailService)
     {
+        //TODO    probl try catch
         $bookingOrder = $bookingOrderManager->getBookingOrder();
         $response = 0;
         $response = 0;
 
             $response = $emailService->sendConfirmation($bookingOrder);
 
-
-
         if ($response == 1) {
-            dump('mail send anew');
             $bookingOrderManager->confirmOrderSent($bookingOrder);
+         // TODO   clean on exit   $emailService->unlinkQrCode($bookingOrder);
         }else{
             dump('sending mail failed');
         }

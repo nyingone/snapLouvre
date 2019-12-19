@@ -201,7 +201,7 @@ class ParamService implements ParamServiceInterface
     /**
      * @inheritDoc
      */
-    public function findMaxDayEntries(\DateTimeInterface $expectedDate): int
+    public function findMaxDayEntries(?\DateTimeInterface $expectedDate= null): int
     {
         $tstDate = $this->datComparator->convert($expectedDate);
         $tstMonth = substr($tstDate, 0, 6);
@@ -222,6 +222,11 @@ class ParamService implements ParamServiceInterface
             if ($tstExe == $refDat):
                 $yearDayMax = $param->getNumber();
             endif;
+        }
+
+        // Case when dft must initialize datePicker cf KickOff
+        if($expectedDate == null && $yearDayMax > 0) {
+            return $yearDayMax;
         }
 
         if ($dayMax > 0) : return $dayMax; endif;

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block main %}
-{%  if bookingOrder.confirmedAt is null%}
+    {%  if bookingOrder.confirmedAt is null%}
     <button type="submit" class="btn-group background-dark-red float-left"  name="mail" value="mail">
         <a href="{{ path('resendMail') }}">
 

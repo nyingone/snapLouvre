@@ -5,9 +5,7 @@
 
 
 {% block header %}
-    {% if  bookingOrder.validatedAt is not null %}
-        <h3> {% trans %}Booking_reference {% endtrans %}  {{ bookingOrder.bookingRef }} </h3>
-    {% endif %}
+    {{ include('inc/_header.html.twig') }}
 {% endblock %}
 
 {% block main %}

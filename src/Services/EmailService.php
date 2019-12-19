@@ -68,7 +68,7 @@ class EmailService extends AbstractController
             ->setFrom($this->sender)
             ->setTo($bookingOrder->getCustomer()->getEmail());
 
-        $qrCodePath = $this->qrCodeService->genQrCode($bookingOrder->getBookingRef());
+        $qrCodePath = $this->qrCodeService->genQrCode($bookingOrder->getBookingRef() . '#visitors(' . $bookingOrder->getWishes() . ')');
 
         $message->setBody(
             $this->template->render(
@@ -91,5 +91,13 @@ class EmailService extends AbstractController
                 'text/plain'
             );
         return $this->mailer->send($message);
+    }
+
+    /**
+     * @param BookingOrder $bookingOrder
+     */
+    public function unlinkQrCode(BookingOrder $bookingOrder)
+    {
+        $this->qrCodeService->unlinkQrCode($bookingOrder->getBookingRef());
     }
 }

@@ -88,6 +88,13 @@
                     <source>no_returned_payment</source>
                     <target>Paiement non effectué </target>
                 </trans-unit>
+
+                 <trans-unit id = "booking_validated_cannot_change_visitor_number">
+                    <source>booking_validated_cannot_change_visitor_number</source>
+                    <target>N°réservation et nombre de billets attribués, activer option cancel pour initier une nouvelle réservation</target>
+                </trans-unit>
+
+
         </body>
     </file>
 </xliff>

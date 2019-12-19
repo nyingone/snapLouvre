@@ -31,10 +31,10 @@ interface ParamServiceInterface
 
 
     /**
-     * @param \DateTimeInterface $expectedDate
+     * @param \DateTimeInterface|null $expectedDate
      * @return int
      */
-    public function findMaxDayEntries(\DateTimeInterface $expectedDate): int;
+    public function findMaxDayEntries(?\DateTimeInterface $expectedDate): int;
 
     /**
      * @param \DateTimeInterface $expectedDate

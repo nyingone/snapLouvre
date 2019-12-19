@@ -9,6 +9,7 @@ use App\Manager\Interfaces\BookingOrderManagerInterface;
 use App\Repository\Interfaces\BookingOrderRepositoryInterface;
 use App\Services\Interfaces\ParamServiceInterface;
 use App\Services\Interfaces\PaymentServiceInterface;
+use mysql_xdevapi\TableUpdate;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -93,6 +94,17 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function razBookingOrder()
     {
+        $bookingOrder = $this->getBookingOrder();
+        if ($bookingOrder->getValidatedAt() !== null) {
+            $bookingOrder->setCancelledAt(new \DateTime());
+
+            foreach ($bookingOrder->getVisitors() as $visitor) {
+                $this->visitorManager->cancelVisitor($visitor);
+            }
+
+            $this->bookingOrderRepository->save($bookingOrder);
+        }
+
         $this->session->invalidate();
     }
 
@@ -123,14 +135,24 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function refreshBookingOrder(BookingOrder $bookingOrder): void
     {
+
         $amount = 0;
         $bookingOrder->setPartTimeLabel($this->findPartTimeLabel($bookingOrder));
 
         $visitors = $bookingOrder->getVisitors();
-        for ($i = count($visitors); $i < $bookingOrder->getWishes(); ++$i) {
-            $visitor = $this->visitorManager->inzVisitor();
-            $bookingOrder->addVisitor($visitor);
+
+        /** BookingOrder is validated and created ==> can't add visitors */
+        if ($bookingOrder->getValidatedAt() !== null) {
+            if (count($visitors) < $bookingOrder->getWishes()) {
+                $this->session->getFlashBag()->add('warning', 'booking_validated_cannot_change_visitor_number');
+            }
+        } else {
+            for ($i = count($visitors); $i < $bookingOrder->getWishes(); ++$i) {
+                $visitor = $this->visitorManager->inzVisitor();
+                $bookingOrder->addVisitor($visitor);
+            }
         }
+
 
         foreach ($visitors as $visitor) {
             $visitor = $this->visitorManager->refreshVisitor($visitor);
@@ -141,6 +163,11 @@ class BookingOrderManager implements BookingOrderManagerInterface
         $bookingOrder->setTotalAmount($amount);
 
         $this->setBookingOrder($bookingOrder);
+        /** BookingOrder is validated and created ==> update DataBase */
+        if ($bookingOrder->getValidatedAt() !== null) {
+            $this->bookingOrderRepository->save($bookingOrder);
+        }
+
     }
 
     /**
@@ -155,10 +182,15 @@ class BookingOrderManager implements BookingOrderManagerInterface
     /** @inheritDoc */
     public function place(BookingOrder $bookingOrder)
     {
-        $bookingOrder->setBookingRef($this->paramService->allocateBookingReference());
+        if ($bookingOrder->getValidatedAt() == null) {
+            $bookingOrder->setBookingRef($this->paramService->allocateBookingReference());
+            $ticketOrder = 1;
+        } else {
+            $ticketOrder = null;
+        }
+
         $bookingOrder->setValidatedAt(new \DateTime('now'));
 
-        $ticketOrder = 0;
         foreach ($bookingOrder->getVisitors() as $visitor) {
             $ticketOrder = $this->visitorManager->validVisitor($visitor, $ticketOrder);
         }
@@ -215,6 +247,21 @@ class BookingOrderManager implements BookingOrderManagerInterface
         return $this->bookingOrderRepository->remove($bookingOrder);
     }
 
+    /**
+     * @return array|null
+     */
+    public function getFullBooked(): ?array
+    {
+        $fullBooked = $this->bookingOrderRepository->findFullBooked($this->paramService->findMaxDayEntries());
+        foreach ($fullBooked as $array) {
+            foreach($array as $key => $value) {
+                $dayToBlock[] = $value;
+            }
+
+        }
+
+       return $dayToBlock;
+    }
 
     /**
      * @param BookingOrder $bookingOrder
@@ -222,7 +269,18 @@ class BookingOrderManager implements BookingOrderManagerInterface
      */
     public function findDayVisitorCount(BookingOrder $bookingOrder): int
     {
-        return count($this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate()));
+        $countEntries = 0;
+        $daysEntries = $this->bookingOrderRepository->findDaysEntriesFromTo($bookingOrder->getExpectedDate(), $bookingOrder->getExpectedDate());
+
+        $ctlDate = $bookingOrder->getExpectedDate()->format('Y-m-d');
+        foreach ($daysEntries as $dayEntries) {
+            foreach ($dayEntries as $day => $countEntries) {
+                if ($day == $ctlDate) {
+                    return $countEntries;
+                }
+            }
+        }
+        return $countEntries;
     }
 
     /**
@@ -237,6 +295,7 @@ class BookingOrderManager implements BookingOrderManagerInterface
                 $bookingOrder = $this->bookingOrderRepository->find($bookingOrder);
                 $bookingOrder->setPartTimeLabel($this->findPartTimeLabel($bookingOrder));
                 $bookingOrder->setGroupMaxAge();
+                $bookingOrder->setWishes(count($bookingOrder->getVisitors()));
             }
             return $bookingOrder;
         }
@@ -322,6 +381,8 @@ class BookingOrderManager implements BookingOrderManagerInterface
             } else {
                 if ($bookingOrder->getConfirmedAt() == null) {
                     $this->session->getFlashBag()->add('warning', 'See_mail_confirmation_or_click_for_a_new_one');
+                } else {
+                    $this->session->getFlashBag()->add('success', 'confirmation_sent_by email_please_check_good_reception');
                 }
             }
         }

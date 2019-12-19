@@ -58,6 +58,8 @@ class BookingSubscriber implements EventSubscriberInterface
 
         if ($response == 1) {
             $this->bookingOrderManager->confirmOrderSent($event->getBookingOrder());
+        //    $this->emailService->unlinkQrCode($event->getBookingOrder());
+
         }
         // TODO TODO get OK/NOK Response
 

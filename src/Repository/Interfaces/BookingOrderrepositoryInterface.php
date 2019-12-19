@@ -12,4 +12,6 @@ interface BookingOrderRepositoryInterface
     public function save(BookingOrder $bookingOrder);
     public function remove(BookingOrder $bookingOrder);
 
+
+
 }

@@ -50,6 +50,9 @@ class Confirmation extends AbstractController
             $stripeSession = $request->query->get('sessionId');
 
             $bookingOrder = $paymentService->reconcilePayment($stripeSession);
+            if ($bookingOrder->getConfirmedAt() !== null) {
+                $this->addFlash('success', 'confirmation_sent_by email_please_check_good_reception');
+            }
         }
         $bookingOrder =$bookingOrderManager->getBookingOrder();
 

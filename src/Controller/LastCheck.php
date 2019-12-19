@@ -70,6 +70,10 @@ class LastCheck extends AbstractController
                     'stripe_public_key' => $paymentService->getPublicKey()
                 ]);
             }
+            if ($request->request->get('next') && !$form->isValid()){
+                $this->addFlash('warning', $translator->trans('booking_failed_click_on_first_item_of_follow_reservation_to change_date'));
+            }
+
         }
 
         return $this->render('lastCheck.html.twig', ['bookingOrder' => $this->bookingOrder,

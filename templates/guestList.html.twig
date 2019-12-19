@@ -4,10 +4,9 @@
 
 {% block title %}  {{ parent() }} {% endblock %}
 
+
 {% block header %}
-    {% if bookingOrder.validatedAt != null %}
-        <h3>{% trans %}Order_reference :{% endtrans %}  </h3>
-    {% endif %}
+    {{ include('inc/_header.html.twig') }}
 {% endblock %}
 
 {% block main %}

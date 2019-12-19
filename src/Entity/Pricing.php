@@ -51,6 +51,7 @@ class Pricing
      */
     private $price;
 
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -60,6 +61,11 @@ class Pricing
      * @ORM\Column(type="string", length=3)
      */
     private $currency;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $label;
 
     public function getId(): ?int
     {
@@ -170,6 +176,18 @@ class Pricing
     public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(?string $label): self
+    {
+        $this->label = $label;
 
         return $this;
     }

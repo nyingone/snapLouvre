@@ -70,13 +70,29 @@ class VisitorManager
     }
 
 
-
-    public function validVisitor(Visitor $visitor, int $ticketOrder) : int
+    /**
+     * @param Visitor $visitor
+     * @param null $ticketOrder
+     * @return int|null
+     */
+    public function validVisitor(Visitor $visitor, $ticketOrder = null) : ?int
     {
-        $ticketOrder ++;
         $visitor->setConfirmedAt($visitor->getBookingOrder()->getValidatedAt());
         $visitor->setTicketRef($visitor->getBookingOrder()->getBookingRef() . 'vis###_'. sprintf("%'.03d\n", $ticketOrder));
+
+        if (is_numeric($ticketOrder)) {
+            $ticketOrder++;
+        }
+
         return $ticketOrder;
+    }
+
+    /**
+     * @param Visitor $visitor
+     */
+    public function cancelVisitor(Visitor $visitor):void
+    {
+        $visitor->setCancelled(true);
     }
 
 

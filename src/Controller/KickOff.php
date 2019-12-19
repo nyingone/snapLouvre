@@ -26,6 +26,8 @@ class KickOff extends AbstractController
      */
     public function index(Request $request, BookingOrderManagerInterface $bookingOrderManager): Response
     {
+        $fullBooked = $bookingOrderManager->getFullBooked();
+
         $bookingOrder = $bookingOrderManager->getBookingOrder();
         /** BookingOrder is paid ==> raz and new session vs bokingOrder*/
         if($bookingOrder->getExtPaymentRef() !== null) {
@@ -49,7 +51,6 @@ class KickOff extends AbstractController
 
                 $this->bookingOrder = $form->getData();
 
-
                 if($savNbvisitors > $this->bookingOrder->getWishes()) {
                     $bookingOrderManager->clearVisitors($this->bookingOrder);
                 }
@@ -60,11 +61,8 @@ class KickOff extends AbstractController
             }
         }
 
-
-
         return $this->render('kickOff.html.twig', ['bookingOrder' => $bookingOrder,
-            'form' => $form->createView(),
-
+            'form' => $form->createView(), 'fullBooked' =>  $fullBooked ,
         ]);
     }
 
